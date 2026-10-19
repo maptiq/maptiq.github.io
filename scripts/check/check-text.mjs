@@ -12,6 +12,7 @@ const PATTERNS = [
   [/\bMaptiq\b|\bMAPTIQ\b(?!<)|\bMaptIq\b/, 'brand spelled wrong, use MaptIQ'],
   [/surviot\.com\/(?!"|\))/, 'link into surviot.com subpages'],
   [/\bhttps?:\/\/(www\.)?maptiq\.eu\/[^\s")]*[^/\s")]\s/, 'internal absolute link without trailing slash'],
+  [/(?:Q|Post|Web|Geo)(?:t|T)érinformatik/, 'product name damaged by a GIS replacement (QGIS, PostGIS)'],
   [/Free Jekyll theme|zerostatic/i, 'leftover from the old Jekyll site'],
 ];
 const walk = (dir) => readdirSync(dir).flatMap((f) => {
