@@ -7,6 +7,9 @@
 #                               root, unzip, fix permissions (same flow as fototerkep.hu). Needs
 #                               DEPLOY_HOST, optional DEPLOY_PORT and DEPLOY_DIR. public/.htaccess
 #                               carries the https/www rules and the 301s for the old URLs.
+# After the push the script waits for the workflow run of exactly this commit (public API, no gh
+#                               needed), fails loudly if it fails, then checks that $SITE/version.txt equals the
+#                               pushed commit before running the live check.
 # DEPLOY_DRY_RUN=1              run the checks and print what would happen, push nothing.
 #
 # GitHub facts (checked October 2026): the site lives in github.com/maptiq/maptiq.github.io. Its
@@ -17,6 +20,8 @@
 # this script refuses to push when it can see the source is not "workflow".
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# Never fail silently: say where and with which exit code the script stopped.
+trap 'code=$?; [ $code -ne 0 ] && echo "DEPLOY FAILED (exit $code) at line $LINENO: $BASH_COMMAND" >&2' ERR
 
 MODE="${DEPLOY_MODE:-github}"
 SITE="${DEPLOY_SITE:-https://maptiq.eu}"
@@ -31,7 +36,7 @@ if [ "$MODE" = "github" ]; then
   [ -z "$(git status --porcelain)" ] || { echo "uncommitted changes, commit first" >&2; exit 1; }
   # Commits are pushed under the owner's GitHub identity, not the company mailbox.
   want="${DEPLOY_GIT_EMAIL:-sandor.csaba@gmail.com}"
-  bad=$(git log --format='%h %ae %ce' | awk -v w="$want" '$2 != w || $3 != w' | head -3)
+  bad=$(git log --format='%h %ae %ce' | awk -v w="$want" '$2 != w || $3 != w' | sed -n 1,3p)
   if [ -n "$bad" ]; then
     echo "commits not authored/committed as $want (set git config user.email, then re-author):" >&2
     echo "$bad" >&2; exit 1
@@ -62,18 +67,33 @@ if [ "$MODE" = "github" ]; then
   run git push origin "main:$REMOTE_BRANCH"
 
   if [ "$DRY" != 1 ]; then
-    if command -v gh >/dev/null 2>&1; then
-      say "Waiting for the Pages workflow ..."
-      sleep 6
-      run_id=$(gh run list --repo "$repo" --workflow deploy.yml --branch "$REMOTE_BRANCH" --limit 1 --json databaseId --jq '.[0].databaseId')
-      gh run watch "$run_id" --repo "$repo" --exit-status
-    else
-      say "Polling $SITE/en/ until the new site answers (up to 10 minutes) ..."
-      for _ in $(seq 40); do
-        [ "$(curl -s -o /dev/null -w '%{http_code}' "$SITE/en/")" = "200" ] && break
-        sleep 15
-      done
-    fi
+    sha=$(git rev-parse HEAD)
+    api="https://api.github.com/repos/$repo"
+    say "Waiting for the Pages workflow of ${sha:0:7} (up to 10 minutes) ..."
+    state=""
+    for _ in $(seq 40); do
+      state=$(curl -s "$api/actions/runs?head_sha=$sha&per_page=5" | python3 -c "
+import sys, json
+runs = [r for r in json.load(sys.stdin).get('workflow_runs', []) if r['name'] == 'Deploy to GitHub Pages']
+print('none' if not runs else runs[0]['status'] + ' ' + str(runs[0]['conclusion']) + ' ' + runs[0]['html_url'])" 2>/dev/null || echo "none")
+      case "$state" in
+        "completed success"*) say "Workflow finished: success"; break ;;
+        completed*) echo "Workflow FAILED: $state" >&2
+          echo "Open the run above, the failing step is named there. Nothing was published." >&2; exit 1 ;;
+      esac
+      sleep 15
+    done
+    case "$state" in "completed success"*) ;; *) echo "Timed out waiting for the workflow (last state: $state)" >&2; exit 1 ;; esac
+    # The workflow is green, now make sure the live site serves exactly this commit.
+    say "Checking that $SITE serves ${sha:0:7} ..."
+    live=""
+    for _ in $(seq 18); do
+      live=$(curl -s "$SITE/version.txt?t=$(date +%s)" | tr -d '[:space:]')
+      [ "$live" = "$sha" ] && break
+      sleep 15
+    done
+    [ "$live" = "$sha" ] || { echo "Live site serves '${live:0:7}', expected ${sha:0:7}. The CDN may be slow, rerun check:live in a minute." >&2; exit 1; }
+    say "Live site serves ${sha:0:7}."
   fi
 elif [ "$MODE" = "ssh" ]; then
   HOST="${DEPLOY_HOST:?set DEPLOY_HOST=user@host}"
