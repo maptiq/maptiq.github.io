@@ -12,6 +12,14 @@
   `/about/`, `/contact/`. `/services/surviot/`, `/sitemap.xml`, `/robots.txt` and `/404.html` are 404
   already. All old pages are Hungarian, so they redirect to `/hu/...`.
 
+## Whose account pushes
+
+Commits and pushes use **sandor.csaba@gmail.com** (repo-local `git config user.email`), not the
+company mailbox. The GitHub user that owns the SSH key must have write access to
+`maptiq/maptiq.github.io` (collaborator or org member): check at github.com/maptiq/maptiq.github.io >
+Settings > Collaborators, or just try the first push. `scripts/deploy.sh` refuses to push if any
+commit carries another author or committer email (`DEPLOY_GIT_EMAIL` overrides the expected one).
+
 ## Why we do not push to master
 
 Pages would run Jekyll over our Astro source and the live site would break. And master is the only
