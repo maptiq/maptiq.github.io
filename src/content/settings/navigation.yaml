@@ -57,6 +57,11 @@ menu:
           de: Fallstudie, Arbeitsmanagement Versorger
         link: /case-study-utility-work-management
       - label:
+          en: Case study, linear asset register
+          hu: Esettanulmány, vonalas nyilvántartás
+          de: Fallstudie, Register linearer Anlagen
+        link: /case-study-linear-asset-register
+      - label:
           en: Our heritage, SURVIOT
           hu: Előzményeink, SURVIOT
           de: Unsere Wurzeln, SURVIOT

@@ -1,0 +1,143 @@
+---
+title: 'Esettanulmány: vonalas létesítmény nyilvántartás specifikálása'
+slug: case-study-linear-asset-register
+pageType: structured
+seoTitle: 'Esettanulmány: hosszmenti referencia és időbeli változáskezelés vonalas létesítmény nyilvántartásban'
+seoDescription: 'Hogyan segítettük több tízmillió eurós projekt térinformatikai specifikációjának elkészítését és a végrehajtás minőségbiztosítását: vonalas létesítmény nyilvántartás, hosszmenti referencia, időbeli változáskezelés, rendszerterv-véleményezés és dokumentáció-ellenőrzés.'
+sections:
+- type: hero
+  eyebrow: Esettanulmány · Államigazgatási infrastruktúra
+  heading: 'Vonalas létesítmény nyilvántartás specifikálása: hosszmenti referencia és idő'
+  subheading: Egy államigazgatási területen működő cég több tízmillió eurós projektet futtatott jelentős térinformatikai tartalommal. Segítettünk a specifikáció térinformatikai részének megírásában, majd a végrehajtás minőségbiztosítását végeztük.
+  image: /images/case-linear-motorway.jpg
+  buttons:
+  - &id001
+    label: Beszéljünk
+    link: /contact
+- type: split
+  background: white
+  imagePosition: right
+  anchorId: engagement
+  eyebrow: A megbízás
+  heading: Két szerep egy több tízmillió eurós projektben
+  body: '<p>Az ügyfél egy államigazgatási területen működő cég, amely vonalas infrastruktúrát kezel. Nagy informatikai rendszerprojektjének jelentős térinformatikai tartalma volt: a vonalas létesítményeinek és a hozzájuk kapcsolódó mindennek a nyilvántartása. A MaptIQ két módon támogatta.</p><ul><li><strong>Specifikáció:</strong> segítettünk a specifikáció térinformatikai részének megírásában: a vonalas létesítmény nyilvántartás, a kapcsolódó objektumok és jelenségek hosszmenti referenciája, és az időbeli változások kezelése</li><li><strong>Minőségbiztosítás:</strong> a projekt végrehajtásának minőségbiztosítását végeztük: véleményeztük a rendszertterveket, és ellenőriztük az átadott dokumentáció teljességét</li></ul>'
+  image: /images/case-linear-km-marker.jpg
+  imageAlt: Kilométerkő egy főút szélén
+- type: cards
+  background: light
+  anchorId: concepts
+  eyebrow: A fogalmak közérthetően
+  heading: Négy gondolat, amelyre a projekt épül
+  items:
+  - tag: '1'
+    title: Vonalas létesítmény
+    text: Az út, a vasút, a vezeték vagy a távvezeték hosszú és vékony. Van azonosítója, kezdete és vége, kapcsolódása más vonalakhoz, és sok, a hossza mentén változó tulajdonsága. A nyilvántartás rögzíti, mi létezik, hol, milyen állapotban és ki felel érte. A költségvetés, a fenntartás, a biztonság és a jogi felelősség mind ebből indul ki.
+  - tag: '2'
+    title: Hosszmenti referencia
+    text: 'Valaminek a helyét a vonal menti pozícióval adjuk meg a térképi koordináták helyett: az X tengelyen, a 12+350 szelvényben, 4 méterre jobbra. Ez a tengely menti pozíció a szelvényszám (angolul measure, chainage). A mérnökök, a brigádok és az örökölt adatok kilométerekben beszélnek, és a szelvényszám akkor is értelmes marad, ha a koordináták új felmérés vagy vetület miatt változnak.'
+  - tag: '3'
+    title: Objektumok és jelenségek
+    text: A vonalon létező dolgok, például hidak, táblák, átereszek az objektumok. A mentén történő vagy érvényes dolgok, például sebességkorlát, burkolatállapot, útépítés vagy baleset a jelenségek. Mindkettő hosszmenti referenciával kapcsolódik a vonalhoz, ponttal vagy szakasszal. Így tucatnyi független réteg tárolható egyszer, és vethető egymásra ugyanazon a tengelyen.
+  - tag: '4'
+    title: Időbeli változáskezelés
+    text: A nyilvántartásnak nem csak azt kell megmondania, mi igaz most, hanem azt is, mi volt igaz egy adott napon, és mi a tervezett. A létesítményeket megépítik, átépítik, nyomvonalat módosítanak, megszüntetnek, és az adatokat utólag is javítják. A jelentések, a beruházástervezés, az auditok és a káreset-vizsgálatok mind egy adott napi állapotot igényelnek.
+- type: split
+  background: white
+  imagePosition: left
+  anchorId: linear-referencing
+  eyebrow: Hosszmenti referencia
+  heading: Pozíció a tengely mentén, nem csak a térképen
+  body: '<p>A tengelynek van szelvényezése: a kezdőponttól mért távolság, amelyet a terepen kilométerkövek mutatnak, ahol a 12+350 12 km 350 métert jelent. A pontszerű objektumot egy szelvényszámmal, a szakaszos jelenséget kezdő és végszelvényszámmal tároljuk, és mindkettőnek lehet a tengelytől balra vagy jobbra mért eltolása.</p><p>Ugyanazon a tengelyen tetszőlegesen sok ilyen réteg lehet, mindegyik a saját töréspontjaival, és egyiknek sem kell darabokra vágnia a többit. Ezt gyakran dinamikus szegmentálásnak hívják: a darabokat szükség esetén számoljuk, nem rögzített szakaszokként tároljuk. Egy attribútum változhat a többi érintése nélkül, a különböző forrásokból és évekből származó adatok egymásra vethetők, és a kilométerben gyűjtött terepi adat közvetlenül használható.</p><p>A fogalmat az ISO 19148 nemzetközi szabvány írja le.</p>'
+  image: /images/linear-referencing-hu.svg
+  imageAlt: 'Ábra: tengely szelvényszámokkal, pontszerű objektumokkal, szakaszos jelenségekkel és a tengely melletti eseménnyel'
+- type: cards
+  background: light
+  anchorId: lr-hard
+  eyebrow: A nehézség
+  heading: Mitől nehéz a hosszmenti referencia
+  items:
+  - tag: '1'
+    title: A tengelyek változnak
+    text: Egy nyomvonal-módosítás vagy átépítés megrövidíti vagy megnyújtja a tengelyt, így a változás utáni szelvényszámok eltolódnak. Minden hozzá referált objektumot és jelenséget újra kell referálni, különben rossz helyre mutat.
+  - tag: '2'
+    title: Több szelvényezési rendszer
+    text: A hivatalos szelvényezés, a terepen lévő kilométerkövek, ritkán egyezik meg a valós geometriai hosszal. Mindkettőre szükség van, kalibrációs pontokkal összekapcsolva.
+  - tag: '3'
+    title: Irány, sávok és pályatestek
+    text: Egy tengelynek lehet két iránya, külön pályatestei és több sávja. A jelenségek érvényesek lehetnek az egyik oldalra vagy mindkettőre, a bal és jobb pedig az irányhoz képest értelmezett.
+  - tag: '4'
+    title: Elágazások, átfedések és hézagok
+    text: Csomópontok, rámpák, egy út két útszámmal, és olyan szakaszok, ahol nincs adat. Az érvényesség szabályait ki kell mondani.
+  - tag: '5'
+    title: A koordináták és a szelvényszámok egyezzenek
+    text: A 350-es szelvényszámú pontnak a geometria mentén 350 méternél kell lennie, megadott tűréssel. A GNSS-ből vagy felmérésből származó pozíciókat a tengelyre kell illeszteni.
+  - tag: '6'
+    title: Több hálózat, egy referencia
+    text: Az utaknak, vasutaknak és vezetékeknek mind van tengelyük, és az olyan objektum, mint egy úton átvezető vezeték, mindkettőhöz kapcsolódik. A referenciamodellnek meg kell engednie, hogy egy objektumhoz több tengely tartozzon.
+- type: split
+  background: white
+  imagePosition: right
+  anchorId: temporal
+  eyebrow: Változás az időben
+  heading: 'Idő: mi volt igaz egy adott napon'
+  body: '<p>Kétféle idő számít. Az <strong>érvényességi idő</strong> az, amikor valami a valóságban igaz volt: a sebességkorlát 2021 márciusától volt 70. A <strong>rögzítési idő</strong> az, amikor a rendszer tudomást szerzett róla: egy 2025-ben rögzített javítás kimondhatja, hogy a korlát már 2021-ben 70 volt.</p><p>Az a nyilvántartás, amely mindkettőt őrzi, meg tudja válaszolni, hogy „mi volt igaz 2022. június 1-jén”, és azt is, hogy „mit hittünk 2022. június 1-jén”. A létesítmények életük során állapotokon is átmennek: tervezett, építés alatt, üzemben, felújítás alatt, üzemen kívüli, megszüntetett. A tervezett jövőbeli állapotokat úgy kell tárolni, hogy ne tévesszék össze a jelennel.</p><p>Ez számít a törvényes jelentéseknél, a vizsgálatoknál, az auditoknál és a beruházási döntéseknél: a jelentés egy számának egy adott napra, évekkel később is magyarázhatónak kell lennie.</p>'
+  image: /images/temporal-versions-hu.svg
+  imageAlt: 'Ábra: egy tengely, egy sebességkorlát és egy híd állapotának verziói az időben, lekérdezési nappal és egy későbbi javítással'
+- type: cards
+  background: light
+  anchorId: time-hard
+  eyebrow: A nehézség
+  heading: Mitől összetett a változáskezelés
+  items:
+  - tag: '1'
+    title: A geometria és a referencia együtt változik
+    text: Ha egy tengely nyomvonala módosul, a geometriája új verziót kap, és a rajta lévő minden objektumnak és jelenségnek követnie kell, megőrizve az értelmét a régi és az új verzióban is.
+  - tag: '2'
+    title: Állandó azonosság
+    text: A létesítmény átépítések, szétválások és összevonások során is megtartja az azonosságát, különben megszakad a története. Le kell írni, mikor tekinthető valami ugyanannak.
+  - tag: '3'
+    title: Valódi változás vagy javítás?
+    text: Egy átépítés a világ változása, a javítás az adat hibáját orvosolja. Máshogy rögzítendők, és más kérdésekre adnak választ.
+  - tag: '4'
+    title: Tervezett, jóváhagyott, tényleges
+    text: A jövőbeli állapotoknak, a jóváhagyási folyamatoknak és annak a pillanatnak, amikor a terv valósággá válik, világos szabályok és szerepek kellenek.
+  - tag: '5'
+    title: Lekérdezés bármely napra
+    text: Minden jelentésnek, térképnek és interfésznek el kell fogadnia egy lekérdezési napot, és évek történetén is gyorsnak kell maradnia.
+  - tag: '6'
+    title: A történet migrációja
+    text: A meglévő adatoknak ritkán van tiszta története. Annak eldöntése, mit viszünk át, és hogyan jelöljük a bizonytalan dátumokat, a specifikáció része.
+- type: cards
+  background: white
+  anchorId: spec
+  eyebrow: A specifikáció
+  heading: Hogyan közelítettük meg az írását
+  items:
+  - title: Egy nyelv mindenkinek
+    text: Szójegyzék és fogalmi modell, amelyet az ügyfél, a felhasználók és a szállítók ugyanúgy értenek.
+  - title: Tesztelhető követelmények
+    text: Minden követelmény ellenőrizhető, példákkal, amelyek a nehéz eseteket, például a nyomvonal-módosítást is tartalmazzák, így a szállító nem érthet kétféleképpen.
+  - title: Nyílt szabványok az alapon
+    text: Az ISO 19148 a hosszmenti referenciához és a tágabb ISO 19100 földrajzi információs szabványcsalád a modellezéshez, hogy az adat cserélhető legyen, és a terv ne kötődjön egyetlen termékhez.
+  - title: Az adatminőség előre meghatározva
+    text: Mi számít teljes és helyes adatnak, hogyan mérjük, és hogyan kezeljük a kivételeket.
+  - title: Részletesség ott, ahol nehéz
+    text: 'A legtöbb részlet oda került, ahol a szállítók leggyakrabban tévednek: a referenciára, az időre és a migrációra.'
+- type: split
+  background: light
+  anchorId: qa
+  eyebrow: Minőségbiztosítás
+  heading: Független szem a végrehajtás alatt
+  body: <p>A projekt végrehajtása során az ügyfél megbízásából minőségbiztosítást végeztünk.</p><ul><li><strong>Rendszerterv-véleményezés:</strong> a szállítók rendszertervét a specifikációhoz képest véleményeztük. Megvalósítják-e a tervek az előírt referencia- és időmodellt, a nehéz eseteket is beleértve? Le van-e fedve az interfész, a teljesítmény, a biztonság és az adatmigráció?</li><li><strong>Dokumentáció-ellenőrzés:</strong> ellenőriztük az átadott dokumentáció teljességét. Átadtak-e mindent, amit ígértek, összhangban van-e a tervvel, és az ügyfél tudja-e vele üzemeltetni és karbantartani a rendszert?</li><li><strong>Nyomon követhetőség:</strong> minden követelmény végigkövethető a tervben, a tesztben és a dokumentációban</li></ul><p>A megállapításokat világosan jelentettük, hogy az ügyfél dönthessen, a szállító pedig javíthasson.</p>
+- type: split
+  background: dark
+  anchorId: open-source
+  eyebrow: A saját projektjéhez
+  heading: Mindez nem egzotikus, és a nyílt forráskód kezeli
+  body: <p>A hosszmenti referencia és az idő jól ismert problémák. A PostGIS-ben vannak függvények pontok vonal menti elhelyezésére, egy vonal két szelvényszám közötti részének kivágására és pozíciók interpolálására, a PostgreSQL pedig tartomány-típusokat és kizárási kényszereket kínál, amelyek garantálhatják, hogy az érvényességi időszakok sosem fedik át egymást.</p><p>A specifikáció ezért termékfüggetlenül megírható, és bevált nyílt komponensekre megvalósítható, licenc-függés nélkül. A drága hibák korábban, a követelményekben születnek, ezért a kiírás előtt a legolcsóbb helyesen megadni őket. Lásd még az <a href="/sectors">infrastruktúra és államigazgatás</a> területén végzett munkánkat és a <a href="/case-study-utility-work-management">közműszolgáltatói eszközadatokról szóló esettanulmányt</a>.</p>
+- type: ctaBand
+  heading: Nagy térinformatikai rendszert tervez?
+  body: A kiírás előtt a legolcsóbb helyesen megadni a térinformatikai követelményeket. Az első konzultáció ingyenes.
+  buttons:
+  - *id001
+---

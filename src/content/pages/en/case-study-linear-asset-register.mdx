@@ -1,0 +1,143 @@
+---
+title: 'Case study: specifying a linear asset register'
+slug: case-study-linear-asset-register
+pageType: structured
+seoTitle: 'Case study: linear referencing and change over time in a linear asset register'
+seoDescription: 'How we helped specify the geospatial part of a project worth tens of millions of euros and assured its execution: a linear facility register, linear referencing, temporal change management, design review and documentation checks.'
+sections:
+- type: hero
+  eyebrow: Case study · Government infrastructure
+  heading: 'Specifying a linear asset register: referencing and time'
+  subheading: A public-sector company ran a project worth tens of millions of euros with a major geospatial content. We helped write the geospatial part of the specification, and then assured the quality of the execution.
+  image: /images/case-linear-motorway.jpg
+  buttons:
+  - &id001
+    label: Talk to us
+    link: /contact
+- type: split
+  background: white
+  imagePosition: right
+  anchorId: engagement
+  eyebrow: The engagement
+  heading: Two roles in a project worth tens of millions of euros
+  body: '<p>The client is a public-sector company that manages linear infrastructure. Its large information system project had substantial geospatial content: the register of its linear facilities and everything connected to them. MaptIQ supported it in two ways.</p><ul><li><strong>Specification:</strong> we helped write the geospatial part of the specification: the linear facility register, the linear referencing of related objects and phenomena, and the handling of change over time</li><li><strong>Quality assurance:</strong> we assured the quality of the project''s execution: we reviewed the system designs and checked that the delivered documentation was complete</li></ul>'
+  image: /images/case-linear-km-marker.jpg
+  imageAlt: A kilometre marker post at the edge of a highway
+- type: cards
+  background: light
+  anchorId: concepts
+  eyebrow: Concepts in plain language
+  heading: Four ideas this project is built on
+  items:
+  - tag: '1'
+    title: Linear facility
+    text: A road, a railway, a pipeline or a power line is long and thin. It has an identity, a start and an end, connections to other lines, and many properties that change along its length. A register records what exists, where, in what state and who is responsible. Budgets, maintenance, safety and legal responsibility all start from it.
+  - tag: '2'
+    title: Linear referencing
+    text: 'Locating something by its position along a line instead of by map coordinates: on route X, at kilometre 12+350, 4 metres to the right. That position along the route is the measure (chainage, in Hungarian practice the szelvényszám). Engineers, crews and legacy data speak in kilometres, and a measure stays meaningful when coordinates change with a new survey or projection.'
+  - tag: '3'
+    title: Objects and phenomena
+    text: Things that exist on the line, such as bridges, signs and culverts, are objects. Things that happen or hold along it, such as a speed limit, a pavement condition, roadworks or an incident, are phenomena (events). Both attach to the line by linear reference, as a point or a range. Dozens of independent layers can then be stored once and overlaid on the same route.
+  - tag: '4'
+    title: Temporal change management
+    text: The register must answer not only what is true now, but what was true on a given date and what is planned. Facilities are built, rebuilt, realigned and closed, and facts are also corrected afterwards. Reporting, investment planning, audits and incident investigation all need the state on a specific date.
+- type: split
+  background: white
+  imagePosition: left
+  anchorId: linear-referencing
+  eyebrow: Linear referencing
+  heading: Position along the route, not only on the map
+  body: '<p>A route has a measure: the distance from its start, shown on the ground as kilometre markers, where 12+350 means 12 km and 350 m. A point object is stored with one measure, a range event with a start and an end measure, and either can have an offset to the left or right of the route.</p><p>The same route can carry any number of such layers, each with its own breaks, and none has to cut the others into pieces. This is often called dynamic segmentation: the pieces are computed when needed, not stored as fixed segments. One attribute can change without touching the others, data from different sources and years can be overlaid, and field data collected in kilometres is usable as it is.</p><p>The concept is described in the international standard ISO 19148.</p>'
+  image: /images/linear-referencing-en.svg
+  imageAlt: 'Diagram: a route with kilometre measures, point objects, range events and an incident beside the route'
+- type: cards
+  background: light
+  anchorId: lr-hard
+  eyebrow: The difficulty
+  heading: What makes linear referencing hard
+  items:
+  - tag: '1'
+    title: Routes change
+    text: A realignment or rebuild shortens or lengthens a route, so the measures after the change shift. Every object and event referenced to that route must be re-referenced, or it points to the wrong place.
+  - tag: '2'
+    title: More than one measure system
+    text: The official chainage, the kilometre markers on the ground, rarely equals the real geometric length. Both are needed, linked by calibration points.
+  - tag: '3'
+    title: Direction, lanes and carriageways
+    text: A route can have two directions, separate carriageways and several lanes. Events can apply to one side or both, and left and right are defined relative to the direction.
+  - tag: '4'
+    title: Branches, overlaps and gaps
+    text: Junctions, ramps, one road carrying two route numbers, and stretches where no data exists. The rules for what is valid must be explicit.
+  - tag: '5'
+    title: Coordinates and measures must agree
+    text: A point at measure 350 must lie 350 m along the geometry, within a stated tolerance. Positions from GNSS or survey have to be snapped to the route.
+  - tag: '6'
+    title: Several networks, one reference
+    text: Roads, railways and pipelines each have routes, and an object such as a pipeline crossing a road relates to both. The reference model must allow more than one route per object.
+- type: split
+  background: white
+  imagePosition: right
+  anchorId: temporal
+  eyebrow: Change over time
+  heading: 'Time: what was true on a given date'
+  body: '<p>Two kinds of time matter. <strong>Valid time</strong> is when something was true in the real world: the speed limit was 70 from March 2021. <strong>Recording time</strong> is when the system learned about it: a correction entered in 2025 may say that the limit was already 70 in 2021.</p><p>A register that keeps both can answer "what was true on 1 June 2022" and also "what did we believe on 1 June 2022". Facilities also pass through states over their life: planned, under construction, in operation, under reconstruction, out of service, decommissioned. Planned future states must be stored without being mistaken for the present.</p><p>This matters for legal reporting, investigations, audits and investment decisions: a number in a report must be explainable, for a date, years later.</p>'
+  image: /images/temporal-versions-en.svg
+  imageAlt: 'Diagram: versions of a route, a speed limit and a bridge state over time, with an as-of date query and a later correction'
+- type: cards
+  background: light
+  anchorId: time-hard
+  eyebrow: The difficulty
+  heading: What makes change management complex
+  items:
+  - tag: '1'
+    title: Geometry and referencing change together
+    text: When a route is realigned, its geometry gets a new version and every object and event on it must follow, keeping its meaning in both the old and the new version.
+  - tag: '2'
+    title: Stable identity
+    text: A facility keeps its identity through rebuilds, splits and merges, or its history breaks. The rules for when something is the same thing must be written down.
+  - tag: '3'
+    title: Real change or correction?
+    text: A rebuild is a change in the world, a correction fixes a mistake in the data. They are recorded differently and answer different questions.
+  - tag: '4'
+    title: Planned, approved, actual
+    text: Future states, approval workflows and the moment a plan becomes reality need clear rules and roles.
+  - tag: '5'
+    title: Queries at any date
+    text: Every report, map and interface must accept an as-of date, and stay fast over years of history.
+  - tag: '6'
+    title: Migrating history
+    text: Existing data rarely has a clean history. Deciding what to carry over, and how to mark uncertain dates, is part of the specification.
+- type: cards
+  background: white
+  anchorId: spec
+  eyebrow: The specification
+  heading: How we approached writing it
+  items:
+  - title: One language for everyone
+    text: A glossary and a conceptual model that the client, the users and the suppliers read the same way.
+  - title: Testable requirements
+    text: Each requirement can be checked, with examples that include the hard cases such as a realignment, so a supplier cannot read it two ways.
+  - title: Open standards as the base
+    text: ISO 19148 for linear referencing and the wider ISO 19100 geographic information family for modelling, so the data can be exchanged and the design is not tied to one product.
+  - title: Data quality defined up front
+    text: What counts as complete and correct data, how it is measured, and how exceptions are handled.
+  - title: Detail where it is hard
+    text: 'The most detail went to where suppliers most often go wrong: referencing, time and migration.'
+- type: split
+  background: light
+  anchorId: qa
+  eyebrow: Quality assurance
+  heading: An independent eye during execution
+  body: <p>While the project was executed we assured quality on the client's behalf.</p><ul><li><strong>Design review:</strong> we reviewed the suppliers' system designs against the specification. Do the designs implement the specified referencing and time model, including the hard cases? Are interfaces, performance, security and data migration covered?</li><li><strong>Documentation check:</strong> we checked the delivered documentation for completeness. Is everything promised delivered, is it consistent with the design, and can the client run and maintain the system with it?</li><li><strong>Traceability:</strong> each requirement can be followed through design, test and documentation</li></ul><p>Findings were reported clearly, so the client could decide and the supplier could fix.</p>
+- type: split
+  background: dark
+  anchorId: open-source
+  eyebrow: For your own project
+  heading: None of this is exotic, and open source handles it
+  body: <p>Linear referencing and time are well understood problems. PostGIS has functions for locating points along lines, extracting the part of a line between two measures and interpolating positions, and PostgreSQL has range types and exclusion constraints that can guarantee validity periods never overlap.</p><p>A specification can therefore be written product-neutral and implemented on proven open components, with no licence lock-in. The expensive mistakes are made earlier, in the requirements, which is why getting them right before the tender is the cheapest moment. See also our work on <a href="/sectors">infrastructure and government</a> and <a href="/case-study-utility-work-management">asset data for a utility</a>.</p>
+- type: ctaBand
+  heading: Planning a large geospatial system?
+  body: Before the tender is the cheapest time to get the geospatial requirements right. The first consultation is free.
+  buttons:
+  - *id001
+---

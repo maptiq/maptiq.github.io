@@ -1,0 +1,143 @@
+---
+title: 'Fallstudie: Spezifikation eines Registers für lineare Anlagen'
+slug: case-study-linear-asset-register
+pageType: structured
+seoTitle: 'Fallstudie: Linienbezug und zeitliche Änderungsverwaltung in einem Register linearer Anlagen'
+seoDescription: 'Wie wir bei der Spezifikation des Geoteils eines Projekts im zweistelligen Millionen-Euro-Bereich geholfen und seine Umsetzung qualitätsgesichert haben: Register linearer Anlagen, Linienbezug, zeitliche Änderungsverwaltung, Entwurfsprüfung und Dokumentationskontrolle.'
+sections:
+- type: hero
+  eyebrow: Fallstudie · Staatliche Infrastruktur
+  heading: 'Ein Register linearer Anlagen spezifizieren: Linienbezug und Zeit'
+  subheading: Ein Unternehmen im öffentlichen Sektor führte ein Projekt im zweistelligen Millionen-Euro-Bereich mit großem Geoanteil durch. Wir haben den Geoteil der Spezifikation mitgeschrieben und anschließend die Qualität der Umsetzung gesichert.
+  image: /images/case-linear-motorway.jpg
+  buttons:
+  - &id001
+    label: Kontakt aufnehmen
+    link: /contact
+- type: split
+  background: white
+  imagePosition: right
+  anchorId: engagement
+  eyebrow: Der Auftrag
+  heading: Zwei Rollen in einem Projekt im zweistelligen Millionenbereich
+  body: '<p>Der Auftraggeber ist ein Unternehmen im öffentlichen Sektor, das lineare Infrastruktur verwaltet. Sein großes IT-Projekt hatte einen erheblichen Geoanteil: das Register seiner linearen Anlagen und alles, was daran hängt. MaptIQ hat auf zwei Arten unterstützt.</p><ul><li><strong>Spezifikation:</strong> wir haben beim Geoteil der Spezifikation mitgeschrieben: das Register der linearen Anlagen, den Linienbezug zugehöriger Objekte und Phänomene und den Umgang mit Änderungen über die Zeit</li><li><strong>Qualitätssicherung:</strong> wir haben die Qualität der Projektumsetzung gesichert: wir haben die Systementwürfe begutachtet und die gelieferte Dokumentation auf Vollständigkeit geprüft</li></ul>'
+  image: /images/case-linear-km-marker.jpg
+  imageAlt: Ein Kilometerstein am Rand einer Fernstraße
+- type: cards
+  background: light
+  anchorId: concepts
+  eyebrow: Die Begriffe verständlich erklärt
+  heading: Vier Ideen, auf denen das Projekt beruht
+  items:
+  - tag: '1'
+    title: Lineare Anlage
+    text: Eine Straße, Bahnlinie, Leitung oder Freileitung ist lang und schmal. Sie hat eine Identität, Anfang und Ende, Verbindungen zu anderen Linien und viele Eigenschaften, die sich entlang ihrer Länge ändern. Ein Register hält fest, was existiert, wo, in welchem Zustand und wer verantwortlich ist. Budgets, Instandhaltung, Sicherheit und rechtliche Verantwortung gehen davon aus.
+  - tag: '2'
+    title: Linienbezug
+    text: 'Etwas wird über seine Position entlang einer Linie statt über Kartenkoordinaten verortet: auf Trasse X, bei Kilometer 12+350, 4 Meter rechts. Diese Position entlang der Trasse ist die Stationierung (Measure). Ingenieure, Trupps und Altdaten sprechen in Kilometern, und eine Stationierung bleibt sinnvoll, wenn sich Koordinaten durch neue Vermessung oder Projektion ändern.'
+  - tag: '3'
+    title: Objekte und Phänomene
+    text: Dinge, die auf der Linie existieren, etwa Brücken, Schilder und Durchlässe, sind Objekte. Dinge, die entlang geschehen oder gelten, etwa ein Tempolimit, ein Fahrbahnzustand, Baustellen oder ein Vorfall, sind Phänomene (Ereignisse). Beide hängen per Linienbezug an der Linie, als Punkt oder Abschnitt. So lassen sich Dutzende unabhängige Ebenen einmal speichern und auf derselben Trasse überlagern.
+  - tag: '4'
+    title: Zeitliche Änderungsverwaltung
+    text: Das Register muss nicht nur sagen, was jetzt gilt, sondern auch, was an einem Stichtag galt und was geplant ist. Anlagen werden gebaut, umgebaut, neu trassiert und stillgelegt, und Angaben werden auch nachträglich korrigiert. Berichte, Investitionsplanung, Audits und Unfalluntersuchungen brauchen alle den Zustand an einem bestimmten Tag.
+- type: split
+  background: white
+  imagePosition: left
+  anchorId: linear-referencing
+  eyebrow: Linienbezug
+  heading: Position entlang der Trasse, nicht nur auf der Karte
+  body: '<p>Eine Trasse hat eine Stationierung: den Abstand vom Anfang, im Gelände durch Kilometersteine sichtbar, wobei 12+350 für 12 km und 350 m steht. Ein Punktobjekt wird mit einer Stationierung gespeichert, ein Abschnittsereignis mit Anfangs- und Endstationierung, und beide können einen seitlichen Versatz links oder rechts der Trasse haben.</p><p>Dieselbe Trasse kann beliebig viele solcher Ebenen tragen, jede mit eigenen Brüchen, und keine muss die anderen zerschneiden. Das heißt oft dynamische Segmentierung: die Stücke werden bei Bedarf berechnet, nicht als feste Segmente gespeichert. Ein Attribut kann sich ändern, ohne die anderen zu berühren, Daten aus verschiedenen Quellen und Jahren lassen sich überlagern, und in Kilometern erfasste Felddaten sind direkt nutzbar.</p><p>Das Konzept ist in der internationalen Norm ISO 19148 beschrieben.</p>'
+  image: /images/linear-referencing-de.svg
+  imageAlt: 'Diagramm: eine Trasse mit Stationierung, Punktobjekten, Abschnittsereignissen und einem Vorfall neben der Trasse'
+- type: cards
+  background: light
+  anchorId: lr-hard
+  eyebrow: Die Schwierigkeit
+  heading: Was den Linienbezug schwierig macht
+  items:
+  - tag: '1'
+    title: Trassen ändern sich
+    text: Eine Neutrassierung oder ein Umbau verkürzt oder verlängert eine Trasse, sodass die Stationierungen danach sich verschieben. Jedes darauf bezogene Objekt und Ereignis muss neu referenziert werden, sonst zeigt es an die falsche Stelle.
+  - tag: '2'
+    title: Mehr als ein Stationierungssystem
+    text: Die amtliche Stationierung, also die Kilometersteine im Gelände, entspricht selten der geometrischen Länge. Beides wird gebraucht, verbunden durch Kalibrierpunkte.
+  - tag: '3'
+    title: Richtung, Fahrstreifen und Fahrbahnen
+    text: Eine Trasse kann zwei Richtungen, getrennte Fahrbahnen und mehrere Fahrstreifen haben. Ereignisse können für eine Seite oder beide gelten, und links und rechts sind relativ zur Richtung definiert.
+  - tag: '4'
+    title: Abzweige, Überlappungen und Lücken
+    text: Knoten, Rampen, eine Straße mit zwei Routennummern und Abschnitte ohne Daten. Die Regeln für Gültigkeit müssen ausdrücklich sein.
+  - tag: '5'
+    title: Koordinaten und Stationierung müssen übereinstimmen
+    text: Ein Punkt bei Stationierung 350 muss 350 m entlang der Geometrie liegen, innerhalb einer festgelegten Toleranz. Positionen aus GNSS oder Vermessung müssen auf die Trasse gerastert werden.
+  - tag: '6'
+    title: Mehrere Netze, ein Bezug
+    text: Straßen, Bahnen und Leitungen haben jeweils Trassen, und ein Objekt wie eine Leitung, die eine Straße kreuzt, bezieht sich auf beide. Das Referenzmodell muss mehr als eine Trasse je Objekt erlauben.
+- type: split
+  background: white
+  imagePosition: right
+  anchorId: temporal
+  eyebrow: Änderung über die Zeit
+  heading: 'Zeit: was an einem Stichtag galt'
+  body: '<p>Zwei Arten von Zeit zählen. Die <strong>Gültigkeitszeit</strong> ist, wann etwas in der Realität galt: das Tempolimit war ab März 2021 70. Die <strong>Erfassungszeit</strong> ist, wann das System davon erfuhr: eine 2025 erfasste Korrektur kann sagen, dass das Limit schon 2021 70 war.</p><p>Ein Register, das beides führt, kann beantworten, „was am 1. Juni 2022 galt“, und auch, „was wir am 1. Juni 2022 glaubten“. Anlagen durchlaufen im Leben auch Zustände: geplant, im Bau, in Betrieb, im Umbau, außer Betrieb, stillgelegt. Geplante künftige Zustände müssen gespeichert werden, ohne mit der Gegenwart verwechselt zu werden.</p><p>Das zählt bei gesetzlichen Berichten, Untersuchungen, Audits und Investitionsentscheidungen: eine Zahl im Bericht muss für einen Stichtag auch Jahre später erklärbar sein.</p>'
+  image: /images/temporal-versions-de.svg
+  imageAlt: 'Diagramm: Versionen einer Trasse, eines Tempolimits und eines Brückenzustands über die Zeit, mit Stichtagsabfrage und späterer Korrektur'
+- type: cards
+  background: light
+  anchorId: time-hard
+  eyebrow: Die Schwierigkeit
+  heading: Was die Änderungsverwaltung komplex macht
+  items:
+  - tag: '1'
+    title: Geometrie und Bezug ändern sich gemeinsam
+    text: Wird eine Trasse neu geführt, erhält ihre Geometrie eine neue Version, und jedes Objekt und Ereignis darauf muss folgen und seinen Sinn in alter wie neuer Version behalten.
+  - tag: '2'
+    title: Stabile Identität
+    text: Eine Anlage behält ihre Identität bei Umbauten, Teilungen und Zusammenlegungen, sonst bricht ihre Historie. Die Regeln, wann etwas dasselbe ist, müssen aufgeschrieben werden.
+  - tag: '3'
+    title: Echte Änderung oder Korrektur?
+    text: Ein Umbau ist eine Änderung in der Welt, eine Korrektur behebt einen Fehler in den Daten. Beides wird anders erfasst und beantwortet andere Fragen.
+  - tag: '4'
+    title: Geplant, genehmigt, tatsächlich
+    text: Künftige Zustände, Genehmigungsabläufe und der Moment, in dem ein Plan Wirklichkeit wird, brauchen klare Regeln und Rollen.
+  - tag: '5'
+    title: Abfragen zu jedem Datum
+    text: Jeder Bericht, jede Karte und jede Schnittstelle muss einen Stichtag akzeptieren und über Jahre an Historie schnell bleiben.
+  - tag: '6'
+    title: Migration der Historie
+    text: Bestehende Daten haben selten eine saubere Historie. Zu entscheiden, was übernommen wird und wie unsichere Daten gekennzeichnet werden, gehört zur Spezifikation.
+- type: cards
+  background: white
+  anchorId: spec
+  eyebrow: Die Spezifikation
+  heading: Wie wir das Schreiben angegangen sind
+  items:
+  - title: Eine Sprache für alle
+    text: Ein Glossar und ein konzeptionelles Modell, das Auftraggeber, Nutzer und Lieferanten gleich lesen.
+  - title: Prüfbare Anforderungen
+    text: Jede Anforderung ist prüfbar, mit Beispielen auch für schwierige Fälle wie eine Neutrassierung, sodass ein Lieferant sie nicht zweifach lesen kann.
+  - title: Offene Standards als Basis
+    text: ISO 19148 für den Linienbezug und die weitere ISO-19100-Familie der Geoinformation für die Modellierung, damit Daten austauschbar sind und der Entwurf nicht an ein Produkt gebunden ist.
+  - title: Datenqualität vorab definiert
+    text: Was als vollständige und korrekte Daten gilt, wie es gemessen wird und wie Ausnahmen behandelt werden.
+  - title: Detail, wo es schwer ist
+    text: 'Das meiste Detail floss dorthin, wo Lieferanten am häufigsten irren: Bezug, Zeit und Migration.'
+- type: split
+  background: light
+  anchorId: qa
+  eyebrow: Qualitätssicherung
+  heading: Ein unabhängiger Blick während der Umsetzung
+  body: <p>Während der Projektumsetzung haben wir im Auftrag des Auftraggebers die Qualität gesichert.</p><ul><li><strong>Entwurfsprüfung:</strong> wir haben die Systementwürfe der Lieferanten gegen die Spezifikation begutachtet. Setzen die Entwürfe das vorgegebene Bezugs- und Zeitmodell um, auch für die schwierigen Fälle? Sind Schnittstellen, Leistung, Sicherheit und Datenmigration abgedeckt?</li><li><strong>Dokumentationskontrolle:</strong> wir haben die gelieferte Dokumentation auf Vollständigkeit geprüft. Ist alles Versprochene geliefert, passt es zum Entwurf, und kann der Auftraggeber das System damit betreiben und warten?</li><li><strong>Nachverfolgbarkeit:</strong> jede Anforderung lässt sich durch Entwurf, Test und Dokumentation verfolgen</li></ul><p>Feststellungen wurden klar berichtet, damit der Auftraggeber entscheiden und der Lieferant nachbessern konnte.</p>
+- type: split
+  background: dark
+  anchorId: open-source
+  eyebrow: Für Ihr eigenes Projekt
+  heading: Nichts davon ist exotisch, und Open Source beherrscht es
+  body: <p>Linienbezug und Zeit sind gut verstandene Probleme. PostGIS hat Funktionen, um Punkte entlang von Linien zu verorten, den Teil einer Linie zwischen zwei Stationierungen zu extrahieren und Positionen zu interpolieren, und PostgreSQL bietet Bereichstypen und Exclusion Constraints, die garantieren können, dass sich Gültigkeitszeiträume nie überlappen.</p><p>Eine Spezifikation lässt sich daher produktneutral schreiben und auf bewährten offenen Komponenten umsetzen, ohne Lizenzbindung. Die teuren Fehler entstehen früher, in den Anforderungen, weshalb es vor der Ausschreibung am günstigsten ist, sie richtig zu formulieren. Siehe auch unsere Arbeit für <a href="/sectors">Infrastruktur und Verwaltung</a> und die <a href="/case-study-utility-work-management">Fallstudie zu Anlagendaten eines Versorgers</a>.</p>
+- type: ctaBand
+  heading: Planen Sie ein großes Geosystem?
+  body: Vor der Ausschreibung ist es am günstigsten, die Geo-Anforderungen richtig zu formulieren. Das Erstgespräch ist kostenlos.
+  buttons:
+  - *id001
+---
