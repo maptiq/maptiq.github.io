@@ -29,6 +29,13 @@ if [ "$MODE" = "github" ]; then
   branch=$(git rev-parse --abbrev-ref HEAD)
   [ "$branch" = "main" ] || { echo "on branch $branch, deploy from main" >&2; exit 1; }
   [ -z "$(git status --porcelain)" ] || { echo "uncommitted changes, commit first" >&2; exit 1; }
+  # Commits are pushed under the owner's GitHub identity, not the company mailbox.
+  want="${DEPLOY_GIT_EMAIL:-sandor.csaba@gmail.com}"
+  bad=$(git log --format='%h %ae %ce' | awk -v w="$want" '$2 != w || $3 != w' | head -3)
+  if [ -n "$bad" ]; then
+    echo "commits not authored/committed as $want (set git config user.email, then re-author):" >&2
+    echo "$bad" >&2; exit 1
+  fi
   url=$(git remote get-url origin 2>/dev/null) || { echo "no remote 'origin'. Add it: git remote add origin git@github.com:maptiq/maptiq.github.io.git" >&2; exit 1; }
   repo=$(echo "$url" | sed -E 's#^.*github\.com[:/]##; s#\.git$##')
   say "Deploying $(git rev-parse --short HEAD) to $repo, branch $REMOTE_BRANCH"
