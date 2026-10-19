@@ -29,5 +29,8 @@ export default defineConfig({
     '/team/': '/hu/about/',
     '/about/': '/hu/about/',
     '/contact/': '/hu/contact/',
+    '/team/barancsuk-adam/': '/hu/about/',
+    '/team/berenyi-attila/': '/hu/about/',
+    '/team/sandor-csaba/': '/hu/about/',
   },
 });

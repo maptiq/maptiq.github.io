@@ -17,13 +17,15 @@ RewriteRule ^(.*)$ https://maptiq.eu/$1 [R=301,L]
 RewriteRule ^services/konzultacio/?$ /hu/services/ [R=301,L]
 RewriteRule ^services/?$ /hu/services/ [R=301,L]
 RewriteRule ^team/?$ /hu/about/ [R=301,L]
+RewriteRule ^team/barancsuk-adam/?$ /hu/about/ [R=301,L]
+RewriteRule ^team/berenyi-attila/?$ /hu/about/ [R=301,L]
+RewriteRule ^team/sandor-csaba/?$ /hu/about/ [R=301,L]
 RewriteRule ^about/?$ /hu/about/ [R=301,L]
 RewriteRule ^contact/?$ /hu/contact/ [R=301,L]
 
-# Old file names and feeds
+# Old file names
 RewriteRule ^index\.html$ / [R=301,L]
 RewriteRule ^(services|team|about|contact)/index\.html$ /$1/ [R=301,L]
-RewriteRule ^sitemap\.xml$ /sitemap-index.xml [R=301,L]
 
 # Every other directory URL gets its trailing slash with a single 301
 RewriteCond %{REQUEST_FILENAME} -d
