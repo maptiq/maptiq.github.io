@@ -235,6 +235,7 @@ const contact = defineCollection({
   loader: glob({ pattern: 'contact.yaml', base: './src/content/settings' }),
   schema: z.object({
     web3formsAccessKey: z.string().optional(),
+    gaMeasurementId: z.string().optional(),
   }),
 });
 

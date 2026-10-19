@@ -1,0 +1,42 @@
+# maptiq.eu on Apache. Generated rules for the old Jekyll URLs: edit scripts/old_urls.txt and keep
+# this file in step. GitHub Pages ignores .htaccess (the same redirects then come from astro.config.mjs).
+ErrorDocument 404 /404.html
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# One host, https only
+RewriteCond %{HTTP_HOST} ^www\.maptiq\.eu$ [NC]
+RewriteRule ^(.*)$ https://maptiq.eu/$1 [R=301,L]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://maptiq.eu/$1 [R=301,L]
+
+# Old Jekyll pages (Hungarian only) to the Hungarian pages, with and without the trailing slash
+RewriteRule ^services/konzultacio/?$ /hu/services/ [R=301,L]
+RewriteRule ^services/?$ /hu/services/ [R=301,L]
+RewriteRule ^team/?$ /hu/about/ [R=301,L]
+RewriteRule ^about/?$ /hu/about/ [R=301,L]
+RewriteRule ^contact/?$ /hu/contact/ [R=301,L]
+
+# Old file names and feeds
+RewriteRule ^index\.html$ / [R=301,L]
+RewriteRule ^(services|team|about|contact)/index\.html$ /$1/ [R=301,L]
+RewriteRule ^sitemap\.xml$ /sitemap-index.xml [R=301,L]
+
+# Every other directory URL gets its trailing slash with a single 301
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ /$1/ [R=301,L]
+</IfModule>
+
+# Long caching for fingerprinted assets, short for pages
+<IfModule mod_headers.c>
+<FilesMatch "\.(css|js|woff2|svg|png|jpg|jpeg|webp|avif|ico)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+<FilesMatch "\.(html|xml|txt)$">
+Header set Cache-Control "public, max-age=300"
+</FilesMatch>
+</IfModule>

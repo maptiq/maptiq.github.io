@@ -16,6 +16,11 @@ links:
       de: Datenschutz
     link: /privacy
   - label:
+      en: Cookie policy
+      hu: Süti szabályzat
+      de: Cookie-Richtlinie
+    link: /cookies
+  - label:
       en: Legal notice
       hu: Jogi közlemény
       de: Impressum

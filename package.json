@@ -7,9 +7,17 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/prune-dist.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test tests/*.test.ts",
+    "check:text": "node scripts/check/check-text.mjs",
+    "check:dist": "node scripts/check/check-dist.mjs",
+    "check:browser": "node scripts/check/check-browser.mjs",
+    "check:live": "bash scripts/check/check-live.sh https://maptiq.eu",
+    "verify": "npm test && npm run check:text && npm run build && npm run check:dist && npm run check:browser",
+    "deploy": "npm run verify && bash scripts/deploy.sh",
+    "deploy:only": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.2",
@@ -24,7 +32,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "node-html-parser": "^9.0.5",
     "playwright": "^1.64.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
   }
 }

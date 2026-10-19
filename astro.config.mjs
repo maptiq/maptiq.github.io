@@ -11,6 +11,8 @@ import { isNoindexUrl } from './src/lib/seo.ts';
 export default defineConfig({
   site: 'https://maptiq.eu',
   trailingSlash: 'always',
+  // A duplicate slug or a route collision must stop the build, not silently let one file win.
+  prerenderConflictBehavior: 'error',
   integrations: [
     mdx(),
     // "/" is a language picker page, so it stays out of the sitemap.

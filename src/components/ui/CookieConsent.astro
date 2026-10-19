@@ -1,0 +1,156 @@
+---
+import { getEntry } from 'astro:content';
+import { localizeHref, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const contact = await getEntry('contact', 'contact');
+const gaId = contact?.data.gaMeasurementId?.trim();
+---
+
+{gaId && /^G-[A-Z0-9]+$/.test(gaId) && (
+  <div class="cookie-consent" data-ga-id={gaId} role="dialog" aria-labelledby="cookie-consent-title" hidden>
+    <strong id="cookie-consent-title">{t('consent.title')}</strong>
+    <p>
+      {t('consent.text')}{' '}
+      <a href={localizeHref('/cookies', locale)}>{t('consent.policy')}</a>
+    </p>
+    <div class="actions">
+      <button type="button" class="cc-btn cc-primary" data-consent="granted">{t('consent.accept')}</button>
+      <button type="button" class="cc-btn cc-secondary" data-consent="denied">{t('consent.decline')}</button>
+    </div>
+  </div>
+)}
+
+<script>
+  // Google Analytics loads only after the visitor accepts. The choice is kept in
+  // localStorage (never sent anywhere). Declining or not choosing loads nothing.
+  const KEY = 'maptiq-analytics-consent';
+  const banner = document.querySelector<HTMLElement>('.cookie-consent');
+
+  const read = () => {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return null;
+    }
+  };
+
+  const loadAnalytics = (id: string) => {
+    if (document.querySelector('script[data-ga]')) return;
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    w.gtag = function () {
+      w.dataLayer.push(arguments);
+    };
+    w.gtag('js', new Date());
+    w.gtag('config', id, { anonymize_ip: true });
+    const s = document.createElement('script');
+    s.async = true;
+    s.dataset.ga = '';
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    document.head.append(s);
+  };
+
+  const removeAnalytics = (id: string) => {
+    // Opt out for the rest of this page view and drop the cookies we can reach.
+    (window as any)[`ga-disable-${id}`] = true;
+    for (const c of document.cookie.split(';')) {
+      const name = c.split('=')[0].trim();
+      if (name === '_ga' || name.startsWith('_ga_') || name === '_gid') {
+        for (const domain of [location.hostname, '.' + location.hostname.replace(/^www\./, '')]) {
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${domain}`;
+        }
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+      }
+    }
+  };
+
+  if (banner) {
+    const id = banner.dataset.gaId!;
+    const choice = read();
+    if (choice === 'granted') loadAnalytics(id);
+    else if (choice !== 'denied') banner.hidden = false;
+
+    for (const btn of banner.querySelectorAll<HTMLButtonElement>('[data-consent]')) {
+      btn.addEventListener('click', () => {
+        const value = btn.dataset.consent!;
+        try {
+          localStorage.setItem(KEY, value);
+        } catch {}
+        banner.hidden = true;
+        if (value === 'granted') loadAnalytics(id);
+        else removeAnalytics(id);
+      });
+    }
+
+    // Footer link to change the choice later.
+    for (const opener of document.querySelectorAll('[data-cookie-settings]')) {
+      opener.addEventListener('click', () => {
+        banner.hidden = false;
+      });
+    }
+  }
+</script>
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    z-index: 100;
+    left: var(--space-sm);
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+    max-width: 34rem;
+    padding: var(--space-sm) var(--space-md) var(--space-sm);
+    background: var(--color-white);
+    color: var(--color-text);
+    border: 1px solid var(--color-neutral-light);
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgb(19 33 60 / 0.2);
+    font-size: 0.92rem;
+  }
+
+  .cookie-consent[hidden] {
+    display: none;
+  }
+
+  .cookie-consent strong {
+    color: var(--color-secondary);
+  }
+
+  .cookie-consent p {
+    margin: 0.4rem 0 var(--space-sm);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .cc-btn {
+    font: inherit;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.3rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .cc-primary {
+    background: var(--color-primary);
+    color: var(--btn-text);
+  }
+
+  .cc-secondary {
+    background: transparent;
+    color: var(--color-primary-text);
+  }
+</style>

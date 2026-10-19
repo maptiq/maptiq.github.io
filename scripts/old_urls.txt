@@ -1,0 +1,8 @@
+# Old Jekyll URL, then the page it must lead to. On Apache public/.htaccess sends 301s; GitHub Pages
+# cannot, so there they are meta-refresh stubs (`redirects` in astro.config.mjs). Keep both in step.
+# check-live.sh accepts either and tests the target too.
+/services/ /hu/services/
+/services/konzultacio/ /hu/services/
+/team/ /hu/about/
+/about/ /hu/about/
+/contact/ /hu/contact/

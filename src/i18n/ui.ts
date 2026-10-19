@@ -32,6 +32,12 @@ export const ui = {
     'video.play': "Play video",
     'video.notice': "Playing loads the video from YouTube (Google), which may set cookies.",
     'video.policy': "Cookie policy",
+    'consent.title': 'Cookies and analytics',
+    'consent.text': 'We would like to use Google Analytics to understand how the website is used. It sets cookies and sends usage data to Google. It stays off unless you accept.',
+    'consent.accept': 'Accept',
+    'consent.decline': 'Decline',
+    'consent.policy': 'Cookie policy',
+    'consent.settings': 'Cookie settings',
   },
   hu: {
     'nav.home': 'Főoldal',
@@ -61,6 +67,12 @@ export const ui = {
     'video.play': "Videó lejátszása",
     'video.notice': "A lejátszás a YouTube-ról (Google) tölti be a videót, amely sütiket helyezhet el.",
     'video.policy': "Süti szabályzat",
+    'consent.title': 'Sütik és analitika',
+    'consent.text': 'A Google Analytics segítségével szeretnénk megérteni, hogyan használják a weboldalt. Sütiket helyez el, és használati adatokat küld a Google-nek. Amíg nem fogadja el, ki van kapcsolva.',
+    'consent.accept': 'Elfogadom',
+    'consent.decline': 'Elutasítom',
+    'consent.policy': 'Süti szabályzat',
+    'consent.settings': 'Süti beállítások',
   },
   de: {
     'nav.home': 'Startseite',
@@ -90,6 +102,12 @@ export const ui = {
     'video.play': "Video abspielen",
     'video.notice': "Beim Abspielen wird das Video von YouTube (Google) geladen, das Cookies setzen kann.",
     'video.policy': "Cookie-Richtlinie",
+    'consent.title': 'Cookies und Analyse',
+    'consent.text': 'Wir möchten Google Analytics einsetzen, um zu verstehen, wie die Website genutzt wird. Es setzt Cookies und sendet Nutzungsdaten an Google. Ohne Ihre Zustimmung bleibt es ausgeschaltet.',
+    'consent.accept': 'Akzeptieren',
+    'consent.decline': 'Ablehnen',
+    'consent.policy': 'Cookie-Richtlinie',
+    'consent.settings': 'Cookie-Einstellungen',
   },
 } as const satisfies Record<Locale, Record<string, string>>;
 

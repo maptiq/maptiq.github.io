@@ -11,6 +11,8 @@ const { locale } = Astro.props;
 const footer = await getEntry('footer', 'footer');
 const navigation = await getEntry('navigation', 'navigation');
 const t = useTranslations(locale);
+const contact = await getEntry('contact', 'contact');
+const analyticsOn = /^G-[A-Z0-9]+$/.test(contact?.data.gaMeasurementId?.trim() ?? '');
 const label = (l: { en: string; hu?: string; de?: string }) => l[locale] || l.en;
 const href = (link: string) => localizeHref(link, locale);
 
@@ -100,6 +102,7 @@ const credits = data?.imageCredits;
         {(data?.links ?? []).map((link) => (
           <li><a href={href(link.link)}>{label(link.label)}</a></li>
         ))}
+        {analyticsOn && <li><button type="button" class="link-button" data-cookie-settings>{t('consent.settings')}</button></li>}
       </ul>
     </div>
   </div>
@@ -160,7 +163,7 @@ const credits = data?.imageCredits;
 
   .footer-brand p {
     margin: 0 0 var(--space-sm);
-    color: #c9d2e3;
+    color: #d6d7da;
   }
 
   ul {
@@ -171,7 +174,7 @@ const credits = data?.imageCredits;
 
   .contact li {
     margin-bottom: 0.3rem;
-    color: #c9d2e3;
+    color: #d6d7da;
   }
 
   .footer-col-title {
@@ -191,7 +194,7 @@ const credits = data?.imageCredits;
   .footer-bottom a,
   .footer-credits a,
   .cert a {
-    color: #c9d2e3 !important;
+    color: #d6d7da !important;
     text-decoration: none;
   }
 
@@ -269,7 +272,7 @@ const credits = data?.imageCredits;
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem var(--space-md);
-    color: #9aa6bd;
+    color: #a9abb0;
     font-size: 0.85rem;
   }
 
@@ -281,7 +284,7 @@ const credits = data?.imageCredits;
     margin-top: var(--space-md);
     padding: var(--space-md) 0;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
-    color: #9aa6bd;
+    color: #a9abb0;
   }
 
   .footer-bottom p {
@@ -290,7 +293,8 @@ const credits = data?.imageCredits;
 
   .footer-bottom ul {
     display: flex;
-    gap: var(--space-md);
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
   }
 
   .link-button {
@@ -309,6 +313,20 @@ const credits = data?.imageCredits;
 
   /* The infoblock artwork has straight left and bottom edges and a curved top-right:
      it must sit flush in the bottom-left corner */
+  .link-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .link-button:hover {
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+
   .corner-logo {
     display: block;
     width: clamp(170px, 18vw, 240px);
