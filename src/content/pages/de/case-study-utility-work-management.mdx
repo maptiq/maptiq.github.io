@@ -1,0 +1,122 @@
+---
+title: 'Fallstudie: die Karten-Engine eines Arbeitsmanagementsystems für einen Netzbetreiber'
+slug: case-study-utility-work-management
+pageType: structured
+seoTitle: 'Fallstudie: Geomodul für das Arbeitsmanagementsystem eines Netzbetreibers'
+seoDescription: 'Wie wir das Geomodul des Arbeitsmanagementsystems eines Strom- und Gasverteilers gebaut haben: Live-Karte der Arbeitsaufträge, Routing und Einsatzoptimierung auf PostGIS, pgRouting, Vector Tiles und MapLibre.'
+sections:
+- type: hero
+  eyebrow: Fallstudie · Energie und Versorgung
+  heading: Die Karten-Engine des Arbeitsmanagementsystems eines Netzbetreibers
+  subheading: 'Ein Strom- und Gasverteiler hat MaptIQ beauftragt, das Geomodul seines Arbeitsmanagementsystems zu bauen: eine Live-Karte der Arbeit sowie Routing und Optimierung für die Einsatzkräfte, bei Tausenden Arbeitsaufträgen pro Tag.'
+  image: /images/case-utility-pylons.jpg
+  buttons:
+  - &id001
+    label: Kontakt aufnehmen
+    link: /contact
+- type: split
+  background: white
+  anchorId: challenges-intro
+  eyebrow: Der Ausgangspunkt
+  heading: Ein Arbeitsmanagementsystem ist ein Geoproblem
+  body: '<p>Ein Arbeitsmanagementsystem (WMS) plant, verteilt und verfolgt Arbeiten im Feld. Bei einem Verteilnetzbetreiber hängt fast jeder Auftrag an einem Ort im Netz: einem Mast, einem Kabel, einer Gasleitung, einem Ventil, einem Zähler, einer Adresse.</p><p>Damit ist die Karte das wichtigste Mittel für Disponenten und Planer, um die Arbeitslast zu verstehen, und Geotechnologie ein Kernmotor des Systems, keine Dekoration. Sechs Herausforderungen entscheiden, ob dieser Motor funktioniert.</p>'
+  image: /images/case-utility-gas.jpg
+  imageAlt: Ein Gasverteil-Formstück an gelbem Polyethylenrohr
+- type: cards
+  background: light
+  anchorId: challenges
+  eyebrow: Die Geo-Herausforderungen
+  heading: Sechs Herausforderungen eines Arbeitsmanagementsystems
+  items:
+  - tag: '1'
+    title: Tausende Aufträge, ständig in Bewegung
+    text: Aufträge werden laufend angelegt, zugewiesen, begonnen und abgeschlossen. Eine Karte, die bei jeder Änderung alles neu lädt, ist unbrauchbar. Aktualisierungen müssen günstig und schnell sichtbar sein.
+  - tag: '2'
+    title: Arbeit gehört zu Anlagen, nicht nur zu Adressen
+    text: Ein Auftrag gehört zu einem Mast, Kabel, einer Leitung oder einem Zähler, oft in mehreren Systemen mit unterschiedlicher Qualität beschrieben. Jeder Auftrag braucht einen verlässlichen Ort und eine Verbindung zum Netz.
+  - tag: '3'
+    title: Lesbar von der Region bis zur Straße
+    text: Tausende Punkte müssen in der Übersicht lesbar und auf Straßenebene detailliert bleiben, mit sichtbarem Status und sichtbarer Priorität, ohne den Browser zu überlasten.
+  - tag: '4'
+    title: Räumliche Fragen, schnell beantwortet
+    text: Welche dringenden Gasaufträge sind im Umkreis weniger Kilometer um diesen Trupp offen, heute fällig und benötigen eine bestimmte Qualifikation? Raum, Attribute und Zeit müssen mit interaktiver Geschwindigkeit zusammenkommen, für viele Nutzer gleichzeitig.
+  - tag: '5'
+    title: Fahrzeit, nicht Luftlinie
+    text: Reale Fahrten hängen von Einbahnstraßen, Beschränkungen, Zufahrt und Straßentyp ab. Fahrzeiten zwischen vielen Trupps und vielen Einsatzorten werden immer wieder gebraucht.
+  - tag: '6'
+    title: Der beste Plan, schnell neu berechnet
+    text: Zuweisung und Reihenfolge müssen Qualifikationen, Schichten und Prioritäten beachten, Störungsarbeiten vorziehen und sich anpassen, wenn sich der Tag ändert. Das muss Sekunden dauern, nicht Stunden.
+- type: split
+  background: white
+  imagePosition: left
+  anchorId: brief
+  eyebrow: Die Aufgabe
+  heading: Ein Modul, drei Aufgaben
+  body: '<p>Das Unternehmen verteilt Strom und Gas und führt die Feldarbeit für beide Netze aus. Es hat MaptIQ beauftragt, die Karten-Engine seines Arbeitsmanagementsystems zu bauen: das Geomodul.</p><ul><li><strong>Karte und Abfrage:</strong> Aufträge auf der Karte darstellen und nach Ort, Status, Art, Priorität und Zeit abfragen</li><li><strong>Routing:</strong> reale Fahrrouten und Fahrzeiten im Straßennetz berechnen</li><li><strong>Optimierung:</strong> Arbeit für die Einsatzkräfte zuweisen und in Reihenfolge bringen</li></ul><p>Das Modul muss täglich Tausende Aufträge bewältigen, für Disponenten, Planer und Trupps, die mit einem gemeinsamen Bild von Netz und Aufträgen arbeiten.</p>'
+  image: /images/case-utility-crews.jpg
+  imageAlt: Zwei Hubarbeitsbühnen mit Trupps bei Arbeiten an einer Freileitung
+- type: cards
+  background: light
+  anchorId: solution
+  eyebrow: Die Lösung
+  heading: Auf Open-Source-Geotechnologie gebaut
+  items:
+  - tag: PostgreSQL + PostGIS
+    title: Eine räumliche Wahrheitsquelle
+    text: Aufträge, Anlagen und Straßennetz liegen in einer Geodatenbank. Räumliche Indizes machen Fragen wie „was ist offen, dringend und in der Nähe“ interaktiv.
+    link: /technology#database
+  - tag: Vector Tiles
+    title: Eine Live-Karte, die leicht bleibt
+    text: Die Karte wird als aus PostGIS erzeugte Vector Tiles ausgeliefert. Tausende Punkte werden flüssig gezeichnet, die Gestaltung nach Status und Priorität geschieht im Browser, und Änderungen erreichen die Karte kurz nach ihrem Eintreten.
+    link: /technology#services
+  - tag: MapLibre GL JS
+    title: Die Karte des Disponenten
+    text: Eine schnelle WebGL-Karte mit Clustering in der Übersicht, Details auf Straßenebene, Filtern nach Status, Art, Trupp und Datum sowie Auswahlwerkzeugen, um Fragen zu einem Gebiet zu stellen.
+    link: /technology#frontend
+  - tag: pgRouting
+    title: Routing im realen Netz
+    text: Fahrrouten und -zeiten werden im Straßennetz in der Datenbank, direkt bei den Daten, berechnet. Fahrzeitmatrizen zwischen Trupps und Einsatzorten speisen die Optimierung.
+    link: /technology#database
+  - tag: Optimierung
+    title: Arbeit zuweisen und sequenzieren
+    text: Aus offener Arbeit, Trupps und Fahrzeiten schlägt das Modul Zuweisungen und die Besuchsreihenfolge vor, auf derselben Karte dargestellt, und rechnet neu, wenn sich die Tagesarbeit ändert.
+- type: split
+  background: white
+  anchorId: flow
+  eyebrow: Wie es zusammenpasst
+  heading: Vom Auftrag zur Route
+  body: <ol><li>Ein Auftrag kommt aus dem Arbeitsmanagementsystem mit Ort und Attributen an und wird dem Netz zugeordnet.</li><li>Er erscheint auf der Karte als Teil des Live-Bildes, herausgezoomt geclustert, nah herangezoomt detailliert.</li><li>Ein Disponent filtert und fragt nach Gebiet, Status, Priorität, Qualifikation oder Zeit ab.</li><li>Das Routing berechnet reale Fahrzeiten zwischen Trupps und Arbeit.</li><li>Die Optimierung schlägt vor, wer was in welcher Reihenfolge tut, und die Routen werden auf der Karte gezeichnet.</li><li>Ändert sich der Tag, wird der Plan neu berechnet.</li></ol>
+  image: /images/wms-map-routing-de.svg
+  imageAlt: Schematische Karte mit Aufträgen, Clustern, zwei Trupps und ihren optimierten Routen entlang der Straßen
+- type: cards
+  background: light
+  anchorId: principles
+  eyebrow: Gestaltungsprinzipien
+  heading: Wie wir es schnell und verlässlich halten
+  items:
+  - title: Schwere Arbeit bleibt in der Datenbank
+    text: Räumliches Filtern, Routing und Aggregation laufen direkt bei den Daten, sodass nur Ergebnisse im Browser ankommen.
+  - title: Nur zeichnen, was gebraucht wird
+    text: Vector Tiles und zoomabhängige Details bedeuten, dass der Browser nie alle Aufträge auf einmal laden muss.
+  - title: Ein Modul für zwei Netze
+    text: Strom und Gas teilen sich die Engine, mit netzspezifischer Gestaltung, Regeln und Prioritäten darüber.
+  - title: Für den Arbeitstag gebaut
+    text: 'Disponenten verlassen sich den ganzen Tag auf die Karte. Wir wenden die Praxis aus unserer <a href="/high-availability">Hochverfügbarkeits</a>-Arbeit an: replizierte Daten, Monitoring und getestete Wiederherstellung.'
+- type: split
+  background: white
+  anchorId: value
+  eyebrow: Was das Unternehmen bekommt
+  heading: Ein Live-Bild der Arbeit
+  body: <ul><li><strong>Eine gemeinsame Sicht:</strong> Disponenten, Planer und Trupps arbeiten mit derselben Live-Karte der Arbeit</li><li><strong>Schnelle Antworten:</strong> räumliche Fragen, für die früher Exporte und Tabellen nötig waren, werden auf der Karte beantwortet</li><li><strong>Planung auf realer Fahrt:</strong> Routen und Pläne auf Basis der Fahrzeit im Straßennetz statt Luftlinien-Schätzungen</li><li><strong>Weniger manuelle Planung:</strong> Planer widmen sich Entscheidungen, statt Routen von Hand zu bauen</li><li><strong>Unabhängigkeit:</strong> ein Open-Source-Fundament ohne Lizenzgebühren pro Nutzer oder Core und volle Kontrolle über Code und Daten</li></ul>
+- type: split
+  background: dark
+  anchorId: beyond
+  eyebrow: Über diesen Versorger hinaus
+  heading: Dieselben Herausforderungen bei jeder Außendienst-Belegschaft
+  body: '<p>Wasser- und Fernwärmenetze, Telekommunikationsbetreiber, Straßenbeleuchtung, Straßenunterhaltung und kommunale Dienste planen alle Arbeit, die an Orte gebunden ist. Die Bausteine sind dieselben: eine Geodatenbank, Vector Tiles, Routing und Optimierung und eine Karte, auf die man sich verlassen kann. Siehe unsere Arbeit für <a href="/sectors">Infrastruktur und Verwaltung</a> und die <a href="/case-study-municipality">Fallstudie zum kommunalen Web-GIS</a>.</p>'
+- type: ctaBand
+  heading: Planen Sie ein kartenbasiertes Arbeitsmanagementsystem?
+  body: Erzählen Sie uns von Ihren Einsatzkräften und Ihrem Netz. Das Erstgespräch ist kostenlos.
+  buttons:
+  - *id001
+---

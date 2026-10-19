@@ -52,6 +52,11 @@ menu:
           de: Fallstudie, Kommune
         link: /case-study-municipality
       - label:
+          en: Case study, utility work management
+          hu: Esettanulmány, közmű munkairányítás
+          de: Fallstudie, Arbeitsmanagement Versorger
+        link: /case-study-utility-work-management
+      - label:
           en: Our heritage, SURVIOT
           hu: Előzményeink, SURVIOT
           de: Unsere Wurzeln, SURVIOT

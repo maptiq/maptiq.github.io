@@ -1,0 +1,122 @@
+---
+title: 'Case study: the mapping engine of a utility work management system'
+slug: case-study-utility-work-management
+pageType: structured
+seoTitle: 'Case study: geospatial module for a utility work management system'
+seoDescription: 'How we built the geospatial module of an electricity and gas distribution company''s work management system: live map of work items, routing and workforce optimisation on PostGIS, pgRouting, vector tiles and MapLibre.'
+sections:
+- type: hero
+  eyebrow: Case study · Energy and utilities
+  heading: The mapping engine of a utility's work management system
+  subheading: 'An electricity and gas distribution company chose MaptIQ to build the geospatial module of its work management system: a live map of the work, and routing and optimisation for the workforce, at thousands of work items a day.'
+  image: /images/case-utility-pylons.jpg
+  buttons:
+  - &id001
+    label: Talk to us
+    link: /contact
+- type: split
+  background: white
+  anchorId: challenges-intro
+  eyebrow: The starting point
+  heading: A work management system is a geospatial problem
+  body: '<p>A work management system (WMS) plans, assigns and tracks field work. For a distribution utility nearly every job is tied to a place on a network: a pole, a cable, a gas main, a valve, a meter, an address.</p><p>That makes the map the main way dispatchers and planners understand the workload, and it makes geospatial technology a core engine of the system, not a decoration. Six challenges decide whether that engine works.</p>'
+  image: /images/case-utility-gas.jpg
+  imageAlt: A gas distribution pipe fitting on yellow polyethylene pipe
+- type: cards
+  background: light
+  anchorId: challenges
+  eyebrow: The geospatial challenges
+  heading: Six challenges of a work management system
+  items:
+  - tag: '1'
+    title: Thousands of items, changing all day
+    text: Work items are created, assigned, started and closed continuously. A map that reloads everything on every change is unusable. Updates must be cheap and visible quickly.
+  - tag: '2'
+    title: Work belongs to assets, not only addresses
+    text: A job sits on a pole, a cable, a main or a meter, often described in several systems with different quality. Each item needs a reliable location and a link to the network.
+  - tag: '3'
+    title: Readable from region to street
+    text: Thousands of points must stay legible in the overview and detailed at street level, with status and priority visible, without choking the browser.
+  - tag: '4'
+    title: Spatial questions, answered fast
+    text: Which urgent gas jobs are open within a few kilometres of this crew, due today, needing a certain skill? Space, attributes and time must combine at interactive speed, for many users at once.
+  - tag: '5'
+    title: Travel time, not straight lines
+    text: Real travel depends on one-way streets, restrictions, access and road type. Travel times between many crews and many work locations are needed again and again.
+  - tag: '6'
+    title: The best plan, recomputed quickly
+    text: Assigning and sequencing jobs must respect skills, shifts and priorities, put emergency work first, and adapt when the day changes. It has to take seconds, not hours.
+- type: split
+  background: white
+  imagePosition: left
+  anchorId: brief
+  eyebrow: The brief
+  heading: One module, three jobs
+  body: '<p>The company distributes electricity and gas and runs the field work for both networks. It chose MaptIQ to build the mapping engine of its work management system: the geospatial module.</p><ul><li><strong>Map and query:</strong> visualise work items on a map and query them by place, status, type, priority and time</li><li><strong>Routing:</strong> compute real travel routes and times on the road network</li><li><strong>Optimisation:</strong> assign and sequence work for the workforce</li></ul><p>The module has to handle thousands of work items every day, for dispatchers, planners and crews who work from one shared picture of the network and its jobs.</p>'
+  image: /images/case-utility-crews.jpg
+  imageAlt: Two bucket trucks with crews working on an overhead power line
+- type: cards
+  background: light
+  anchorId: solution
+  eyebrow: The solution
+  heading: Built on open source geospatial technology
+  items:
+  - tag: PostgreSQL + PostGIS
+    title: One spatial source of truth
+    text: Work items, assets and the road network live in one spatial database. Spatial indexes make questions like "what is open, urgent and near here" interactive.
+    link: /technology#database
+  - tag: Vector tiles
+    title: A live map that stays light
+    text: The map is served as vector tiles generated from PostGIS. Thousands of points draw smoothly, styling by status and priority happens in the browser, and changes reach the map shortly after they happen.
+    link: /technology#services
+  - tag: MapLibre GL JS
+    title: The dispatcher's map
+    text: A fast WebGL map with clustering in the overview, detail at street level, filters by status, type, crew and date, and selection tools for asking questions about an area.
+    link: /technology#frontend
+  - tag: pgRouting
+    title: Routing on the real network
+    text: Travel routes and times are computed on the road network inside the database, next to the data. Travel-time matrices between crews and work locations feed the optimisation.
+    link: /technology#database
+  - tag: Optimisation
+    title: Assign and sequence the work
+    text: From the open work, the crews and the travel times, the module proposes assignments and the order of visits, shown on the same map, and recomputes when the day's work changes.
+- type: split
+  background: white
+  anchorId: flow
+  eyebrow: How it fits together
+  heading: From work item to route
+  body: <ol><li>A work item arrives from the work management system with its place and attributes, and is tied to the network.</li><li>It appears on the map as part of the live picture, clustered when zoomed out and detailed up close.</li><li>A dispatcher filters and queries by area, status, priority, skill or time.</li><li>Routing computes real travel times between the crews and the work.</li><li>Optimisation proposes who does what, and in which order, and the routes are drawn on the map.</li><li>When the day changes, the plan is recomputed.</li></ol>
+  image: /images/wms-map-routing-en.svg
+  imageAlt: Schematic map with work items, clusters, two crews and their optimised routes along the roads
+- type: cards
+  background: light
+  anchorId: principles
+  eyebrow: Design principles
+  heading: How we keep it fast and dependable
+  items:
+  - title: Heavy work stays in the database
+    text: Spatial filtering, routing and aggregation run next to the data, so only results travel to the browser.
+  - title: Draw only what is needed
+    text: Vector tiles and zoom-dependent detail mean the browser never has to load every work item at once.
+  - title: One module for two networks
+    text: Electricity and gas share the engine, with utility-specific styling, rules and priorities on top.
+  - title: Built for the working day
+    text: 'Dispatchers depend on the map all day. We apply the practices from our <a href="/high-availability">high availability</a> work: replicated data, monitoring and tested recovery.'
+- type: split
+  background: white
+  anchorId: value
+  eyebrow: What the company gets
+  heading: One live picture of the work
+  body: <ul><li><strong>One shared view:</strong> dispatchers, planners and crews work from the same live map of the work</li><li><strong>Fast answers:</strong> spatial questions that used to need exports and spreadsheets are answered on the map</li><li><strong>Planning on real travel:</strong> routes and plans based on travel time on the road network instead of straight-line guesses</li><li><strong>Less manual planning:</strong> planners spend their time on decisions, not on building routes by hand</li><li><strong>Independence:</strong> an open source foundation with no per-user or per-core licence fees, and full control of code and data</li></ul>
+- type: split
+  background: dark
+  anchorId: beyond
+  eyebrow: Beyond this utility
+  heading: The same challenges, in every field workforce
+  body: '<p>Water and district heating networks, telecom operators, street lighting, road maintenance and municipal services all plan work that is tied to places. The building blocks are the same: a spatial database, vector tiles, routing and optimisation, and a map people can rely on. See our work for <a href="/sectors">infrastructure and government</a> and the <a href="/case-study-municipality">municipal web GIS case study</a>.</p>'
+- type: ctaBand
+  heading: Planning a map-based work management system?
+  body: Tell us about your workforce and your network. The first consultation is free.
+  buttons:
+  - *id001
+---

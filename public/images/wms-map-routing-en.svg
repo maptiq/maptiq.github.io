@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" font-family="Inter, Arial, sans-serif">
+  <title>Work items, crews and routes on a road network</title>
+  <rect width="720" height="520" rx="14" fill="#f3f4f6"/>
+  <clipPath id="m"><rect x="0" y="0" width="720" height="440" rx="14"/></clipPath>
+  <g clip-path="url(#m)">
+    <rect width="720" height="440" fill="#eceef0"/>
+    <g fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"><path d="M0 120 L720 150"/><path d="M0 250 L720 235"/><path d="M0 360 L720 380"/><path d="M110 0 L90 460"/><path d="M290 0 L310 460"/><path d="M500 0 L480 460"/><path d="M650 0 L670 460"/><path d="M0 40 L300 250 L560 440"/><path d="M720 60 L470 240 L330 460"/><path d="M180 0 L400 150 L720 330"/></g>
+    <g fill="none" stroke="#d3d6da" stroke-width="1.5"><path d="M0 120 L720 150"/><path d="M0 250 L720 235"/><path d="M0 360 L720 380"/><path d="M110 0 L90 460"/><path d="M290 0 L310 460"/><path d="M500 0 L480 460"/><path d="M650 0 L670 460"/><path d="M0 40 L300 250 L560 440"/><path d="M720 60 L470 240 L330 460"/><path d="M180 0 L400 150 L720 330"/></g>
+    <path d="M300 244 L296 132 L494 141 L490 240" fill="none" stroke="#25272b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M300 244 L296 132 L494 141 L490 240" fill="none" stroke="#f5c400" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M484 374 L666 379 L660 236 L656 147" fill="none" stroke="#25272b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M484 374 L666 379 L660 236 L656 147" fill="none" stroke="#f5c400" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="70" cy="70" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="150" cy="200" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="210" cy="300" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="130" cy="400" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="380" cy="420" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="60" cy="300" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="395" cy="205" r="6.5" fill="#d64545" stroke="#fff" stroke-width="1.5"/><circle cx="585" cy="300" r="6.5" fill="#d64545" stroke="#fff" stroke-width="1.5"/><circle cx="180" cy="370" r="6.5" fill="#d64545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="296" cy="132" r="11" fill="#25272b"/><text x="296" y="136.5" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">1</text><circle cx="494" cy="141" r="11" fill="#25272b"/><text x="494" y="145.5" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">2</text><circle cx="490" cy="240" r="11" fill="#25272b"/><text x="490" y="244.5" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">3</text><circle cx="666" cy="379" r="11" fill="#25272b"/><text x="666" y="383.5" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">1</text><circle cx="660" cy="236" r="11" fill="#25272b"/><text x="660" y="240.5" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">2</text><circle cx="656" cy="147" r="11" fill="#25272b"/><text x="656" y="151.5" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">3</text><circle cx="395" cy="95" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="380" cy="330" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="560" cy="60" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><circle cx="560" cy="300" r="5.5" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><g><circle cx="110" cy="150" r="22" fill="#25272b" opacity=".88"/><text x="110" y="156" fill="#f5c400" font-size="15" font-weight="700" text-anchor="middle">24</text></g>
+    <g><circle cx="190" cy="250" r="26" fill="#25272b" opacity=".88"/><text x="190" y="256" fill="#f5c400" font-size="16" font-weight="700" text-anchor="middle">58</text></g>
+    <g><circle cx="640" cy="90" r="20" fill="#25272b" opacity=".88"/><text x="640" y="96" fill="#f5c400" font-size="14" font-weight="700" text-anchor="middle">17</text></g>
+    <g><rect x="284" y="232" width="32" height="24" rx="5" fill="#fff" stroke="#25272b" stroke-width="2"/><text x="300" y="249" font-size="12" font-weight="700" text-anchor="middle" fill="#25272b">A</text></g>
+    <g><rect x="468" y="362" width="32" height="24" rx="5" fill="#fff" stroke="#25272b" stroke-width="2"/><text x="484" y="379" font-size="12" font-weight="700" text-anchor="middle" fill="#25272b">B</text></g>
+  </g>
+  <g font-size="13" font-weight="600" fill="#25272b">
+    <circle cx="30" cy="465" r="6" fill="#f5c400" stroke="#25272b" stroke-width="1.5"/><text x="44" y="470">Open work item</text>
+    <circle cx="250" cy="465" r="7" fill="#d64545" stroke="#fff" stroke-width="1.5"/><text x="264" y="470">Urgent</text>
+    <circle cx="400" cy="465" r="9" fill="#25272b"/><text x="415" y="470">Cluster (zoomed out)</text>
+    <path d="M24 492 L59 492" stroke="#25272b" stroke-width="9" stroke-linecap="round"/><path d="M24 492 L59 492" stroke="#f5c400" stroke-width="5" stroke-linecap="round"/><text x="70" y="497">Optimised route</text>
+  </g>
+</svg>

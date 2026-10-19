@@ -1,0 +1,122 @@
+---
+title: 'Esettanulmány: egy közműszolgáltató munkairányítási rendszerének térképi motorja'
+slug: case-study-utility-work-management
+pageType: structured
+seoTitle: 'Esettanulmány: térinformatikai modul közműszolgáltató munkairányítási rendszeréhez'
+seoDescription: 'Hogyan építettük meg egy villamosenergia- és gázelosztó társaság munkairányítási rendszerének térinformatikai moduljét: munkaelemek élő térképe, útvonaltervezés és munkaerő-optimalizálás PostGIS, pgRouting, vektoros csempék és MapLibre alapon.'
+sections:
+- type: hero
+  eyebrow: Esettanulmány · Energia és közművek
+  heading: Egy közműszolgáltató munkairányítási rendszerének térképi motorja
+  subheading: 'Egy villamosenergia- és gázelosztó társaság a MaptIQ-ot választotta munkairányítási rendszere térinformatikai moduljának megépítésére: a munka élő térképére, valamint a munkaerő útvonaltervezésére és optimalizálására, napi több ezer munkaelem mellett.'
+  image: /images/case-utility-pylons.jpg
+  buttons:
+  - &id001
+    label: Beszéljünk
+    link: /contact
+- type: split
+  background: white
+  anchorId: challenges-intro
+  eyebrow: A kiindulópont
+  heading: A munkairányítási rendszer térinformatikai probléma
+  body: '<p>A munkairányítási rendszer (WMS) a terepi munkát tervezi, osztja ki és követi. Egy elosztó közműszolgáltatónál szinte minden munka a hálózat egy helyéhez kötődik: egy oszlophoz, kábelhez, gázvezetékhez, szelephez, mérőhöz vagy címhez.</p><p>Ezért a térkép a diszpécserek és tervezők fő eszköze a munkaterhelés megértéséhez, a térinformatika pedig a rendszer alapvető motorja, nem dísz. Hat kihívás dönti el, hogy ez a motor működik-e.</p>'
+  image: /images/case-utility-gas.jpg
+  imageAlt: Gázelosztó csőidom sárga polietilén csövön
+- type: cards
+  background: light
+  anchorId: challenges
+  eyebrow: A térinformatikai kihívások
+  heading: A munkairányítási rendszer hat kihívása
+  items:
+  - tag: '1'
+    title: Több ezer elem, egész nap változik
+    text: A munkaelemek folyamatosan keletkeznek, kiosztásra kerülnek, megkezdődnek és lezáródnak. Az a térkép, amely minden változásnál mindent újratölt, használhatatlan. A frissítésnek olcsónak kell lennie, és gyorsan láthatónak.
+  - tag: '2'
+    title: A munka eszközökhöz tartozik, nem csak címekhez
+    text: Egy munka oszlophoz, kábelhez, vezetékhez vagy mérőhöz tartozik, amelyet gyakran több rendszer más-más minőségben ír le. Minden elemnek megbízható helyre és a hálózathoz való kapcsolatra van szüksége.
+  - tag: '3'
+    title: Olvasható a régiótól az utcáig
+    text: Több ezer pontnak áttekinthetőnek kell maradnia az áttekintő nézetben és részletesnek utcaszinten, látható állapottal és prioritással, a böngésző megfojtása nélkül.
+  - tag: '4'
+    title: Térbeli kérdések, gyors válaszok
+    text: Mely sürgős gázas munkák nyitottak a brigád néhány kilométeres környezetében, mára esedékesek, és adott szakképesítést igényelnek? A térnek, az attribútumoknak és az időnek interaktív sebességgel kell összekapcsolódnia, sok felhasználónál egyszerre.
+  - tag: '5'
+    title: Menetidő, nem légvonal
+    text: A tényleges utazás egyirányú utcáktól, korlátozásoktól, megközelíthetőségtől és útkategóriától függ. Sok brigád és sok munkahely közötti menetidőkre újra és újra szükség van.
+  - tag: '6'
+    title: A legjobb terv, gyors újraszámolással
+    text: A munkák kiosztásának és sorrendjének figyelembe kell vennie a szakképesítést, a műszakokat és a prioritásokat, előre kell vennie a hibaelhárítást, és alkalmazkodnia kell, ha a nap változik. Másodpercekbe kerülhet, nem órákba.
+- type: split
+  background: white
+  imagePosition: left
+  anchorId: brief
+  eyebrow: A feladat
+  heading: Egy modul, három feladat
+  body: <p>A társaság villamos energiát és gázt oszt, és mindkét hálózaton a terepi munkát is végzi. A MaptIQ-ot választotta munkairányítási rendszere térképi motorjának, a térinformatikai modulnak a megépítésére.</p><ul><li><strong>Térkép és lekérdezés:</strong> a munkaelemek megjelenítése térképen, lekérdezése hely, állapot, típus, prioritás és idő szerint</li><li><strong>Útvonaltervezés:</strong> valós utazási útvonalak és menetidők számítása az úthálózaton</li><li><strong>Optimalizálás:</strong> a munka kiosztása és sorrendezése a munkaerő számára</li></ul><p>A modulnak naponta több ezer munkaelemet kell kezelnie, diszpécserek, tervezők és brigádok számára, akik a hálózat és a munkák közös képéből dolgoznak.</p>
+  image: /images/case-utility-crews.jpg
+  imageAlt: Két kosaras autó brigáddal, légvezetéken dolgozva
+- type: cards
+  background: light
+  anchorId: solution
+  eyebrow: A megoldás
+  heading: Nyílt forráskódú térinformatikai technológiára építve
+  items:
+  - tag: PostgreSQL + PostGIS
+    title: Egyetlen térbeli igazságforrás
+    text: A munkaelemek, az eszközök és az úthálózat egy térbeli adatbázisban vannak. A térbeli indexek interaktívvá teszik az olyan kérdéseket, mint „mi nyitott, sürgős és közel van”.
+    link: /technology#database
+  - tag: Vektoros csempék
+    title: Élő térkép, amely könnyű marad
+    text: A térkép a PostGIS-ből generált vektoros csempékként érkezik. Több ezer pont simán rajzolódik, az állapot és prioritás szerinti stílus a böngészőben történik, a változások röviddel azután megjelennek a térképen, hogy megtörténtek.
+    link: /technology#services
+  - tag: MapLibre GL JS
+    title: A diszpécser térképe
+    text: Gyors WebGL térkép csoportosítással áttekintő nézetben, részletekkel utcaszinten, állapot, típus, brigád és dátum szerinti szűrőkkel, és kijelölő eszközökkel egy terület lekérdezéséhez.
+    link: /technology#frontend
+  - tag: pgRouting
+    title: Útvonaltervezés a valós hálózaton
+    text: Az útvonalak és menetidők az úthálózaton, az adatbázison belül, az adatok mellett számolódnak. A brigádok és munkahelyek közötti menetidő-mátrixok táplálják az optimalizálást.
+    link: /technology#database
+  - tag: Optimalizálás
+    title: A munka kiosztása és sorrendezése
+    text: A nyitott munkából, a brigádokból és a menetidőkből a modul kiosztást és látogatási sorrendet javasol, ugyanazon a térképen megjelenítve, és újraszámol, ha a nap munkája változik.
+- type: split
+  background: white
+  anchorId: flow
+  eyebrow: Hogyan áll össze
+  heading: A munkaelemtől az útvonalig
+  body: <ol><li>A munkaelem a munkairányítási rendszerből érkezik a helyével és attribútumaival, és a hálózathoz kötődik.</li><li>Megjelenik a térképen az élő kép részeként, kicsinyítve csoportosítva, közelről részletesen.</li><li>A diszpécser terület, állapot, prioritás, szakképesítés vagy idő szerint szűr és lekérdez.</li><li>Az útvonaltervezés valós menetidőket számol a brigádok és a munka között.</li><li>Az optimalizálás javasolja, ki mit csináljon és milyen sorrendben, az útvonalak a térképen jelennek meg.</li><li>Ha a nap megváltozik, a terv újraszámolódik.</li></ol>
+  image: /images/wms-map-routing-hu.svg
+  imageAlt: Sematikus térkép munkaelemekkel, csoportokkal, két brigáddal és azok optimalizált, utakat követő útvonalaival
+- type: cards
+  background: light
+  anchorId: principles
+  eyebrow: Tervezési elvek
+  heading: Hogyan tartjuk gyorsan és megbízhatóan
+  items:
+  - title: A nehéz munka az adatbázisban marad
+    text: A térbeli szűrés, az útvonaltervezés és az aggregálás az adatok mellett fut, így csak az eredmény jut el a böngészőig.
+  - title: Csak azt rajzoljuk, ami kell
+    text: A vektoros csempék és a nagyítástól függő részletesség miatt a böngészőnek sosem kell egyszerre minden munkaelemet betöltenie.
+  - title: Egy modul két hálózatra
+    text: A villamos energia és a gáz ugyanazt a motort használja, a közműspecifikus stílusokkal, szabályokkal és prioritásokkal.
+  - title: A munkanapra építve
+    text: 'A diszpécserek egész nap a térképre támaszkodnak. A <a href="/high-availability">magas rendelkezésre állású</a> munkáink gyakorlatát alkalmazzuk: replikált adat, monitorozás és tesztelt helyreállítás.'
+- type: split
+  background: white
+  anchorId: value
+  eyebrow: Mit kap a társaság
+  heading: Egy élő kép a munkáról
+  body: <ul><li><strong>Közös nézet:</strong> a diszpécserek, tervezők és brigádok ugyanazon a munka élő térképén dolgoznak</li><li><strong>Gyors válaszok:</strong> a térbeli kérdésekre, amelyekhez korábban exportok és táblázatok kellettek, a térképen kapnak választ</li><li><strong>Valós utazásra tervezés:</strong> útvonalak és tervek az úthálózati menetidő alapján, légvonali becslések helyett</li><li><strong>Kevesebb kézi tervezés:</strong> a tervezők döntésekkel foglalkoznak, nem útvonalak kézi összeállításával</li><li><strong>Függetlenség:</strong> nyílt forráskódú alap felhasználónkénti vagy magonkénti licencdíj nélkül, a kód és az adat feletti teljes kontrollal</li></ul>
+- type: split
+  background: dark
+  anchorId: beyond
+  eyebrow: Ezen a közművön túl
+  heading: Ugyanezek a kihívások minden terepi munkaerőnél
+  body: '<p>A víz- és távhőhálózatok, a távközlési szolgáltatók, a közvilágítás, az útfenntartás és az önkormányzati szolgáltatások mind helyekhez kötött munkát terveznek. Az építőelemek ugyanazok: térbeli adatbázis, vektoros csempék, útvonaltervezés és optimalizálás, és egy térkép, amelyre számítani lehet. Lásd az <a href="/sectors">infrastruktúra és államigazgatás</a> területén végzett munkánkat és az <a href="/case-study-municipality">önkormányzati webes térinformatikai esettanulmányt</a>.</p>'
+- type: ctaBand
+  heading: Térképalapú munkairányítási rendszert tervez?
+  body: Meséljen a munkaerejéről és a hálózatáról. Az első konzultáció ingyenes.
+  buttons:
+  - *id001
+---

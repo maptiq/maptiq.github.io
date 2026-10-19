@@ -35,3 +35,24 @@ links:
       hu: LinkedIn
       de: LinkedIn
     link: https://linkedin.com/company/maptiq
+imageCredits:
+  title:
+    en: Image credits
+    hu: Képek forrása
+    de: Bildnachweise
+  items:
+    - title: Anchor pylon of high-voltage overhead power line 750 kV
+      author: Novoklimov
+      link: https://commons.wikimedia.org/wiki/File:Anchor_pylon_of_high-voltage_overhead_power_line_750_kV.jpg
+      license: CC0
+      licenseLink: http://creativecommons.org/publicdomain/zero/1.0/deed.en
+    - title: NAVFAC Hawaii - Lights, Camera, Action (21170834364)
+      author: NAVFAC
+      link: https://commons.wikimedia.org/wiki/File:NAVFAC_Hawaii_-_Lights,_Camera,_Action_(21170834364).jpg
+      license: Public domain
+      licenseLink: https://commons.wikimedia.org/wiki/Commons:Licensing
+    - title: Tapping tee on PE pipe, saddle mount, clamped and elektrofusion welded
+      author: PalmölCroissant299
+      link: https://commons.wikimedia.org/wiki/File:Tapping_tee_on_PE_pipe,_saddle_mount,_clamped_and_elektrofusion_welded.jpg
+      license: CC0
+      licenseLink: http://creativecommons.org/publicdomain/zero/1.0/deed.en
