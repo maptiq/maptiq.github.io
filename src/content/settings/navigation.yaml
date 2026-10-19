@@ -7,7 +7,7 @@ menu:
     children:
       - label:
           en: GIS development
-          hu: GIS fejlesztés
+          hu: Térinformatikai fejlesztés
           de: GIS-Entwicklung
         link: /gis-development
       - label:
@@ -40,6 +40,22 @@ menu:
       hu: Infrastruktúra és államigazgatás
       de: Infrastruktur und Verwaltung
     link: /sectors
+    children:
+      - label:
+          en: Overview
+          hu: Áttekintés
+          de: Überblick
+        link: /sectors
+      - label:
+          en: Case study, municipality
+          hu: Esettanulmány, önkormányzat
+          de: Fallstudie, Kommune
+        link: /case-study-municipality
+      - label:
+          en: Our heritage, SURVIOT
+          hu: Előzményeink, SURVIOT
+          de: Unsere Wurzeln, SURVIOT
+        link: /sectors#surviot
   - label:
       en: Blog
       hu: Blog

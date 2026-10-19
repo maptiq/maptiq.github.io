@@ -1,13 +1,13 @@
 ---
-title: Nyílt forráskódú GIS olyan rendszerekhez, amelyek nem állhatnak le
+title: Nyílt forráskódú térinformatika olyan rendszerekhez, amelyek nem állhatnak le
 slug: ''
 pageType: structured
-seoTitle: 'MaptIQ: FOSS4G GIS fejlesztés és magas rendelkezésre állású rendszerek'
+seoTitle: 'MaptIQ: FOSS4G térinformatikai fejlesztés és magas rendelkezésre állású rendszerek'
 seoDescription: A MaptIQ térinformatikai fejlesztő és szolgáltató nyílt forráskódú (FOSS4G) szoftverekkel, magas rendelkezésre állású, kritikus rendszerekre specializálódva az infrastruktúra és az államigazgatás területén.
 sections:
 - type: hero
-  eyebrow: GIS fejlesztő · FOSS4G szakértő
-  heading: Nyílt forráskódú GIS olyan rendszerekhez, amelyek nem állhatnak le
+  eyebrow: Térinformatikai fejlesztő · FOSS4G szakértő
+  heading: Nyílt forráskódú térinformatika olyan rendszerekhez, amelyek nem állhatnak le
   subheading: Térinformatikai rendszereket tervezünk, fejlesztünk és üzemeltetünk PostgreSQL/PostGIS, GeoServer, QGIS, OpenLayers és MapLibre alapon, magas rendelkezésre állásra méretezve az infrastruktúra és az államigazgatás számára.
   image: /images/hero-layers.svg
   buttons:
@@ -19,7 +19,7 @@ sections:
   background: white
   anchorId: about-us
   eyebrow: Kik vagyunk
-  heading: GIS mérnökök, akik nyílt forráskóddal dolgoznak
+  heading: Térinformatikai mérnökök, akik nyílt forráskóddal dolgoznak
   body: '<p>A MaptIQ Consulting egy 2019-ben alapított magyar térinformatikai cég. Alapítóink évtizedes tapasztalattal rendelkeznek térinformatikai nyilvántartó- és elemzőrendszerek, kartográfia, távérzékelés és adattárházak területén.</p><p>A nyílt forráskódú térinformatikai szoftvereket (FOSS4G) használjuk, mert ügyfeleinknek teljes kontrollt ad: nincs licenckorlát, nincs gyártófüggés, a kód pedig auditálható és évtizedekig karbantartható.</p>'
   buttons:
   - label: A csapatunk
@@ -30,17 +30,17 @@ sections:
   eyebrow: Mit foglalkozunk
   heading: Az adatfolyamtól a térképig, egy felelős csapat
   items:
-  - title: Magas rendelkezésre állású GIS
+  - title: Magas rendelkezésre állású térinformatikai rendszer
     text: Replikált PostGIS, redundáns térképszolgáltatások, automatikus átkapcsolás, tesztelt mentések és monitorozás. Arra a napra tervezve, amikor valami elromlik.
     link: /high-availability
   - title: MI-támogatott ETL
     text: Rendezetlen örökölt adatok tiszta térbeli adatbázisba, gyorsabban. Az MI leképezéseket és ellenőrzéseket javasol, a mérnök jóváhagyja, a folyamat reprodukálható marad.
     link: /ai-etl
-  - title: GIS fejlesztés
+  - title: Térinformatikai fejlesztés
     text: Térbeli adatbázisok, backend és mérnöki modulok, webes térképes felületek, moduláris és skálázható rendszerekként.
     link: /gis-development
   - title: Átállás nyílt forráskódra
-    text: Átállás szabadalmazott GIS-ről FOSS4G-re kontrollált lépésekben, vagy hibrid működés a kettő mellett.
+    text: Átállás szabadalmazott térinformatikai rendszerről FOSS4G-re kontrollált lépésekben, vagy hibrid működés a kettő mellett.
     link: /foss4g-migration
   - title: Támogatás és üzemeltetés
     text: 'Az élesítés után is mellettünk marad: monitorozás, frissítések, biztonsági javítások és egy mérnök, aki ismeri a rendszerét.'
@@ -49,15 +49,24 @@ sections:
   background: dark
   anchorId: mission-critical
   eyebrow: Szakterületünk
-  heading: Kritikus GIS az infrastruktúra és az államigazgatás számára
+  heading: Kritikus térinformatika az infrastruktúra és az államigazgatás számára
   body: <p>Amikor egy hálózati nyilvántartás, egy útkezelő rendszer vagy egy veszélyhelyzeti térkép leáll, azt az emberek észreveszik. Olyan szervezeteknek építünk térinformatikai platformot, amelyek ezt nem engedhetik meg maguknak.</p><ul><li>Nincs egyedi hibapont, a terheléselosztótól az adatbázisig</li><li>Automatikus átkapcsolás és tesztelt katasztrófa-helyreállítás</li><li>Monitorozás, riasztás és üzemeltetési kézikönyv az első naptól</li><li>Nyílt szabványok (OGC, INSPIRE) és nyílt licencek, így soha nem záródik be</li></ul>
   image: /images/ha-architecture.svg
-  imageAlt: Magas rendelkezésre állású GIS referenciaarchitektúrája
+  imageAlt: Magas rendelkezésre állású térinformatikai rendszer referenciaarchitektúrája
   buttons:
   - label: A magas rendelkezésre állásról részletesen
     link: /high-availability
   - label: Infrastruktúra és államigazgatás
     link: /sectors
+- type: split
+  background: white
+  anchorId: case-study
+  eyebrow: Esettanulmány
+  heading: Helyi üzemeltetésű webes térinformatikai rendszer egy önkormányzatnak
+  body: <p>Egy városi önkormányzatnak új, nyílt forráskódú webes térinformatikai rendszerre volt szüksége, teljes egészében saját infrastruktúrán, több száz réteggel, auditnaplóval és rendszerbiztonsági tervvel. Nézze meg, hogyan méreteztük az architektúrát, és mi változik nagyobb városoknál.</p>
+  buttons:
+  - label: Az esettanulmány
+    link: /case-study-municipality
 - type: cards
   background: white
   anchorId: technology
@@ -104,12 +113,23 @@ sections:
     text: Az alapítók maguk tervezik és ellenőrzik a rendszereket. Nincs átadás egy junior csapatnak.
   - title: Agilis és automatizált
     text: Moduláris rendszerek, agilis szállítás és automatizált DevOps az első commit-tól.
+- type: split
+  background: dark
+  anchorId: surviot
+  eyebrow: Élesben bizonyítva
+  heading: Mi építettük a SURVIOT-ot, ezért tudjuk, mit jelent az állandó működés
+  body: <p>A MaptIQ alapítói hozták létre a SURVIOT-ot, amely alagutak, hidak és épületek szerkezeti monitorozására szolgáló platform. 2020-tól fejlesztettük a soproni M85 autópálya-alagút építésén, és amikor 2022-ben megalakult a SURVIOT Monitoring Kft., a szellemi tulajdont átruháztuk az új cégre, amely azóta fejleszti és értékesíti.</p><p>A SURVIOT éjjel-nappal gyűjt szenzoradatokat, és webes alkalmazásban szolgálja ki őket sok felhasználónak, valós idejű riasztásokkal. Egy olyan adatplatform üzemeltetésének tapasztalatát visszük az Ön térinformatikai rendszerébe, amelyre mérnökök éjjel-nappal támaszkodnak.</p>
+  buttons:
+  - label: A surviot.com megtekintése
+    link: https://surviot.com
+  - label: Előzményeink
+    link: /sectors#surviot
 - type: latestPosts
   background: light
   heading: A blogról
   count: 3
 - type: ctaBand
-  heading: Olyan GIS-t tervez, aminek mindig működnie kell?
+  heading: Olyan térinformatikai rendszert tervez, aminek mindig működnie kell?
   body: Meséljen a rendszeréről. Az első konzultáció ingyenes.
   buttons:
   - label: Írjon nekünk

@@ -1,0 +1,107 @@
+---
+title: 'Esettanulmány: webes térinformatikai rendszer egy önkormányzat számára'
+slug: case-study-municipality
+pageType: structured
+seoTitle: 'Esettanulmány: helyi üzemeltetésű, nyílt forráskódú webes térinformatikai rendszer egy önkormányzatnak'
+seoDescription: 'Hogyan terveztünk helyi üzemeltetésű, nyílt forráskódú webes térinformatikai rendszert egy önkormányzat számára: követelmények, architektúra, az igényekhez méretezett rendelkezésre állás, biztonság és támogatás, és mi változik nagyobb városoknál.'
+sections:
+- type: hero
+  eyebrow: Esettanulmány · Államigazgatás
+  heading: Helyi üzemeltetésű webes térinformatikai rendszer egy önkormányzatnak
+  subheading: 'Hogyan kért egy városi önkormányzat új, nyílt forráskódú webes térinformatikai rendszer klienst, teljes egészében a saját infrastruktúráján, és hogyan alakítottuk ki a választ: az igényekhez méretezve, biztonságosan és gyártófüggetlenül.'
+  buttons:
+  - label: Beszéljünk
+    link: /contact
+- type: split
+  background: white
+  eyebrow: Dióhéjban
+  heading: Az Önkormányzat és a térinformatikai rendszere
+  body: <p>Az Önkormányzat a térbeli adatait QGIS Serveren és PostGIS-en kezeli, a munkatársak naponta használt webes klienssel nézik, kérdezik le és szerkesztik. Egy új országos településtervezési adatszolgáltatási szabályzat előírja a szolgáltatandó adatmodellt, így a meglévő klienst ki kell váltani és tovább kell fejleszteni.</p><p><strong>Állapot:</strong> indikatív ajánlat, 2026 októberében átadva. A hatókört és a költséget felbecsültük, szerződés még nem született.</p>
+  stats:
+  - value: 300
+    label: névre szóló felhasználó, 500-ra méretezve
+  - value: 190
+    label: az országos adatmodell által előírt objektumtípus
+  - value: 72
+    suffix: ' h'
+    label: elfogadott helyreállítási időcél (RTO)
+  - value: 0
+    label: licencdíj a teljes technológiai veremre
+- type: cards
+  background: light
+  eyebrow: Követelmények
+  heading: Mit kért az Önkormányzat
+  items:
+  - title: Minden a saját telephelyen
+    text: 'Egyetlen rétegben sem felhőszolgáltatás: sem futtatásra, sem mentésre, sem monitorozásra. Az adatszuverenitás nem alku tárgya.'
+  - title: Több száz réteg, gyorsan
+    text: Több száz rétegű, gazdag szimbológiájú projektek, amelyeknek másodperceken belül kell válaszolniuk.
+  - title: Szerkesztés szabályokkal
+    text: Szerepkör alapú szerkesztés az előírt adatmodell szerint, alkalmazás- és adatbázis-szintű auditnaplóval.
+  - title: Konténer platform
+    text: Külön futtatható és skálázható komponensek Kubernetes alapú platformon, Gitből telepítve.
+  - title: Biztonság és folytonosság
+    text: Független penetrációs teszt, dokumentált mentés és katasztrófa-helyreállítás, rendszerbiztonsági terv az országos információbiztonsági osztályhoz.
+  - title: Felelős támogatás
+    text: Reakció- és javítási időkkel meghatározott szolgáltatási szintek, rugalmas időtartam és tudásátadás, hogy a város maga is üzemeltethesse.
+- type: cards
+  background: white
+  eyebrow: A válaszunk
+  heading: Hat döntés, amely az ajánlatot alakította
+  items:
+  - tag: '1'
+    title: Bevált nyílt forráskódra építeni
+    text: A QGIS Server, a PostGIS és egy érett nyílt webes kliens szinte minden kért funkciót alapból lefed. Testreszabunk, nem újrafeltalálunk, és a teljes forráskódot továbbfejlesztési joggal átadjuk, így az Önkormányzat bármikor szállítót válthat.
+    link: /foss4g-migration
+  - tag: '2'
+    title: Őszinte a nyitottságról
+    text: Minden komponenst és licencet felsoroltunk. Ahol egy komponens licence korlátozó vagy a jövője bizonytalan, teljesen nyílt alternatívát javasoltunk. Az eredmény licencdíj- és kötelező előfizetés-mentes technológiai verem.
+  - tag: '3'
+    title: Az igényekhez méretezett rendelkezésre állás
+    text: 'A rendszert a munkatársak munkaidőben használják, az Önkormányzat 72 órás helyreállítási célt tűzött ki. Egy architektúrát kínáltunk két méretben: egy minimális, egycsomópontos kialakítást, amely külső helyszíni napi mentéssel teljesíti a célt, és egy háromcsomópontos, automatikus átkapcsolású kialakítást arra az időre, amikor az igények nőnek. Lásd: <a href="/high-availability">magas rendelkezésre állás</a>.'
+  - tag: '4'
+    title: A funkciók teljesek, a részek egyszerűbbek
+    text: A platformnak biztosítania kell a titokkezelést, a telemetriát, a GitOps telepítést és a skálázást, de nem feltétlenül mindegyikhez a legnehezebb termékkel. Árazást adtunk a teljes készletre és egy egyszerűsített változatra, amely minden funkciót megtart, kevesebb üzemeltetendő komponenssel.
+  - tag: '5'
+    title: Az adatminőség a szerkesztésbe építve
+    text: Az űrlapok, a kötelező mezők és az ellenőrzések az előírt adatmodellt követik, a szerkesztések alkalmazás- és adatbázis-szinten nyomon követhetők. A meglévő projekteket, stílusokat és adatokat ebbe a modellbe visszük át, ahol ez munkát spórol, az <a href="/ai-etl">MI-támogatott ETL</a> segítségével.
+  - tag: '6'
+    title: Közpénzhez illő támogatás
+    text: 'Éves munkaidős támogatási csomag, a város által fel- vagy lefelé skálázható fejlesztési órakeret, opcionális éjjel-nappali készenlét kritikus hibákra, szerződéshossz szerinti kedvezmény és záró tudásátadás. Lásd: <a href="/support">támogatás és üzemeltetés</a>.'
+- type: split
+  background: light
+  eyebrow: Ahol tanácsot adtunk
+  heading: Először a munkafolyamatok, arányos infrastruktúra
+  body: <p>Két dolgot jeleztünk még az ajánlat előtt, mert ezek döntik el a projekt értékét:</p><ul><li><strong>Munkafolyamat-központú tervezés.</strong> Egy általános eszköztárban mindenki mindent megtehet. A város valódi feladatai köré épített kliens, például településrendezési beadványok vagy útnyilvántartás, kevesebb lépést, kevesebb adathibát, egyszerűbb szerepköröket és mérhető átvételt jelent. Az Önkormányzat először általános klienst választott, a munkafolyamatokat későbbi ütemre hagyta. Az architektúra nyitva hagyja ezt az utat.</li><li><strong>Arányos infrastruktúra.</strong> Egy teljes, éjjel-nappali magas rendelkezésre állású kialakítás az alkalmazás költségének többszörösébe kerülhet. Azt javasoltuk, hogy a védelmi szintet a rendszer kritikussága és biztonsági osztálya alapján határozzák meg, ne eleve a legmagasabb szintre tervezzenek.</li></ul>
+- type: cards
+  background: white
+  eyebrow: Megvalósítás
+  heading: Öt-hat hónap a szerződéstől az élesedésig
+  items:
+  - tag: '1'
+    title: Felmérés és PoC
+    text: Reprezentatív projekt- és réteg-minta elemzése, és a több száz réteg teljesítményének korai igazolása.
+  - tag: '2'
+    title: Platform és automatizálás
+    text: A konténer platform és a Git alapú telepítés felállítása a felméréssel párhuzamosan.
+  - tag: '3'
+    title: Fejlesztés és migráció
+    text: Három sprintnyi testreszabás és tesztelés, majd a projektek, stílusok, űrlapok és felhasználók migrációja.
+  - tag: '4'
+    title: Igazolás és átadás
+    text: Felhasználói elfogadás, terheléspróba, független penetrációs teszt, oktatás, élesítés és egy év garancia.
+- type: split
+  background: dark
+  eyebrow: Nagyobb városok
+  heading: Ugyanez a megközelítés, nagyobb léptékben
+  body: <p>Egy megyei jogú városnak vagy egy fővárosi kerületnek ugyanazok az építőelemei vannak, csak több. Ami változik:</p><ul><li><strong>Több felhasználó és osztály:</strong> több ezer fiók a településtervezésben, az útügyben, a közművekben, a környezetvédelemben és a nyilvántartásban, mindegyik saját szerepkörökkel</li><li><strong>Nyilvános és éjjel-nappali szolgáltatások:</strong> nyílt adatportálok, lakossági térképek és veszélyhelyzeti térképek a teljes magas rendelkezésre állású kialakítást igénylik, nem a minimálisat</li><li><strong>Integrációk:</strong> iratkezelő, engedélyezési és ügyfélszolgálati rendszerek szabványos szolgáltatásokon át</li><li><strong>Munkafolyamatok:</strong> a város fő folyamataira specializált alkalmazások ugyanazon a platformon</li><li><strong>Közös adatinfrastruktúra:</strong> metaadat-katalógus és szabványos szolgáltatások, hogy a hivatalok és a szomszédos települések együtt tudjanak működni</li></ul><p>Mivel a technológiai verem nyílt forráskódú, a nagyobb város mérnöki munkáért fizet, nem újabb felhasználói helyekért.</p>
+  buttons:
+  - label: Infrastruktúra és államigazgatás
+    link: /sectors
+- type: ctaBand
+  heading: Webes térinformatikai rendszert tervez a városának?
+  body: Átnézzük a követelményeit, és megmondjuk, mi kell, és mi nem. Az első konzultáció ingyenes.
+  buttons:
+  - label: Beszéljünk
+    link: /contact
+---

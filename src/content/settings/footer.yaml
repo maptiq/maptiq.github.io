@@ -4,7 +4,7 @@ companyName:
   de: MaptIQ Consulting Kft.
 tagline:
   en: Open source GIS, engineered for systems that must not go down.
-  hu: Nyílt forráskódú GIS olyan rendszerekhez, amelyek nem állhatnak le.
+  hu: Nyílt forráskódú térinformatika olyan rendszerekhez, amelyek nem állhatnak le.
   de: Open-Source-GIS für Systeme, die nicht ausfallen dürfen.
 email: info@maptiq.eu
 phone: +36 30 960 5853
@@ -25,6 +25,11 @@ links:
       hu: Jogi közlemény
       de: Impressum
     link: /legal
+  - label:
+      en: SURVIOT Monitoring
+      hu: SURVIOT Monitoring
+      de: SURVIOT Monitoring
+    link: https://surviot.com
   - label:
       en: LinkedIn
       hu: LinkedIn

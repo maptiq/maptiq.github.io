@@ -18,6 +18,8 @@ export function checkPage(relPath, html, ctx) {
   const urlPath = '/' + relPath.replace(/index\.html$/, '').replace(/\.html$/, '/');
   const locale = localeOf(relPath);
 
+  if (/&lt;\/?(a|p|ul|li|strong|br)\b/.test(html)) problems.push('escaped HTML shown as text (&lt;a ...)');
+
   const h1s = root.querySelectorAll('h1').length;
   if (h1s !== 1) problems.push(`${h1s} h1 elements`);
 

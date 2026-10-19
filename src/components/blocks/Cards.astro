@@ -1,5 +1,5 @@
 ---
-import { getLocaleFromUrl, localizeHref } from '../../i18n/utils';
+import { getLocaleFromUrl, localizeHref, localizeHtml } from '../../i18n/utils';
 import { gridColumns } from '../../lib/grid';
 import { hyphenate } from '../../lib/hyphenate';
 
@@ -22,6 +22,15 @@ interface Props {
 
 const { eyebrow, heading, intro, background = 'white', imageStyle = 'photo', items } = Astro.props;
 const locale = getLocaleFromUrl(Astro.url);
+
+// Card text may carry inline links. A card that is itself a link cannot nest another one,
+// so its text loses the tags and keeps the words.
+const cardText = (card: Card) => {
+  if (!card.text || !/<a\s/.test(card.text)) return { html: false, text: card.text };
+  return card.link
+    ? { html: false, text: card.text.replace(/<\/?a\b[^>]*>/g, '') }
+    : { html: true, text: localizeHtml(card.text, locale) };
+};
 ---
 
 <section class:list={['section', `bg-${background}`]}>
@@ -47,7 +56,7 @@ const locale = getLocaleFromUrl(Astro.url);
               <div class="card-body">
                 {card.tag && <span class="card-tag">{card.tag}</span>}
                 <h3>{hyphenate(card.title)}</h3>
-                {card.text && <p>{card.text}</p>}
+                {card.text && (cardText(card).html ? <p set:html={cardText(card).text} /> : <p>{cardText(card).text}</p>)}
                 {card.link && <span class="card-arrow" aria-hidden="true">→</span>}
               </div>
             </Tag>

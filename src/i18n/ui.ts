@@ -47,7 +47,7 @@ export const ui = {
     'nav.language': 'Nyelv',
     'blog.title': 'Blog',
     'blog.all': 'Összes cikk',
-    'blog.intro': 'Jegyzetek a terepről: nyílt forráskódú GIS, térbeli adatbázisok és kritikus térképes rendszerek üzemeltetése.',
+    'blog.intro': 'Jegyzetek a terepről: nyílt forráskódú térinformatika, térbeli adatbázisok és kritikus térképes rendszerek üzemeltetése.',
     'blog.readingTime': '{n} perc olvasás',
     'blog.contents': 'A cikk tartalma',
     'blog.ctaHeading': 'Kritikus térinformatikai rendszert tervez?',

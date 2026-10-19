@@ -1,0 +1,107 @@
+---
+title: 'Fallstudie: Web-GIS für eine Kommune'
+slug: case-study-municipality
+pageType: structured
+seoTitle: 'Fallstudie: On-Premise-Web-GIS auf Open-Source-Basis für eine Kommune'
+seoDescription: 'Wie wir ein On-Premise-Web-GIS auf Open-Source-Basis für eine Kommune geplant haben: Anforderungen, Architektur, bedarfsgerechte Verfügbarkeit, Sicherheit und Support, und was sich bei größeren Städten ändert.'
+sections:
+- type: hero
+  eyebrow: Fallstudie · Verwaltung
+  heading: Ein On-Premise-Web-GIS für eine Kommune
+  subheading: 'Wie eine Stadtverwaltung ein neues Web-GIS auf Open-Source-Basis ausschließlich auf eigener Infrastruktur angefragt hat und wie wir die Antwort gestaltet haben: bedarfsgerecht, sicher und herstellerunabhängig.'
+  buttons:
+  - label: Kontakt aufnehmen
+    link: /contact
+- type: split
+  background: white
+  eyebrow: Auf einen Blick
+  heading: Die Kommune und ihr GIS
+  body: <p>Die Kommune betreibt ihre Geodaten auf QGIS Server und PostGIS, mit einem Web-Client, den Mitarbeitende täglich zum Ansehen, Abfragen und Bearbeiten nutzen. Eine neue nationale Verordnung zur Siedlungsplanung schreibt das zu liefernde Datenmodell vor, sodass der bestehende Client abgelöst und weiterentwickelt werden muss.</p><p><strong>Stand:</strong> indikatives Angebot, übergeben im Oktober 2026. Umfang und Kosten wurden geschätzt, ein Auftrag wurde noch nicht erteilt.</p>
+  stats:
+  - value: 300
+    label: namentliche Nutzer, ausgelegt für 500
+  - value: 190
+    label: durch das nationale Datenmodell vorgeschriebene Objekttypen
+  - value: 72
+    suffix: ' h'
+    label: vereinbartes Wiederherstellungsziel (RTO)
+  - value: 0
+    label: Lizenzgebühren für den gesamten Stack
+- type: cards
+  background: light
+  eyebrow: Anforderungen
+  heading: Was die Kommune verlangt hat
+  items:
+  - title: Alles auf eigenem Gelände
+    text: 'Kein Cloud-Dienst in irgendeiner Schicht: nicht für den Betrieb, nicht für Backups, nicht fürs Monitoring. Datensouveränität ist nicht verhandelbar.'
+  - title: Hunderte Ebenen, schnell
+    text: Projekte mit mehreren hundert Ebenen und reicher Symbologie, die dennoch in Sekunden antworten müssen.
+  - title: Bearbeiten mit Regeln
+    text: Rollenbasiertes Bearbeiten gegen ein vorgeschriebenes Datenmodell, mit Audit-Trails auf Anwendungs- und Datenbankebene.
+  - title: Container-Plattform
+    text: Komponenten, die getrennt laufen und skalieren, auf einer Kubernetes-Plattform, ausgerollt über Git.
+  - title: Sicherheit und Kontinuität
+    text: Unabhängiger Penetrationstest, dokumentiertes Backup und Notfallwiederherstellung, ein Sicherheitskonzept für die nationale Informationssicherheitsklasse.
+  - title: Verantwortlicher Support
+    text: Service-Level mit Reaktions- und Behebungszeiten, flexible Laufzeit und Wissenstransfer, damit die Stadt es selbst betreiben kann.
+- type: cards
+  background: white
+  eyebrow: Unsere Antwort
+  heading: Sechs Entscheidungen, die das Angebot geprägt haben
+  items:
+  - tag: '1'
+    title: Auf bewährtem Open Source aufbauen
+    text: QGIS Server, PostGIS und ein ausgereifter offener Web-Client decken fast jede verlangte Funktion ab. Wir passen an, statt neu zu erfinden, und übergeben den vollständigen Quellcode mit Erweiterungsrecht, sodass die Kommune jederzeit den Lieferanten wechseln kann.
+    link: /foss4g-migration
+  - tag: '2'
+    title: Ehrlich bei der Offenheit
+    text: Jede Komponente und Lizenz wurde aufgelistet. Wo eine Komponente restriktiv lizenziert oder ihre Zukunft unsicher war, schlugen wir eine vollständig offene Alternative vor. Das Ergebnis ist ein Stack ohne Lizenzgebühren und ohne Pflicht-Abonnement.
+  - tag: '3'
+    title: Verfügbarkeit nach Bedarf
+    text: 'Das System bedient Mitarbeitende zu Bürozeiten, und die Kommune setzte ein Wiederherstellungsziel von 72 Stunden. Wir boten eine Architektur in zwei Größen an: ein minimales Ein-Knoten-Setup, das dieses Ziel mit externen Tagesbackups erfüllt, und ein Drei-Knoten-Setup mit automatischem Failover für den Tag, an dem der Bedarf wächst. Siehe <a href="/high-availability">Hochverfügbarkeit</a>.'
+  - tag: '4'
+    title: Funktionen vollständig, Bausteine einfacher
+    text: Die Plattform muss Secrets-Management, Telemetrie, GitOps-Deployment und Skalierung bieten, aber nicht zwingend mit dem schwersten Produkt je Funktion. Wir haben den vollen Umfang und eine vereinfachte Variante kalkuliert, die alle Funktionen mit weniger zu betreibenden Komponenten beibehält.
+  - tag: '5'
+    title: Datenqualität im Bearbeiten verankert
+    text: Formulare, Pflichtfelder und Validierung folgen dem vorgeschriebenen Datenmodell, und Änderungen sind auf Anwendungs- und Datenbankebene nachvollziehbar. Bestehende Projekte, Stile und Daten werden in dieses Modell überführt, wo es Aufwand spart mit unserem <a href="/ai-etl">KI-gestützten ETL</a>.
+  - tag: '6'
+    title: Support, der zu öffentlichen Budgets passt
+    text: Ein jährlicher Support-Plan zu Geschäftszeiten, ein Entwicklungsstundenbudget, das die Stadt hoch- oder herunterskalieren kann, optionale Rund-um-die-Uhr-Bereitschaft für kritische Störungen, Rabatte nach Vertragslaufzeit und ein abschließender Wissenstransfer. Siehe <a href="/support">Support und Betrieb</a>.
+- type: split
+  background: light
+  eyebrow: Wo wir beraten haben
+  heading: Erst die Arbeitsabläufe, dann verhältnismäßige Infrastruktur
+  body: <p>Zwei Punkte haben wir vor dem Angebot angesprochen, weil sie den Wert des Projekts bestimmen:</p><ul><li><strong>Workflow-zentrierter Entwurf.</strong> Ein allgemeiner Werkzeugkasten lässt jeden alles tun. Ein Client rund um die echten Aufgaben der Stadt, etwa Planungseingaben oder Straßenkataster, bedeutet weniger Schritte, weniger Datenfehler, einfachere Rollen und messbare Abnahme. Die Kommune wählte zunächst einen allgemeinen Client und verschob die Workflows auf eine spätere Phase. Die Architektur hält diesen Weg offen.</li><li><strong>Verhältnismäßige Infrastruktur.</strong> Ein vollständiger, rund um die Uhr hochverfügbarer Entwurf kann ein Vielfaches der Anwendung kosten. Wir empfahlen, das Schutzniveau aus Kritikalität und Sicherheitsklasse des Systems abzuleiten, statt von vornherein auf die höchste Stufe zu planen.</li></ul>
+- type: cards
+  background: white
+  eyebrow: Umsetzung
+  heading: Fünf bis sechs Monate vom Vertrag bis zum Go-live
+  items:
+  - tag: '1'
+    title: Analyse und Proof of Concept
+    text: Analyse einer repräsentativen Stichprobe von Projekten und Ebenen und früher Leistungsnachweis mit Hunderten Ebenen.
+  - tag: '2'
+    title: Plattform und Automatisierung
+    text: Aufbau der Container-Plattform und des Git-basierten Deployments, parallel zur Analyse.
+  - tag: '3'
+    title: Entwickeln und migrieren
+    text: Drei Sprints Anpassung und Test, dann Migration von Projekten, Stilen, Formularen und Nutzern.
+  - tag: '4'
+    title: Nachweisen und übergeben
+    text: Abnahme durch die Nutzer, Lasttest, unabhängiger Penetrationstest, Schulung, Go-live und ein Jahr Gewährleistung.
+- type: split
+  background: dark
+  eyebrow: Größere Städte
+  heading: Derselbe Ansatz, größer skaliert
+  body: <p>Eine Großstadt oder ein Hauptstadtbezirk hat dieselben Bausteine, nur mehr davon. Was sich ändert:</p><ul><li><strong>Mehr Nutzer und Fachbereiche:</strong> Tausende Konten in Planung, Straßen, Versorgung, Umwelt und Register, jeweils mit eigenen Rollen</li><li><strong>Öffentliche und 24/7-Dienste:</strong> Open-Data-Portale, Bürgerkarten und Einsatzkarten brauchen den vollen Hochverfügbarkeitsentwurf, nicht den minimalen</li><li><strong>Integrationen:</strong> Dokumentenmanagement, Genehmigungs- und Bürgerservicesysteme über Standarddienste</li><li><strong>Workflows:</strong> spezialisierte Anwendungen für die Hauptprozesse der Stadt auf derselben Plattform</li><li><strong>Gemeinsame Dateninfrastruktur:</strong> Metadatenkatalog und Standarddienste, damit Behörden und Nachbargemeinden zusammenarbeiten können</li></ul><p>Da der Stack Open Source ist, zahlt eine größere Stadt für Engineering, nicht für mehr Lizenzplätze.</p>
+  buttons:
+  - label: Infrastruktur und Verwaltung
+    link: /sectors
+- type: ctaBand
+  heading: Planen Sie ein Web-GIS für Ihre Stadt?
+  body: Wir prüfen Ihre Anforderungen und sagen Ihnen, was nötig ist und was nicht. Das Erstgespräch ist kostenlos.
+  buttons:
+  - label: Kontakt aufnehmen
+    link: /contact
+---

@@ -1,0 +1,107 @@
+---
+title: 'Case study: web GIS for a municipality'
+slug: case-study-municipality
+pageType: structured
+seoTitle: 'Case study: on-premise open source web GIS for a municipality'
+seoDescription: 'How we scoped an on-premise, open source web GIS for a municipality: requirements, architecture, right-sized availability, security and support, and what changes for larger cities.'
+sections:
+- type: hero
+  eyebrow: Case study · Government
+  heading: An on-premise web GIS for a municipality
+  subheading: 'How a city administration asked for a new web GIS client on open source, entirely on its own infrastructure, and how we shaped the answer: right-sized, secure and independent of any vendor.'
+  buttons:
+  - label: Talk to us
+    link: /contact
+- type: split
+  background: white
+  eyebrow: At a glance
+  heading: The Municipality and its GIS
+  body: <p>The Municipality runs its spatial data on QGIS Server and PostGIS, with a web client that staff use every day for viewing, querying and editing. A new national data regulation for settlement planning now prescribes the data model the city has to deliver, and the existing client has to be replaced and developed further.</p><p><strong>Status:</strong> indicative proposal, delivered in October 2026. Scope and cost were estimated, a contract has not been awarded.</p>
+  stats:
+  - value: 300
+    label: named users, sized for 500
+  - value: 190
+    label: object types prescribed by the national data model
+  - value: 72
+    suffix: ' h'
+    label: agreed recovery time target (RTO)
+  - value: 0
+    label: licence fees for the whole stack
+- type: cards
+  background: light
+  eyebrow: Requirements
+  heading: What the Municipality asked for
+  items:
+  - title: Everything on its own premises
+    text: 'No cloud service in any layer: not for running, not for backups, not for monitoring. Data sovereignty is non-negotiable.'
+  - title: Hundreds of layers, fast
+    text: Projects with several hundred layers and rich symbology that must still respond within seconds.
+  - title: Editing with rules
+    text: Role-based editing against a prescribed data model, with audit trails at application and database level.
+  - title: Container platform
+    text: Components that run and scale separately on a Kubernetes-based platform, deployed through Git.
+  - title: Security and continuity
+    text: Independent penetration test, documented backup and disaster recovery, a security plan for the national information security class.
+  - title: Accountable support
+    text: Service levels with response and fix times, a flexible term, and knowledge transfer so the city can run it itself.
+- type: cards
+  background: white
+  eyebrow: Our answer
+  heading: Six decisions that shaped the proposal
+  items:
+  - tag: '1'
+    title: Build on proven open source
+    text: QGIS Server, PostGIS and a mature open web client cover almost every requested function out of the box. We customise instead of reinventing, and hand over the full source code with the right to extend it, so the Municipality can change supplier at any time.
+    link: /foss4g-migration
+  - tag: '2'
+    title: Honest about what is open
+    text: Every component and licence was listed. Where a component had a restrictive licence or an uncertain future, we proposed a fully open alternative. The result is a stack with no licence fees and no mandatory subscription.
+  - tag: '3'
+    title: Availability sized to the need
+    text: 'The system serves staff during office hours, and the Municipality set a 72 hour recovery target. We offered one architecture in two sizes: a minimal single-node setup that meets that target with off-site daily backups, and a three-node, automatic-failover setup for the day the needs grow. See <a href="/high-availability">high availability</a>.'
+  - tag: '4'
+    title: Complete the functions, simplify the parts
+    text: The platform must provide secrets management, telemetry, GitOps deployment and scaling, but not necessarily with the heaviest product for each. We priced the full set and a simplified variant that keeps every function with fewer components to operate.
+  - tag: '5'
+    title: Data quality built into the editing
+    text: Forms, mandatory fields and validation follow the prescribed data model, and edits are traceable at application and database level. Existing projects, styles and data are migrated into that model, supported by our <a href="/ai-etl">AI-assisted ETL</a> where it saves effort.
+  - tag: '6'
+    title: Support that fits a public budget
+    text: A yearly business-hours support plan, a development hour budget the city can scale up or down, optional round-the-clock on-call for critical faults, contract-length discounts, and a closing knowledge transfer. See <a href="/support">support and operations</a>.
+- type: split
+  background: light
+  eyebrow: Where we gave advice
+  heading: Workflows first, infrastructure in proportion
+  body: <p>Two points we raised before quoting, because they decide the value of the project:</p><ul><li><strong>Workflow-centred design.</strong> A general toolbox lets everyone do everything. A client built around the city's real tasks, such as planning submissions or road records, means fewer steps, fewer data errors, simpler roles and acceptance that can be measured. The Municipality chose a general client first and left the workflows for a later phase. The architecture keeps that path open.</li><li><strong>Proportionate infrastructure.</strong> A full high availability, round-the-clock design can cost a multiple of the application itself. We recommended setting the protection level from the system's criticality and security class, instead of designing for the highest level up front.</li></ul>
+- type: cards
+  background: white
+  eyebrow: Delivery
+  heading: Five to six months from contract to go-live
+  items:
+  - tag: '1'
+    title: Survey and proof of concept
+    text: Analyse a representative sample of projects and layers, and prove performance with hundreds of layers early.
+  - tag: '2'
+    title: Platform and automation
+    text: Set up the container platform and Git-based deployment, in parallel with the survey.
+  - tag: '3'
+    title: Build and migrate
+    text: Three sprints of customisation and testing, then migration of projects, styles, forms and users.
+  - tag: '4'
+    title: Prove and hand over
+    text: User acceptance, load test, independent penetration test, training, go-live and a year of warranty.
+- type: split
+  background: dark
+  eyebrow: Larger cities
+  heading: The same approach, scaled up
+  body: <p>A county seat or a capital district has the same building blocks, only more of them. What changes:</p><ul><li><strong>More users and departments:</strong> thousands of accounts across planning, roads, utilities, environment and the registry, each with its own roles</li><li><strong>Public and 24/7 services:</strong> open data portals, citizen maps and emergency mapping need the full high availability design, not the minimal one</li><li><strong>Integrations:</strong> document management, permitting and customer service systems connected through standard services</li><li><strong>Workflows:</strong> specialised applications for the city's main processes on the same platform</li><li><strong>Shared data infrastructure:</strong> metadata catalogue and standard services so that agencies and neighbouring municipalities can interoperate</li></ul><p>Because the stack is open source, a larger city pays for engineering, not for more seats.</p>
+  buttons:
+  - label: Infrastructure and government
+    link: /sectors
+- type: ctaBand
+  heading: Planning a web GIS for your city?
+  body: We will review your requirements and tell you what is needed, and what is not. The first consultation is free.
+  buttons:
+  - label: Talk to us
+    link: /contact
+---
