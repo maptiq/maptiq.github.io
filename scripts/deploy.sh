@@ -48,6 +48,13 @@ if [ "$MODE" = "github" ]; then
       echo "  gh api -X PUT repos/$repo/pages -f build_type=workflow" >&2
       exit 1
     fi
+    # The github-pages environment must allow deployments from this branch.
+    if ! gh api "repos/$repo/environments/github-pages" --jq '.deployment_branch_policy | tostring' 2>/dev/null | grep -q null; then
+      pol=$(gh api "repos/$repo/environments/github-pages/deployment-branch-policies" --jq '[.branch_policies[].name] | join(",")' 2>/dev/null || echo unknown)
+      case ",$pol," in *",$REMOTE_BRANCH,"*|*",*,"*) ;; *)
+        echo "environment github-pages only allows branches: $pol. Add $REMOTE_BRANCH (docs/DEPLOY.md step 3)." >&2
+        [ "${DEPLOY_SKIP_PAGES_CHECK:-0}" = 1 ] || exit 1 ;; esac
+    fi
   else
     echo "note: gh is not installed, so the Pages source could not be checked. It must be 'GitHub Actions' (docs/DEPLOY.md)."
   fi

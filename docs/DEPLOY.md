@@ -27,19 +27,25 @@ copy of the old site besides git history. So: new site on branch `main`, `master
 
 ## One-time switch (about two minutes of possible downtime)
 
-1. Local: `git remote add origin git@github.com:maptiq/maptiq.github.io.git`. This machine had no
-   GitHub host key, so first run `ssh -T git@github.com` once and confirm the fingerprint
-   (compare with https://docs.github.com/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints).
-2. Push the code to a new branch without switching Pages yet:
-   `git push origin main:main`. The workflow runs and builds; its deploy step fails because the
-   Pages source is still "branch". That is expected and changes nothing live.
-3. Settings > Pages > Build and deployment > Source: **GitHub Actions**
-   (or `gh api -X PUT repos/maptiq/maptiq.github.io/pages -f build_type=workflow`).
-4. Actions > "Deploy to GitHub Pages" > Re-run all jobs. The site switches within a minute or two.
-   Custom domain `maptiq.eu` stays; keep "Enforce HTTPS" on.
+1. Local: `git remote add origin git@github.com:maptiq/maptiq.github.io.git`, then `ssh -T git@github.com`
+   once (it must greet your GitHub user).
+2. Push the code to a new branch without touching Pages: `git push origin main:main`. The workflow
+   builds; its deploy step fails until steps 3 and 4 are done. That is expected.
+   **Do not change the Pages source to branch `main`**: GitHub would run Jekyll over the Astro source
+   (the build fails) and drop the custom domain, because the repository root of `main` has no
+   `CNAME` file (ours is generated into the build output). The site then shows "Site not found".
+3. Settings > Environments > `github-pages` > Deployment branches and tags: add `main` (or allow all
+   branches). Without this the deploy job fails with "Invalid deployment branch ... Deployments are
+   only allowed from master" (seen on the first attempt, 19 Oct 2026).
+4. Settings > Pages > Build and deployment > Source: **GitHub Actions**, and in the same page set
+   Custom domain to `maptiq.eu` and save (the domain is a repository setting when deploying with
+   Actions). Then Actions > "Deploy to GitHub Pages" > Re-run the failed jobs. The site switches within
+   a minute or two. Keep "Enforce HTTPS" on; after re-binding the domain GitHub may need a few
+   minutes (rarely up to an hour) to issue the certificate again.
 5. `npm run check:live`. Optional: Settings > General > default branch: `main`.
 
-Rollback: set Source back to "Deploy from a branch", `master`, `/ (root)`. The old site is intact.
+Rollback (also the fastest way to bring the old site back): Settings > Pages > Source "Deploy from a
+branch", `master`, `/ (root)`, Custom domain `maptiq.eu` (master's `CNAME` file restores it). The old site is intact.
 
 ## Every later deploy
 
