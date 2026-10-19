@@ -3,12 +3,12 @@ title: 'Case study: the mapping engine of a utility work management system'
 slug: case-study-utility-work-management
 pageType: structured
 seoTitle: 'Case study: geospatial module for a utility work management system'
-seoDescription: 'How we built the geospatial module of an electricity and gas distribution company''s work management system: live map of work items, routing and workforce optimisation on PostGIS, pgRouting, vector tiles and MapLibre.'
+seoDescription: 'How we built the geospatial modules of an electricity and gas distribution company''s work management system: live work map, routing, workforce optimisation, geocoding and registry synchronisation on PostGIS, pgRouting, vector tiles and MapLibre.'
 sections:
 - type: hero
   eyebrow: Case study · Energy and utilities
   heading: The mapping engine of a utility's work management system
-  subheading: 'An electricity and gas distribution company chose MaptIQ to build the geospatial module of its work management system: a live map of the work, and routing and optimisation for the workforce, at thousands of work items a day.'
+  subheading: 'An electricity and gas distribution company chose MaptIQ to build the geospatial modules of its work management system: a live map of the work, routing and optimisation for the workforce, and a geocoder, at thousands of work items a day.'
   image: /images/case-utility-pylons.jpg
   buttons:
   - &id001
@@ -46,13 +46,44 @@ sections:
   - tag: '6'
     title: The best plan, recomputed quickly
     text: Assigning and sequencing jobs must respect skills, shifts and priorities, put emergency work first, and adapt when the day changes. It has to take seconds, not hours.
+- type: cards
+  background: white
+  anchorId: geocoding-challenges
+  eyebrow: Geocoding
+  heading: Why address matching is harder than it looks
+  intro: A work management system starts many jobs from an address, a customer call or a parcel number. Turning that text into a reliable place on the map is geocoding, and it has its own set of problems.
+  items:
+  - tag: '1'
+    title: Messy input
+    text: 'People type addresses in every way: abbreviations, different word order, typos, missing accents, house numbers like 12/A or 12-14, parcel numbers. The text must be normalised before it can be matched.'
+  - tag: '2'
+    title: The same name in many places
+    text: A street name exists in many settlements and districts, and streets get renamed. Without context the right match is a guess.
+  - tag: '3'
+    title: No perfect address list exists
+    text: Official address data, the company's customer and meter addresses and its asset locations disagree. New buildings, missing house numbers, rural places without a street address, plots known only by parcel number.
+  - tag: '4'
+    title: How sure is the match?
+    text: Exact, approximate and ambiguous matches must be told apart. A confidence score and ranked candidates let the system accept good matches automatically and send doubtful ones to a person.
+  - tag: '5'
+    title: House, street or settlement?
+    text: A result can be a building, a point on the street, an interpolated position or just a village. A crew needs to know which, and where the access point is.
+  - tag: '6'
+    title: Speed, scale and privacy
+    text: Search as you type must answer in milliseconds, bulk matching must handle large lists, and customer addresses are personal data, which makes sending them to an external geocoding service problematic.
+- type: split
+  background: light
+  anchorId: asset-registry
+  eyebrow: Asset data
+  heading: A complex asset registry, kept in sync
+  body: '<p>The network assets live in a registry database built for record keeping, with complicated relations and many states. We took the data over from it, and synchronise it to the work management system on a regular basis.</p><p>That is harder than copying tables:</p><ul><li><strong>Relations:</strong> assets connect in hierarchies and networks, such as supply points, feeders, transformers, cables, mains, service lines and meters, and a job often concerns an asset and everything connected to it</li><li><strong>States:</strong> assets are planned, in operation, switched off, out of service or retired, with history, and those states must be translated into what matters for work</li><li><strong>One source of truth:</strong> the registry stays the master. The work management system holds a working copy that must not drift from it</li><li><strong>Changes and deletions:</strong> only what changed should be carried over, in the right order, without loading the production registry</li><li><strong>Data quality:</strong> broken relations, missing locations and odd states exist in every registry, so exceptions are reported instead of hidden</li></ul><p>The same discipline as in our <a href="/ai-etl">ETL work</a> applies: repeatable, traceable, and checked against the source.</p>'
 - type: split
   background: white
   imagePosition: left
   anchorId: brief
   eyebrow: The brief
-  heading: One module, three jobs
-  body: '<p>The company distributes electricity and gas and runs the field work for both networks. It chose MaptIQ to build the mapping engine of its work management system: the geospatial module.</p><ul><li><strong>Map and query:</strong> visualise work items on a map and query them by place, status, type, priority and time</li><li><strong>Routing:</strong> compute real travel routes and times on the road network</li><li><strong>Optimisation:</strong> assign and sequence work for the workforce</li></ul><p>The module has to handle thousands of work items every day, for dispatchers, planners and crews who work from one shared picture of the network and its jobs.</p>'
+  heading: Geospatial modules, four jobs
+  body: <p>The company distributes electricity and gas and runs the field work for both networks. It chose MaptIQ to build the geospatial modules of its work management system.</p><ul><li><strong>Map and query:</strong> visualise work items on a map and query them by place, status, type, priority and time</li><li><strong>Routing:</strong> compute real travel routes and times on the road network</li><li><strong>Optimisation:</strong> assign and sequence work for the workforce</li><li><strong>Geocoding:</strong> address search and address matching, so work can be placed from an address</li></ul><p>Underneath, the network asset data is taken over from the registry database and synchronised to the system regularly. Everything has to handle thousands of work items every day, for dispatchers, planners and crews who work from one shared picture of the network and its jobs.</p>
   image: /images/case-utility-crews.jpg
   imageAlt: Two bucket trucks with crews working on an overhead power line
 - type: cards
@@ -80,12 +111,20 @@ sections:
   - tag: Optimisation
     title: Assign and sequence the work
     text: From the open work, the crews and the travel times, the module proposes assignments and the order of visits, shown on the same map, and recomputes when the day's work changes.
+  - tag: Geocoder
+    title: Address search and matching
+    text: The geocoding module normalises address text, matches it against reference address data and returns ranked candidates with a confidence score. It serves search as you type and batch matching of work items.
+    link: /technology#database
+  - tag: ETL
+    title: Registry synchronisation
+    text: 'Asset data is taken over from the registry database and synchronised to the system regularly: relations and states are translated, changes carried over, and exceptions reported.'
+    link: /ai-etl
 - type: split
   background: white
   anchorId: flow
   eyebrow: How it fits together
   heading: From work item to route
-  body: <ol><li>A work item arrives from the work management system with its place and attributes, and is tied to the network.</li><li>It appears on the map as part of the live picture, clustered when zoomed out and detailed up close.</li><li>A dispatcher filters and queries by area, status, priority, skill or time.</li><li>Routing computes real travel times between the crews and the work.</li><li>Optimisation proposes who does what, and in which order, and the routes are drawn on the map.</li><li>When the day changes, the plan is recomputed.</li></ol>
+  body: <ol><li>A work item arrives from the work management system, tied to an asset in the synchronised registry. If only an address is known, the geocoder finds the place.</li><li>It appears on the map as part of the live picture, clustered when zoomed out and detailed up close.</li><li>A dispatcher filters and queries by area, status, priority, skill or time.</li><li>Routing computes real travel times between the crews and the work.</li><li>Optimisation proposes who does what, and in which order, and the routes are drawn on the map.</li><li>When the day changes, the plan is recomputed.</li></ol>
   image: /images/wms-map-routing-en.svg
   imageAlt: Schematic map with work items, clusters, two crews and their optimised routes along the roads
 - type: cards
@@ -107,7 +146,7 @@ sections:
   anchorId: value
   eyebrow: What the company gets
   heading: One live picture of the work
-  body: <ul><li><strong>One shared view:</strong> dispatchers, planners and crews work from the same live map of the work</li><li><strong>Fast answers:</strong> spatial questions that used to need exports and spreadsheets are answered on the map</li><li><strong>Planning on real travel:</strong> routes and plans based on travel time on the road network instead of straight-line guesses</li><li><strong>Less manual planning:</strong> planners spend their time on decisions, not on building routes by hand</li><li><strong>Independence:</strong> an open source foundation with no per-user or per-core licence fees, and full control of code and data</li></ul>
+  body: <ul><li><strong>One shared view:</strong> dispatchers, planners and crews work from the same live map of the work</li><li><strong>Fast answers:</strong> spatial questions that used to need exports and spreadsheets are answered on the map</li><li><strong>Planning on real travel:</strong> routes and plans based on travel time on the road network instead of straight-line guesses</li><li><strong>Less manual planning:</strong> planners spend their time on decisions, not on building routes by hand</li><li><strong>Independence:</strong> an open source foundation with no per-user or per-core licence fees, and full control of code and data</li><li><strong>Findable places:</strong> addresses are matched with a confidence score, so doubtful matches are flagged instead of silently placed wrongly</li><li><strong>A current picture:</strong> asset data is synchronised regularly from the registry, which stays the source of truth</li></ul>
 - type: split
   background: dark
   anchorId: beyond

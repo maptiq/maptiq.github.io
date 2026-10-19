@@ -3,12 +3,12 @@ title: 'Fallstudie: die Karten-Engine eines Arbeitsmanagementsystems für einen 
 slug: case-study-utility-work-management
 pageType: structured
 seoTitle: 'Fallstudie: Geomodul für das Arbeitsmanagementsystem eines Netzbetreibers'
-seoDescription: 'Wie wir das Geomodul des Arbeitsmanagementsystems eines Strom- und Gasverteilers gebaut haben: Live-Karte der Arbeitsaufträge, Routing und Einsatzoptimierung auf PostGIS, pgRouting, Vector Tiles und MapLibre.'
+seoDescription: 'Wie wir die Geomodule des Arbeitsmanagementsystems eines Strom- und Gasverteilers gebaut haben: Live-Arbeitskarte, Routing, Einsatzoptimierung, Geokodierung und Registerabgleich auf PostGIS, pgRouting, Vector Tiles und MapLibre.'
 sections:
 - type: hero
   eyebrow: Fallstudie · Energie und Versorgung
   heading: Die Karten-Engine des Arbeitsmanagementsystems eines Netzbetreibers
-  subheading: 'Ein Strom- und Gasverteiler hat MaptIQ beauftragt, das Geomodul seines Arbeitsmanagementsystems zu bauen: eine Live-Karte der Arbeit sowie Routing und Optimierung für die Einsatzkräfte, bei Tausenden Arbeitsaufträgen pro Tag.'
+  subheading: 'Ein Strom- und Gasverteiler hat MaptIQ beauftragt, die Geomodule seines Arbeitsmanagementsystems zu bauen: eine Live-Karte der Arbeit, Routing und Optimierung für die Einsatzkräfte sowie einen Geokodierer, bei Tausenden Arbeitsaufträgen pro Tag.'
   image: /images/case-utility-pylons.jpg
   buttons:
   - &id001
@@ -46,13 +46,44 @@ sections:
   - tag: '6'
     title: Der beste Plan, schnell neu berechnet
     text: Zuweisung und Reihenfolge müssen Qualifikationen, Schichten und Prioritäten beachten, Störungsarbeiten vorziehen und sich anpassen, wenn sich der Tag ändert. Das muss Sekunden dauern, nicht Stunden.
+- type: cards
+  background: white
+  anchorId: geocoding-challenges
+  eyebrow: Geokodierung
+  heading: Warum Adressabgleich schwieriger ist, als er aussieht
+  intro: In einem Arbeitsmanagementsystem beginnen viele Aufträge mit einer Adresse, einem Kundenanruf oder einer Flurstücksnummer. Diesen Text in einen verlässlichen Ort auf der Karte zu verwandeln, ist Geokodierung, und sie hat ihre eigenen Probleme.
+  items:
+  - tag: '1'
+    title: Unsaubere Eingaben
+    text: 'Menschen tippen Adressen auf jede Art: Abkürzungen, andere Wortreihenfolge, Tippfehler, fehlende Akzente, Hausnummern wie 12/A oder 12-14, Flurstücksnummern. Der Text muss normalisiert werden, bevor er abgeglichen werden kann.'
+  - tag: '2'
+    title: Derselbe Name an vielen Orten
+    text: Ein Straßenname existiert in vielen Orten und Bezirken, und Straßen werden umbenannt. Ohne Kontext ist der richtige Treffer geraten.
+  - tag: '3'
+    title: Es gibt keine perfekte Adressliste
+    text: Amtliche Adressdaten, die Kunden- und Zähleradressen des Unternehmens und seine Anlagenorte stimmen nicht überein. Neue Gebäude, fehlende Hausnummern, ländliche Orte ohne Straßenadresse, Grundstücke, die nur über die Flurstücksnummer bekannt sind.
+  - tag: '4'
+    title: Wie sicher ist der Treffer?
+    text: Exakte, ungefähre und mehrdeutige Treffer müssen unterschieden werden. Ein Vertrauenswert und gerankte Kandidaten erlauben es dem System, gute Treffer automatisch zu übernehmen und zweifelhafte an eine Person zu geben.
+  - tag: '5'
+    title: Haus, Straße oder Ort?
+    text: Ein Ergebnis kann ein Gebäude, ein Punkt an der Straße, eine interpolierte Position oder nur ein Dorf sein. Ein Trupp muss wissen, was davon, und wo der Zugang ist.
+  - tag: '6'
+    title: Tempo, Umfang und Datenschutz
+    text: Die Suche während der Eingabe muss in Millisekunden antworten, der Massenabgleich muss große Listen bewältigen, und Kundenadressen sind personenbezogene Daten, was ihre Übergabe an einen externen Geokodierdienst problematisch macht.
+- type: split
+  background: light
+  anchorId: asset-registry
+  eyebrow: Anlagendaten
+  heading: Ein komplexes Anlagenregister, im Abgleich gehalten
+  body: '<p>Die Netzanlagen liegen in einer Registerdatenbank, die für die Bestandsführung gebaut ist, mit komplizierten Beziehungen und vielen Zuständen. Wir haben die Daten daraus übernommen und gleichen sie regelmäßig mit dem Arbeitsmanagementsystem ab.</p><p>Das ist schwieriger als Tabellen zu kopieren:</p><ul><li><strong>Beziehungen:</strong> Anlagen hängen in Hierarchien und Netzen zusammen, etwa Einspeisepunkte, Abgänge, Transformatoren, Kabel, Leitungen, Hausanschlüsse und Zähler, und ein Auftrag betrifft oft eine Anlage und alles, was daran hängt</li><li><strong>Zustände:</strong> Anlagen sind geplant, in Betrieb, abgeschaltet, außer Betrieb oder stillgelegt, mit Historie, und diese Zustände müssen in das übersetzt werden, was für die Arbeit zählt</li><li><strong>Eine Wahrheitsquelle:</strong> das Register bleibt der Master. Das Arbeitsmanagementsystem hält eine Arbeitskopie, die nicht davon abweichen darf</li><li><strong>Änderungen und Löschungen:</strong> nur das Geänderte soll übernommen werden, in der richtigen Reihenfolge, ohne das Produktivregister zu belasten</li><li><strong>Datenqualität:</strong> defekte Beziehungen, fehlende Orte und seltsame Zustände gibt es in jedem Register, daher werden Ausnahmen gemeldet statt versteckt</li></ul><p>Es gilt dieselbe Disziplin wie in unserer <a href="/ai-etl">ETL-Arbeit</a>: wiederholbar, nachvollziehbar und gegen die Quelle geprüft.</p>'
 - type: split
   background: white
   imagePosition: left
   anchorId: brief
   eyebrow: Die Aufgabe
-  heading: Ein Modul, drei Aufgaben
-  body: '<p>Das Unternehmen verteilt Strom und Gas und führt die Feldarbeit für beide Netze aus. Es hat MaptIQ beauftragt, die Karten-Engine seines Arbeitsmanagementsystems zu bauen: das Geomodul.</p><ul><li><strong>Karte und Abfrage:</strong> Aufträge auf der Karte darstellen und nach Ort, Status, Art, Priorität und Zeit abfragen</li><li><strong>Routing:</strong> reale Fahrrouten und Fahrzeiten im Straßennetz berechnen</li><li><strong>Optimierung:</strong> Arbeit für die Einsatzkräfte zuweisen und in Reihenfolge bringen</li></ul><p>Das Modul muss täglich Tausende Aufträge bewältigen, für Disponenten, Planer und Trupps, die mit einem gemeinsamen Bild von Netz und Aufträgen arbeiten.</p>'
+  heading: Geomodule, vier Aufgaben
+  body: <p>Das Unternehmen verteilt Strom und Gas und führt die Feldarbeit für beide Netze aus. Es hat MaptIQ beauftragt, die Geomodule seines Arbeitsmanagementsystems zu bauen.</p><ul><li><strong>Karte und Abfrage:</strong> Aufträge auf der Karte darstellen und nach Ort, Status, Art, Priorität und Zeit abfragen</li><li><strong>Routing:</strong> reale Fahrrouten und Fahrzeiten im Straßennetz berechnen</li><li><strong>Optimierung:</strong> Arbeit für die Einsatzkräfte zuweisen und in Reihenfolge bringen</li><li><strong>Geokodierung:</strong> Adresssuche und Adressabgleich, damit Arbeit auch von einer Adresse aus verortet werden kann</li></ul><p>Darunter werden die Netzanlagendaten aus der Registerdatenbank übernommen und regelmäßig abgeglichen. Alles muss täglich Tausende Aufträge bewältigen, für Disponenten, Planer und Trupps, die mit einem gemeinsamen Bild von Netz und Aufträgen arbeiten.</p>
   image: /images/case-utility-crews.jpg
   imageAlt: Zwei Hubarbeitsbühnen mit Trupps bei Arbeiten an einer Freileitung
 - type: cards
@@ -80,12 +111,20 @@ sections:
   - tag: Optimierung
     title: Arbeit zuweisen und sequenzieren
     text: Aus offener Arbeit, Trupps und Fahrzeiten schlägt das Modul Zuweisungen und die Besuchsreihenfolge vor, auf derselben Karte dargestellt, und rechnet neu, wenn sich die Tagesarbeit ändert.
+  - tag: Geokodierer
+    title: Adresssuche und Adressabgleich
+    text: Das Geokodiermodul normalisiert Adresstext, gleicht ihn mit Referenzadressdaten ab und liefert gerankte Kandidaten mit Vertrauenswert. Es bedient die Suche während der Eingabe und den Massenabgleich von Aufträgen.
+    link: /technology#database
+  - tag: ETL
+    title: Registerabgleich
+    text: 'Anlagendaten werden aus der Registerdatenbank übernommen und regelmäßig abgeglichen: Beziehungen und Zustände werden übersetzt, Änderungen übertragen und Ausnahmen gemeldet.'
+    link: /ai-etl
 - type: split
   background: white
   anchorId: flow
   eyebrow: Wie es zusammenpasst
   heading: Vom Auftrag zur Route
-  body: <ol><li>Ein Auftrag kommt aus dem Arbeitsmanagementsystem mit Ort und Attributen an und wird dem Netz zugeordnet.</li><li>Er erscheint auf der Karte als Teil des Live-Bildes, herausgezoomt geclustert, nah herangezoomt detailliert.</li><li>Ein Disponent filtert und fragt nach Gebiet, Status, Priorität, Qualifikation oder Zeit ab.</li><li>Das Routing berechnet reale Fahrzeiten zwischen Trupps und Arbeit.</li><li>Die Optimierung schlägt vor, wer was in welcher Reihenfolge tut, und die Routen werden auf der Karte gezeichnet.</li><li>Ändert sich der Tag, wird der Plan neu berechnet.</li></ol>
+  body: <ol><li>Ein Auftrag kommt aus dem Arbeitsmanagementsystem, einer Anlage im abgeglichenen Register zugeordnet. Ist nur eine Adresse bekannt, findet der Geokodierer den Ort.</li><li>Er erscheint auf der Karte als Teil des Live-Bildes, herausgezoomt geclustert, nah herangezoomt detailliert.</li><li>Ein Disponent filtert und fragt nach Gebiet, Status, Priorität, Qualifikation oder Zeit ab.</li><li>Das Routing berechnet reale Fahrzeiten zwischen Trupps und Arbeit.</li><li>Die Optimierung schlägt vor, wer was in welcher Reihenfolge tut, und die Routen werden auf der Karte gezeichnet.</li><li>Ändert sich der Tag, wird der Plan neu berechnet.</li></ol>
   image: /images/wms-map-routing-de.svg
   imageAlt: Schematische Karte mit Aufträgen, Clustern, zwei Trupps und ihren optimierten Routen entlang der Straßen
 - type: cards
@@ -107,7 +146,7 @@ sections:
   anchorId: value
   eyebrow: Was das Unternehmen bekommt
   heading: Ein Live-Bild der Arbeit
-  body: <ul><li><strong>Eine gemeinsame Sicht:</strong> Disponenten, Planer und Trupps arbeiten mit derselben Live-Karte der Arbeit</li><li><strong>Schnelle Antworten:</strong> räumliche Fragen, für die früher Exporte und Tabellen nötig waren, werden auf der Karte beantwortet</li><li><strong>Planung auf realer Fahrt:</strong> Routen und Pläne auf Basis der Fahrzeit im Straßennetz statt Luftlinien-Schätzungen</li><li><strong>Weniger manuelle Planung:</strong> Planer widmen sich Entscheidungen, statt Routen von Hand zu bauen</li><li><strong>Unabhängigkeit:</strong> ein Open-Source-Fundament ohne Lizenzgebühren pro Nutzer oder Core und volle Kontrolle über Code und Daten</li></ul>
+  body: <ul><li><strong>Eine gemeinsame Sicht:</strong> Disponenten, Planer und Trupps arbeiten mit derselben Live-Karte der Arbeit</li><li><strong>Schnelle Antworten:</strong> räumliche Fragen, für die früher Exporte und Tabellen nötig waren, werden auf der Karte beantwortet</li><li><strong>Planung auf realer Fahrt:</strong> Routen und Pläne auf Basis der Fahrzeit im Straßennetz statt Luftlinien-Schätzungen</li><li><strong>Weniger manuelle Planung:</strong> Planer widmen sich Entscheidungen, statt Routen von Hand zu bauen</li><li><strong>Unabhängigkeit:</strong> ein Open-Source-Fundament ohne Lizenzgebühren pro Nutzer oder Core und volle Kontrolle über Code und Daten</li><li><strong>Auffindbare Orte:</strong> Adressen werden mit Vertrauenswert abgeglichen, sodass zweifelhafte Treffer markiert werden, statt stillschweigend falsch verortet zu sein</li><li><strong>Ein aktuelles Bild:</strong> Anlagendaten werden regelmäßig aus dem Register abgeglichen, das die Wahrheitsquelle bleibt</li></ul>
 - type: split
   background: dark
   anchorId: beyond

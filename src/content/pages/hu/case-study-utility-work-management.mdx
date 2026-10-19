@@ -3,12 +3,12 @@ title: 'Esettanulmány: egy közműszolgáltató munkairányítási rendszeréne
 slug: case-study-utility-work-management
 pageType: structured
 seoTitle: 'Esettanulmány: térinformatikai modul közműszolgáltató munkairányítási rendszeréhez'
-seoDescription: 'Hogyan építettük meg egy villamosenergia- és gázelosztó társaság munkairányítási rendszerének térinformatikai moduljét: munkaelemek élő térképe, útvonaltervezés és munkaerő-optimalizálás PostGIS, pgRouting, vektoros csempék és MapLibre alapon.'
+seoDescription: 'Hogyan építettük meg egy villamosenergia- és gázelosztó társaság munkairányítási rendszerének térinformatikai moduljait: élő munkatérkép, útvonaltervezés, munkaerő-optimalizálás, geokódolás és nyilvántartás-szinkronizálás PostGIS, pgRouting, vektoros csempék és MapLibre alapon.'
 sections:
 - type: hero
   eyebrow: Esettanulmány · Energia és közművek
   heading: Egy közműszolgáltató munkairányítási rendszerének térképi motorja
-  subheading: 'Egy villamosenergia- és gázelosztó társaság a MaptIQ-ot választotta munkairányítási rendszere térinformatikai moduljának megépítésére: a munka élő térképére, valamint a munkaerő útvonaltervezésére és optimalizálására, napi több ezer munkaelem mellett.'
+  subheading: 'Egy villamosenergia- és gázelosztó társaság a MaptIQ-ot választotta munkairányítási rendszere térinformatikai moduljainak megépítésére: a munka élő térképére, a munkaerő útvonaltervezésére és optimalizálására, valamint egy geokódolóra, napi több ezer munkaelem mellett.'
   image: /images/case-utility-pylons.jpg
   buttons:
   - &id001
@@ -46,13 +46,44 @@ sections:
   - tag: '6'
     title: A legjobb terv, gyors újraszámolással
     text: A munkák kiosztásának és sorrendjének figyelembe kell vennie a szakképesítést, a műszakokat és a prioritásokat, előre kell vennie a hibaelhárítást, és alkalmazkodnia kell, ha a nap változik. Másodpercekbe kerülhet, nem órákba.
+- type: cards
+  background: white
+  anchorId: geocoding-challenges
+  eyebrow: Geokódolás
+  heading: Miért nehezebb a címillesztés, mint gondolnánk
+  intro: A munkairányítási rendszerben sok munka egy címből, egy ügyfélhívásból vagy egy helyrajzi számból indul. Ennek a szövegnek megbízható térképi hellyé alakítása a geokódolás, és megvannak a maga problémái.
+  items:
+  - tag: '1'
+    title: Rendezetlen bevitel
+    text: 'Az emberek minden módon gépelnek címet: rövidítések, eltérő szórend, elírások, hiányzó ékezetek, 12/A vagy 12-14 típusú házszámok, helyrajzi számok. A szöveget normalizálni kell, mielőtt illeszteni lehet.'
+  - tag: '2'
+    title: Ugyanaz a név sok helyen
+    text: Egy utcanév sok településen és kerületben létezik, és az utcákat át is nevezik. Kontextus nélkül a helyes találat találgatás.
+  - tag: '3'
+    title: Nincs tökéletes címlista
+    text: A hivatalos címadatok, a társaság ügyfél- és mérőcímei, valamint eszközhelyei eltérnek egymástól. Új épületek, hiányzó házszámok, utcacím nélküli vidéki helyek, csak helyrajzi számmal ismert telkek.
+  - tag: '4'
+    title: Mennyire biztos az illesztés?
+    text: A pontos, a hozzávetőleges és a félreérthető találatokat meg kell különböztetni. A megbízhatósági pontszám és a rangsorolt jelöltek lehetővé teszik, hogy a rendszer a jó találatokat automatikusan elfogadja, a kétesek pedig emberhez kerüljenek.
+  - tag: '5'
+    title: Ház, utca vagy település?
+    text: Az eredmény lehet épület, utcapont, interpolált pozíció vagy csak egy falu. A brigádnak tudnia kell, melyik, és hol van a bejárat.
+  - tag: '6'
+    title: Sebesség, méret és adatvédelem
+    text: A gépelés közbeni keresésnek ezredmásodpercek alatt kell válaszolnia, a tömeges illesztésnek nagy listákat kell kezelnie, az ügyfelek címei pedig személyes adatok, ezért külső geokódoló szolgáltatásnak küldésük problémás.
+- type: split
+  background: light
+  anchorId: asset-registry
+  eyebrow: Eszközadatok
+  heading: Bonyolult eszköznyilvántartás, szinkronban tartva
+  body: '<p>A hálózati eszközök egy nyilvántartási célú adatbázisban vannak, bonyolult összefüggésekkel és sok állapottal. Az adatokat ebből átvettük, és rendszeresen szinkronizáljuk a munkairányítási rendszer felé.</p><p>Ez nehezebb, mint a táblák másolása:</p><ul><li><strong>Összefüggések:</strong> az eszközök hierarchiákban és hálózatokban kapcsolódnak, például ellátási pontok, leágazások, transzformátorok, kábelek, vezetékek, bekötések és mérők, és egy munka gyakran egy eszközre és mindarra vonatkozik, ami hozzá kapcsolódik</li><li><strong>Állapotok:</strong> az eszközök tervezettek, üzemben lévők, kikapcsoltak, üzemen kívüliek vagy kivontak, előzményekkel, és ezeket az állapotokat a munka szempontjából lényegesre kell lefordítani</li><li><strong>Egyetlen igazságforrás:</strong> a nyilvántartás marad a mester. A munkairányítási rendszer munkapéldányt tart, amely nem térhet el tőle</li><li><strong>Változások és törlések:</strong> csak azt kell átvinni, ami változott, a helyes sorrendben, az éles nyilvántartás terhelése nélkül</li><li><strong>Adatminőség:</strong> törött kapcsolatok, hiányzó helyek és furcsa állapotok minden nyilvántartásban vannak, ezért a kivételeket jelentjük, nem elrejtjük</li></ul><p>Ugyanaz a fegyelem érvényes, mint az <a href="/ai-etl">ETL munkánkban</a>: megismételhető, nyomon követhető, és a forráshoz képest ellenőrzött.</p>'
 - type: split
   background: white
   imagePosition: left
   anchorId: brief
   eyebrow: A feladat
-  heading: Egy modul, három feladat
-  body: <p>A társaság villamos energiát és gázt oszt, és mindkét hálózaton a terepi munkát is végzi. A MaptIQ-ot választotta munkairányítási rendszere térképi motorjának, a térinformatikai modulnak a megépítésére.</p><ul><li><strong>Térkép és lekérdezés:</strong> a munkaelemek megjelenítése térképen, lekérdezése hely, állapot, típus, prioritás és idő szerint</li><li><strong>Útvonaltervezés:</strong> valós utazási útvonalak és menetidők számítása az úthálózaton</li><li><strong>Optimalizálás:</strong> a munka kiosztása és sorrendezése a munkaerő számára</li></ul><p>A modulnak naponta több ezer munkaelemet kell kezelnie, diszpécserek, tervezők és brigádok számára, akik a hálózat és a munkák közös képéből dolgoznak.</p>
+  heading: Térinformatikai modulok, négy feladat
+  body: <p>A társaság villamos energiát és gázt oszt, és mindkét hálózaton a terepi munkát is végzi. A MaptIQ-ot választotta munkairányítási rendszere térinformatikai moduljainak megépítésére.</p><ul><li><strong>Térkép és lekérdezés:</strong> a munkaelemek megjelenítése térképen, lekérdezése hely, állapot, típus, prioritás és idő szerint</li><li><strong>Útvonaltervezés:</strong> valós utazási útvonalak és menetidők számítása az úthálózaton</li><li><strong>Optimalizálás:</strong> a munka kiosztása és sorrendezése a munkaerő számára</li><li><strong>Geokódolás:</strong> címkeresés és címillesztés, hogy a munka címből is elhelyezhető legyen</li></ul><p>Alatta a hálózati eszközök adatait a nyilvántartási adatbázisból vettük át, és rendszeresen szinkronizáljuk. Mindennek naponta több ezer munkaelemet kell kezelnie, diszpécserek, tervezők és brigádok számára, akik a hálózat és a munkák közös képéből dolgoznak.</p>
   image: /images/case-utility-crews.jpg
   imageAlt: Két kosaras autó brigáddal, légvezetéken dolgozva
 - type: cards
@@ -80,12 +111,20 @@ sections:
   - tag: Optimalizálás
     title: A munka kiosztása és sorrendezése
     text: A nyitott munkából, a brigádokból és a menetidőkből a modul kiosztást és látogatási sorrendet javasol, ugyanazon a térképen megjelenítve, és újraszámol, ha a nap munkája változik.
+  - tag: Geokódoló
+    title: Címkeresés és címillesztés
+    text: A geokódoló modul normalizálja a címszöveget, illeszti a referencia címadatokhoz, és rangsorolt jelölteket ad megbízhatósági pontszámmal. Kiszolgálja a gépelés közbeni keresést és a munkaelemek tömeges illesztését.
+    link: /technology#database
+  - tag: ETL
+    title: Nyilvántartás-szinkronizálás
+    text: 'Az eszközadatokat a nyilvántartási adatbázisból vettük át, és rendszeresen szinkronizáljuk: az összefüggések és állapotok lefordítva, a változások átvezetve, a kivételek jelentve.'
+    link: /ai-etl
 - type: split
   background: white
   anchorId: flow
   eyebrow: Hogyan áll össze
   heading: A munkaelemtől az útvonalig
-  body: <ol><li>A munkaelem a munkairányítási rendszerből érkezik a helyével és attribútumaival, és a hálózathoz kötődik.</li><li>Megjelenik a térképen az élő kép részeként, kicsinyítve csoportosítva, közelről részletesen.</li><li>A diszpécser terület, állapot, prioritás, szakképesítés vagy idő szerint szűr és lekérdez.</li><li>Az útvonaltervezés valós menetidőket számol a brigádok és a munka között.</li><li>Az optimalizálás javasolja, ki mit csináljon és milyen sorrendben, az útvonalak a térképen jelennek meg.</li><li>Ha a nap megváltozik, a terv újraszámolódik.</li></ol>
+  body: <ol><li>A munkaelem a munkairányítási rendszerből érkezik, a szinkronizált nyilvántartás egy eszközéhez kötve. Ha csak a cím ismert, a geokódoló találja meg a helyet.</li><li>Megjelenik a térképen az élő kép részeként, kicsinyítve csoportosítva, közelről részletesen.</li><li>A diszpécser terület, állapot, prioritás, szakképesítés vagy idő szerint szűr és lekérdez.</li><li>Az útvonaltervezés valós menetidőket számol a brigádok és a munka között.</li><li>Az optimalizálás javasolja, ki mit csináljon és milyen sorrendben, az útvonalak a térképen jelennek meg.</li><li>Ha a nap megváltozik, a terv újraszámolódik.</li></ol>
   image: /images/wms-map-routing-hu.svg
   imageAlt: Sematikus térkép munkaelemekkel, csoportokkal, két brigáddal és azok optimalizált, utakat követő útvonalaival
 - type: cards
@@ -107,7 +146,7 @@ sections:
   anchorId: value
   eyebrow: Mit kap a társaság
   heading: Egy élő kép a munkáról
-  body: <ul><li><strong>Közös nézet:</strong> a diszpécserek, tervezők és brigádok ugyanazon a munka élő térképén dolgoznak</li><li><strong>Gyors válaszok:</strong> a térbeli kérdésekre, amelyekhez korábban exportok és táblázatok kellettek, a térképen kapnak választ</li><li><strong>Valós utazásra tervezés:</strong> útvonalak és tervek az úthálózati menetidő alapján, légvonali becslések helyett</li><li><strong>Kevesebb kézi tervezés:</strong> a tervezők döntésekkel foglalkoznak, nem útvonalak kézi összeállításával</li><li><strong>Függetlenség:</strong> nyílt forráskódú alap felhasználónkénti vagy magonkénti licencdíj nélkül, a kód és az adat feletti teljes kontrollal</li></ul>
+  body: <ul><li><strong>Közös nézet:</strong> a diszpécserek, tervezők és brigádok ugyanazon a munka élő térképén dolgoznak</li><li><strong>Gyors válaszok:</strong> a térbeli kérdésekre, amelyekhez korábban exportok és táblázatok kellettek, a térképen kapnak választ</li><li><strong>Valós utazásra tervezés:</strong> útvonalak és tervek az úthálózati menetidő alapján, légvonali becslések helyett</li><li><strong>Kevesebb kézi tervezés:</strong> a tervezők döntésekkel foglalkoznak, nem útvonalak kézi összeállításával</li><li><strong>Függetlenség:</strong> nyílt forráskódú alap felhasználónkénti vagy magonkénti licencdíj nélkül, a kód és az adat feletti teljes kontrollal</li><li><strong>Megtalálható helyek:</strong> a címek megbízhatósági pontszámmal illeszkednek, így a kétes találatok jelölést kapnak ahelyett, hogy csendben rossz helyre kerülnének</li><li><strong>Naprakész kép:</strong> az eszközadatok rendszeresen szinkronizálódnak a nyilvántartásból, amely az igazságforrás marad</li></ul>
 - type: split
   background: dark
   anchorId: beyond
