@@ -1,0 +1,28 @@
+---
+title: KI-gestütztes ETL ohne Kontrollverlust
+slug: ai-assisted-etl-without-losing-control
+date: '2026-10-05'
+excerpt: Wie wir Sprachmodelle nutzen, um Geodatenmigration zu beschleunigen, und dabei Pipelines reproduzierbar, geprüft und nachvollziehbar halten.
+seoDescription: 'Wie KI die GIS-Datenmigration sicher beschleunigt: Profiling, Mapping, Codegenerierung und Validierung mit Prüfung, reproduzierbaren Pipelines und lokalen Modellen.'
+---
+Große Sprachmodelle sind sehr gut bei mühsamer, musterreicher Arbeit. Die Überführung eines Alt-GIS in eine saubere PostGIS-Datenbank steckt voll davon. Die Frage ist, wie man sie nutzt, ohne die Kontrolle über die Daten abzugeben.
+
+<h2 id="was-wir-die-ki-tun-lassen">Was wir die KI tun lassen</h2>
+
+Wir nutzen sie, um unbekannte Quellen zu profilieren (Attribute, Wertemuster, Geometrietypen, Koordinatensysteme), Mappings auf das Zielmodell vorzuschlagen, GDAL-, SQL- und Python-Transformationscode zu entwerfen sowie Validierungsregeln und Dokumentation zu schreiben. Das ist der langsame, manuelle Teil jeder Migration.
+
+<h2 id="was-sie-nie-tut">Was sie nie tut</h2>
+
+Sie läuft nicht unbeaufsichtigt auf Produktionsdaten und entscheidet nicht endgültig, was ein Feld bedeutet. Jedes Mapping und jede Regel wird von einem Ingenieur geprüft, und was produktiv läuft, ist gewöhnlicher, versionierter Code. Dieselbe Eingabe liefert immer dieselbe Ausgabe.
+
+<h2 id="nachvollziehbarkeit">Nachvollziehbarkeit</h2>
+
+Jede Pipeline endet mit einem Abgleichsbericht: gelesene, geschriebene und abgelehnte Datensätze, mit Begründung. Jeder Quelldatensatz lässt sich bis zum Ziel oder zu einer dokumentierten Ablehnung verfolgen. Dadurch können Sie dem Ergebnis trauen, und das verlangt auch ein Auditor.
+
+<h2 id="sensible-daten">Sensible Daten</h2>
+
+Bei Behörden- und Infrastrukturdaten nutzen wir lokal gehostete Open-Weight-Modelle, sodass nichts Ihre Umgebung verlässt. Oft genügt eine Stichprobe mit maskierten sensiblen Werten, damit das Modell die Muster erkennt.
+
+<h2 id="wo-es-sich-lohnt">Wo es sich lohnt</h2>
+
+Je unordentlicher und vielfältiger die Quellen, desto größer der Gewinn: Register aus vielen Eigentümern, jahrzehntealte CAD-Dateien, Tabellen mit Freitext-Attributen. Bei einem sauberen Datensatz in einem Format genügt ein einfaches Skript, und das sagen wir dann auch.

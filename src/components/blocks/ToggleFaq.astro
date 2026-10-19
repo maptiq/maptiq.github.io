@@ -1,0 +1,43 @@
+---
+import { getLocaleFromUrl, renderRich } from '../../i18n/utils';
+
+interface Props {
+  items: { question: string; answer: string }[];
+}
+
+const { items } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+---
+
+<div class="container">
+  <div class="column faq">
+    {items.map((item) => (
+      <details>
+        <summary>{item.question}</summary>
+        <div class="rich answer" set:html={renderRich(item.answer, locale)} />
+      </details>
+    ))}
+  </div>
+</div>
+
+<style>
+  .faq {
+    padding: var(--space-lg) 0;
+  }
+
+  details {
+    border-bottom: 1px solid var(--color-neutral-light);
+    padding: var(--space-sm) 0;
+  }
+
+  summary {
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .answer {
+    margin-top: var(--space-xs);
+  }
+</style>

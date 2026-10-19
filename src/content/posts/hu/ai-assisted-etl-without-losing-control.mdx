@@ -1,0 +1,28 @@
+---
+title: MI-támogatott ETL az irányítás elvesztése nélkül
+slug: ai-assisted-etl-without-losing-control
+date: '2026-10-05'
+excerpt: Hogyan használunk nyelvi modelleket a térbeli adatmigráció gyorsítására úgy, hogy a folyamatok reprodukálhatók, ellenőrzöttek és nyomon követhetők maradnak.
+seoDescription: 'Hogyan gyorsítja az MI biztonságosan a GIS adatmigrációt: profilozás, leképezés, kódgenerálás és validáció felülvizsgálattal, reprodukálható folyamatokkal és helyi modellekkel.'
+---
+A nagy nyelvi modellek nagyon jók a fárasztó, mintázatokban gazdag munkában. Egy régi GIS átvitele tiszta PostGIS adatbázisba tele van ilyennel. A kérdés az, hogyan használjuk őket úgy, hogy az adat feletti kontrollt ne adjuk ki a kezünkből.
+
+<h2 id="mit-bizunk-az-mi-re">Mit bízunk az MI-re</h2>
+
+Ismeretlen források profilozására (attribútumok, értékmintázatok, geometriatípusok, koordináta-rendszerek), a célmodellre való leképezések javaslatára, GDAL, SQL és Python transzformációs kód vázlatára, valamint validációs szabályok és dokumentáció írására használjuk. Ez minden migráció lassú, kézi része.
+
+<h2 id="mit-nem-csinal-soha">Mit nem csinál soha</h2>
+
+Nem fut felügyelet nélkül éles adaton, és nem ő dönti el végül, mit jelent egy mező. Minden leképezést és szabályt mérnök vizsgál át, az élesben futó pedig hagyományos, verziózott kód. Ugyanaz a bemenet mindig ugyanazt a kimenetet adja.
+
+<h2 id="nyomon-kovethetoseg">Nyomon követhetőség</h2>
+
+Minden folyamat egyeztető jelentéssel zárul: hány rekordot olvastunk, írtunk és utasítottunk el, indoklással. Bármely forrásrekord követhető a célig vagy egy dokumentált elutasításig. Ettől bízhat az eredményben, és ezt fogja kérni egy auditor is.
+
+<h2 id="erzekeny-adatok">Érzékeny adatok</h2>
+
+Állami és infrastruktúra-adatoknál helyben üzemeltetett, nyílt súlyú modelleket használunk, így semmi sem hagyja el a környezetet. Gyakran elég egy minta maszkolt érzékeny értékekkel, hogy a modell lássa a mintázatokat.
+
+<h2 id="hol-terul-meg">Hol térül meg</h2>
+
+Minél rendezetlenebbek és változatosabbak a források, annál nagyobb a nyereség: sok tulajdonostól összevont nyilvántartások, évtizedes CAD fájlok, szabad szöveges attribútumú táblázatok. Egy tiszta, egyetlen formátumú adathalmaznál egy egyszerű szkript is ugyanolyan jó, és ezt meg is mondjuk.

@@ -1,0 +1,317 @@
+---
+import { getEntry } from 'astro:content';
+import { localizeHref, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const footer = await getEntry('footer', 'footer');
+const navigation = await getEntry('navigation', 'navigation');
+const t = useTranslations(locale);
+const label = (l: { en: string; hu?: string; de?: string }) => l[locale] || l.en;
+const href = (link: string) => localizeHref(link, locale);
+
+const data = footer?.data;
+const companyName = data ? label(data.companyName) : '';
+const tagline = data?.tagline?.[locale] || data?.tagline?.en;
+const columns = (navigation?.data.menu ?? []).filter((item) => item.children?.length);
+const cert = data?.certification;
+const credits = data?.imageCredits;
+---
+
+<footer class="site-footer bg-dark">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="footer-logo" href={`/${locale}/`} aria-label="MaptIQ"><img src="/images/maptiq-mark.png" alt="" width="44" height="44" /><span class="wordmark">MAPT<b>IQ</b></span></a>
+        {tagline && <p>{tagline}</p>}
+        <ul class="contact">
+          {data?.phone && <li><a href={`tel:${data.phone.replace(/\s/g, '')}`}>{data.phone}</a></li>}
+          {data?.email && <li><a href={`mailto:${data.email}`}>{data.email}</a></li>}
+          {data?.address && <li>{data.address}</li>}
+        </ul>
+      </div>
+      {columns.map((col) => (
+        <nav class="footer-col" aria-label={label(col.label)}>
+          <a class="footer-col-title" href={href(col.link)}>{label(col.label)}</a>
+          <ul>
+            {col.children!.map((child) => (
+              <li><a href={href(child.link)}>{label(child.label)}</a></li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    {(cert || data?.badges?.length) && (
+      <div class="footer-badges">
+        {cert && (
+          <div class="cert">
+            {cert.link ? (
+              <a href={cert.link} target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+                <img src={cert.image} alt="" width="56" height="56" />
+              </a>
+            ) : (
+              <img src={cert.image} alt="" width="56" height="56" />
+            )}
+            <div>
+              {cert.link ? (
+                <a class="cert-title" href={cert.link} target="_blank" rel="noopener">{label(cert.label)}</a>
+              ) : (
+                <strong>{label(cert.label)}</strong>
+              )}
+              {cert.documents?.map((doc) => (
+                <a href={doc.file} target="_blank" rel="noopener">{label(doc.label)}</a>
+              ))}
+            </div>
+          </div>
+        )}
+        {data?.badges?.map((badge) => {
+          const Tag = badge.link ? 'a' : 'span';
+          return (
+            <Tag class="badge" href={badge.link} {...(badge.link ? { target: '_blank', rel: 'noopener' } : {})}>
+              <img src={badge.image} alt={badge.name} title={badge.name} />
+            </Tag>
+          );
+        })}
+      </div>
+    )}
+
+    {credits && credits.items.length > 0 && (
+      <div class="footer-credits">
+        <span class="footer-col-title">{label(credits.title)}</span>
+        <ul>
+          {credits.items.map((item) => (
+            <li>
+              <a href={item.link} target="_blank" rel="noopener">{item.title}</a>, {item.author},{' '}
+              <a href={item.licenseLink} target="_blank" rel="noopener">{item.license}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="footer-bottom">
+      <p>&copy; {new Date().getFullYear()} {companyName}</p>
+      <ul>
+        {(data?.links ?? []).map((link) => (
+          <li><a href={href(link.link)}>{label(link.label)}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  {data?.cornerLogo && (
+    <img class="corner-logo" src={data.cornerLogo.image} alt={data.cornerLogo.name} width="341" height="241" />
+  )}
+</footer>
+
+<style>
+  .site-footer {
+    padding-top: var(--space-xl);
+    font-size: 0.92rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+    max-width: 22rem;
+  }
+
+  @media (max-width: 600px) {
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: var(--space-sm);
+    text-decoration: none;
+  }
+
+  .footer-logo img {
+    display: block;
+    height: 44px;
+    width: auto;
+  }
+
+  .wordmark {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--color-white);
+  }
+
+  .wordmark b {
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+
+  .footer-brand p {
+    margin: 0 0 var(--space-sm);
+    color: #c9d2e3;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contact li {
+    margin-bottom: 0.3rem;
+    color: #c9d2e3;
+  }
+
+  .footer-col-title {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    color: var(--color-white) !important;
+    text-decoration: none;
+  }
+
+  .footer-col li {
+    margin-bottom: 0.35rem;
+  }
+
+  .contact a,
+  .footer-col a:not(.footer-col-title),
+  .footer-bottom a,
+  .footer-credits a,
+  .cert a {
+    color: #c9d2e3 !important;
+    text-decoration: none;
+  }
+
+  .contact a:hover,
+  .footer-col a:hover,
+  .footer-credits a:hover,
+  .footer-bottom a:hover,
+  .cert a:hover {
+    color: var(--color-white) !important;
+    text-decoration: underline;
+  }
+
+  .footer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-lg);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .cert {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .cert img {
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+  }
+
+  .cert div {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .cert img {
+    display: block;
+  }
+
+  .cert strong,
+  .cert .cert-title {
+    font-weight: 700;
+    color: var(--color-white) !important;
+  }
+
+  .cert a:hover img {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+
+  .badge {
+    display: inline-flex;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    background: var(--color-white);
+  }
+
+  .badge img {
+    display: block;
+    height: 40px;
+    width: auto;
+  }
+
+  .footer-credits {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .footer-credits ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem var(--space-md);
+    color: #9aa6bd;
+    font-size: 0.85rem;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    padding: var(--space-md) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    color: #9aa6bd;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  .footer-bottom ul {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .link-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .link-button:hover {
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+
+  /* The infoblock artwork has straight left and bottom edges and a curved top-right:
+     it must sit flush in the bottom-left corner */
+  .corner-logo {
+    display: block;
+    width: clamp(170px, 18vw, 240px);
+    height: auto;
+  }
+</style>

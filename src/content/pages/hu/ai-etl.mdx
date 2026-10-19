@@ -1,0 +1,63 @@
+---
+title: MI-támogatott ETL
+slug: ai-etl
+pageType: structured
+seoTitle: MI-támogatott ETL térinformatikai adatmigrációhoz és integrációhoz
+seoDescription: 'MI-t használunk a térbeli ETL gyorsítására: profilozás, séma-leképezés, transzformációs kód és validáció, mérnöki felülvizsgálattal és reprodukálható GDAL/PostGIS folyamatokkal.'
+sections:
+- type: hero
+  eyebrow: Erősségünk
+  heading: MI-támogatott ETL térbeli adatokhoz
+  subheading: Az örökölt adatoktól a megbízható térbeli adatbázisig hetek alatt, nem hónapok alatt, és pontosan tudva, mi történt minden rekorddal.
+  buttons:
+  - label: Beszéljünk
+    link: /contact
+- type: split
+  background: white
+  eyebrow: A valóság
+  heading: Az adatmunka az, ahol a GIS projektek időt vesztenek
+  body: <p>Hálózati nyilvántartások, kataszteri kivonatok, felmérési fájlok, CAD rajzok, táblázatok, szkennelt tervek. Eltérő koordináta-rendszerek, következetlen attribútumok, duplikált és hibás geometriák, hiányzó vagy téves dokumentáció.</p><p>Ennek leképezéseit és ellenőrzéseit kézzel megírni hónapokig tart. A nagy nyelvi modellek éppen az ilyen fárasztó, mintázatokban gazdag munkában jók, ha szorosan kézben tartjuk őket.</p>
+- type: cards
+  background: light
+  eyebrow: Hol segít az MI
+  heading: Öt lépés, felgyorsítva
+  items:
+  - tag: '1'
+    title: Profilozás
+    text: 'Ismeretlen források összefoglalása: attribútumok, értékmintázatok, geometriatípusok, koordináta-rendszerek, kiugró értékek és valószínű kulcsok.'
+  - tag: '2'
+    title: Leképezés
+    text: Javaslat arra, hogyan képződnek le a forrásmezők a célmodellre, a kódlistákat és szabad szöveg normalizálást is beleértve, indoklással.
+  - tag: '3'
+    title: Generálás
+    text: 'A transzformációs kód megírása: GDAL/OGR, SQL a PostGIS-hez, Python, szabványos munkafolyamat-eszközzel vezérelve.'
+  - tag: '4'
+    title: Validáció
+    text: 'Minőségi szabályok írása és futtatása: geometria-érvényesség, topológia, értéktartomány, duplikátumok, hihetőség. Gyanús rekordok jelölése felülvizsgálatra.'
+  - tag: '5'
+    title: Dokumentáció
+    text: 'Adatszótár, származási lánc és egyeztető jelentés készítése: hány rekord érkezett, távozott és lett elutasítva, és miért.'
+- type: split
+  background: white
+  eyebrow: Szabályaink
+  heading: Az MI gyorsít, a mérnök dönt
+  body: <ul><li><strong>Emberi felülvizsgálat:</strong> minden leképezést és szabályt GIS mérnök vizsgál át használat előtt</li><li><strong>Determinisztikus kimenet:</strong> az élesben futó folyamat hagyományos, verziózott kód, nem pedig az adatán improvizáló modell</li><li><strong>Teljes nyomon követhetőség:</strong> minden forrásrekord követhető a célig vagy egy dokumentált elutasításig</li><li><strong>Az adat az Öné marad:</strong> érzékeny vagy állami adatnál helyben üzemeltetett nyílt súlyú modelleket használunk, az adat nem hagyja el a környezetet</li><li><strong>Megismételhető:</strong> ugyanaz a folyamat lefut az adatok következő szállításakor is</li></ul>
+- type: cards
+  background: light
+  eyebrow: Tipikus felhasználás
+  heading: Ahol a legjobban megtérül
+  items:
+  - title: Régi rendszerek migrációja
+    text: Szabadalmazott vagy házi GIS áthelyezése PostGIS-be tiszta, dokumentált adatmodellel.
+    link: /foss4g-migration
+  - title: Nyilvántartások összevonása
+    text: Hálózati, eszköz- vagy kataszteri adatok összevonása sok tulajdonostól, formátumból és minőségi szintről.
+  - title: Folyamatos adatfolyamok
+    text: Partnerektől, hatóságoktól és szenzoroktól érkező rendszeres szállítások, érkezéskor automatikusan ellenőrizve.
+- type: ctaBand
+  heading: Van egy halom adata, amiben senki sem bízik?
+  body: Küldjön egy mintát. Megmutatjuk, hogyan nézne ki a folyamat.
+  buttons:
+  - label: Mintát küldök
+    link: /contact
+---

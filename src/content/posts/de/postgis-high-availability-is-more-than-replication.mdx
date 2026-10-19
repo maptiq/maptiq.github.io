@@ -1,0 +1,32 @@
+---
+title: Hochverfügbares PostGIS ist mehr als Replikation
+slug: postgis-high-availability-is-more-than-replication
+date: '2026-10-12'
+excerpt: Ein Replikat ist noch kein Failover-Konzept. Was für eine Geodatenbank, die laufen muss, wirklich nötig ist.
+seoDescription: 'Was ein hochverfügbares PostGIS über Streaming-Replikation hinaus braucht: Failover, Konsens, Backups, Upgrades und getestete Wiederherstellung.'
+---
+Ein zweiter Datenbankserver ist, wo die meisten anfangen. Dort endet Hochverfügbarkeit aber nicht.
+
+<h2 id="replikation-ist-der-anfang">Replikation ist der Anfang</h2>
+
+Die PostgreSQL-Streaming-Replikation hält eine Kopie Ihrer PostGIS-Datenbank auf einem anderen Server. Das schützt vor dem Verlust einer Festplatte. Es schaltet die Anwendungen aber nicht von selbst auf die Kopie um, wenn der Primärserver ausfällt, und schützt nicht vor einem fehlerhaften `DELETE`, denn der Fehler wird mitrepliziert.
+
+<h2 id="automatischer-failover-braucht-einen-schiedsrichter">Automatischer Failover braucht einen Schiedsrichter</h2>
+
+Jemand muss entscheiden, dass der Primärserver wirklich weg ist, genau ein Replikat befördern und alle anderen informieren. Schlecht gemacht entstehen zwei Primärserver mit Schreibzugriff, ein „Split Brain“, das viel schlimmer ist als ein Ausfall. Werkzeuge wie Patroni lösen das mit einem verteilten Konsensspeicher (etcd) und drei stimmberechtigten Mitgliedern, sodass eine Netzwerktrennung keine zwei Leader erzeugen kann. Anwendungen verbinden sich über einen Load Balancer oder eine virtuelle IP, die stets auf den aktuellen Primärserver zeigt.
+
+<h2 id="backups-die-wirklich-zurueckgespielt-wurden">Backups, die wirklich zurückgespielt wurden</h2>
+
+Replikation und Backup lösen unterschiedliche Probleme. Nötig sind Point-in-Time-Recovery mit kontinuierlicher WAL-Archivierung (meist pgBackRest), eine externe Kopie und geplante Restore-Übungen. Ein Backup, das nie zurückgespielt wurde, ist eine Hoffnung, kein Backup.
+
+<h2 id="auch-die-kartenschicht-zaehlt">Auch die Kartenschicht zählt</h2>
+
+Nutzer sehen nicht die Datenbank, sondern die Karte. Wir betreiben mehrere zustandslose GeoServer- oder MapProxy-Instanzen hinter einem Load Balancer, cachen Kacheln und sorgen dafür, dass eine langsame Abfrage nicht den ganzen Dienst lahmlegt.
+
+<h2 id="upgrades-und-tests">Upgrades und Tests</h2>
+
+Die meisten Ausfallzeiten sind geplant. Rolling Upgrades, an einer Kopie geübt, drücken sie nahe null. Vor dem Go-live gehen wir dann gezielt kaputt: Primärserver stoppen, Netzwerk trennen, Platte füllen und beobachten.
+
+<h2 id="zuerst-die-zahlen-festlegen">Zuerst die Zahlen festlegen</h2>
+
+Wie viele Daten dürfen verloren gehen (RPO) und wie lange darf das System stehen (RTO)? Die Antworten bestimmen Architektur und Preis, daher sollte man sich vor der Werkzeugwahl darauf einigen.

@@ -1,0 +1,32 @@
+---
+title: A PostGIS magas rendelkezésre állása több, mint replikáció
+slug: postgis-high-availability-is-more-than-replication
+date: '2026-10-12'
+excerpt: A replika még nem átkapcsolási terv. Mi kell valójában egy olyan térbeli adatbázishoz, amelynek működnie kell.
+seoDescription: 'Mi kell egy magasan elérhető PostGIS-hez a streaming replikáción túl: átkapcsolás, konszenzus, mentések, frissítések és tesztelt helyreállítás.'
+---
+A második adatbázis-szerver az, ahol a legtöbben kezdik. De nem itt ér véget a magas rendelkezésre állás.
+
+<h2 id="a-replikacio-a-kezdet">A replikáció a kezdet</h2>
+
+A PostgreSQL streaming replikáció egy másik szerveren tartja a PostGIS adatbázis másolatát. Ez egy lemezhibától megvéd. Önmagában viszont nem kapcsolja át az alkalmazásokat a másolatra, ha az elsődleges szerver meghal, és nem véd egy elrontott `DELETE`-től sem, mert a hiba is replikálódik.
+
+<h2 id="az-automatikus-atkapcsolashoz-biro-kell">Az automatikus átkapcsoláshoz bíró kell</h2>
+
+Valakinek el kell döntenie, hogy az elsődleges szerver tényleg elveszett, elő kell léptetnie pontosan egy replikát, és erről értesítenie kell a többieket. Rosszul csinálva két elsődleges szerver fogad írást, ez a „split brain”, ami sokkal rosszabb a leállásnál. Az olyan eszközök, mint a Patroni, ezt elosztott konszenzus-tárral (etcd) és három szavazó taggal oldják meg, így hálózati szakadás nem hozhat létre két vezetőt. Az alkalmazások terheléselosztón vagy virtuális IP-n át csatlakoznak, amely mindig az aktuális elsődlegesre mutat.
+
+<h2 id="visszaallitott-mentesek">Mentések, amelyeket tényleg visszaállítottak</h2>
+
+A replikáció és a mentés más problémát old meg. Kell az időpontra pontos helyreállítás folyamatos WAL archiválással (általában pgBackRestet használunk), egy telephelyen kívüli másolat, és ütemezett visszaállítási próbák. Az a mentés, amit még soha nem állítottak vissza, remény, nem mentés.
+
+<h2 id="a-terkepreteg-is-szamit">A térképréteg is számít</h2>
+
+A felhasználók nem az adatbázist látják, hanem a térképet. Több állapotmentes GeoServer vagy MapProxy példányt futtatunk terheléselosztó mögött, csempéket gyorsítótárazunk, és gondoskodunk róla, hogy egy lassú lekérdezés ne vigye el az egész szolgáltatást.
+
+<h2 id="frissitesek-es-tesztek">Frissítések és tesztek</h2>
+
+A leállások többsége tervezett. A másolaton begyakorolt, gördülő frissítések ezt nullához közelire csökkentik. Élesítés előtt pedig szándékosan elrontunk dolgokat: leállítjuk az elsődlegest, megszakítjuk a hálózatot, megtöltünk egy lemezt, és nézzük, mi történik.
+
+<h2 id="eloszor-a-szamokat">Először a számokat döntse el</h2>
+
+Mennyi adatot veszíthet el (RPO), és mennyi ideig lehet leállva (RTO)? A válaszok döntik el az architektúrát és az árát, ezért még az eszközök kiválasztása előtt meg kell egyezni rájuk.

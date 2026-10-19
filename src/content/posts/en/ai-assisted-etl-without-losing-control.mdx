@@ -1,0 +1,28 @@
+---
+title: AI-assisted ETL without losing control
+slug: ai-assisted-etl-without-losing-control
+date: '2026-10-05'
+excerpt: How we use language models to speed up spatial data migration while keeping pipelines reproducible, reviewed and traceable.
+seoDescription: 'How AI speeds up GIS data migration safely: profiling, mapping, code generation and validation, with review, reproducible pipelines and local models.'
+---
+Large language models are very good at tedious, pattern-heavy work. Moving a legacy GIS into a clean PostGIS database is full of it. The question is how to use them without giving up control over the data.
+
+<h2 id="what-we-let-ai-do">What we let the AI do</h2>
+
+We use it to profile unknown sources (attributes, value patterns, geometry types, coordinate systems), to propose mappings to the target data model, to draft GDAL, SQL and Python transformation code, and to write validation rules and documentation. This is the slow, manual part of every migration.
+
+<h2 id="what-it-never-does">What it never does</h2>
+
+It does not run unattended on production data, and it does not make the final decision about what a field means. Every mapping and rule is reviewed by an engineer, and what runs in production is ordinary, versioned code. The same input always gives the same output.
+
+<h2 id="traceability">Traceability</h2>
+
+Each pipeline ends with a reconciliation report: records read, written and rejected, with reasons. Any source record can be followed to its target or to a documented rejection. That is what lets you trust the result, and what an auditor will ask for.
+
+<h2 id="sensitive-data">Sensitive data</h2>
+
+For government and infrastructure data we use locally hosted open-weight models, so nothing leaves your environment. Often a sample with sensitive values masked is enough for the model to see the patterns.
+
+<h2 id="where-it-pays-off">Where it pays off</h2>
+
+The more messy and varied the sources, the bigger the gain: registries merged from many owners, decades of CAD files, spreadsheets with free-text attributes. For a clean, single-format dataset a plain script is just as good, and we will say so.

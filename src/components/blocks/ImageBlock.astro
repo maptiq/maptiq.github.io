@@ -1,0 +1,39 @@
+---
+interface Props {
+  image: string;
+  caption?: string;
+}
+
+const { image, caption } = Astro.props;
+---
+
+<figure class="container image-block">
+  <div class="column">
+    <img src={image} alt={caption ?? ''} loading="lazy" />
+    {caption && <figcaption>{caption}</figcaption>}
+  </div>
+</figure>
+
+<style>
+  .image-block {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: var(--space-sm);
+    padding-bottom: var(--space-sm);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 560px;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius);
+  }
+
+  figcaption {
+    margin-top: var(--space-xs);
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+</style>

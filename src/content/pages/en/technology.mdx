@@ -1,0 +1,130 @@
+---
+title: FOSS4G technology
+slug: technology
+pageType: structured
+seoTitle: 'FOSS4G technologies we use: PostGIS, GeoServer, QGIS, OpenLayers, MapLibre'
+seoDescription: 'An overview of the open source geospatial technologies MaptIQ builds with: databases, map servers, web mapping, desktop GIS, processing, catalogues and infrastructure.'
+sections:
+- type: hero
+  eyebrow: Technology
+  heading: The FOSS4G stack we build with
+  subheading: 'Free and open source software for geospatial: mature, standards-based and used in production worldwide. We pick the right tool for the job and we run all of them ourselves.'
+- type: cards
+  background: white
+  anchorId: database
+  eyebrow: Data
+  heading: Databases and data formats
+  items:
+  - tag: PostgreSQL + PostGIS
+    title: PostGIS
+    text: The standard open source spatial database. Geometry, geography, raster, topology and thousands of spatial functions, with the reliability of PostgreSQL. The heart of our systems.
+  - tag: Routing
+    title: pgRouting
+    text: Shortest path, network analysis and routing directly in the database. Useful for road, utility and telecom networks.
+  - tag: GDAL / OGR
+    title: GDAL / OGR
+    text: The universal translator for raster and vector formats and coordinate transformations. The backbone of our ETL pipelines.
+  - tag: Cloud-native
+    title: GeoPackage · GeoParquet · COG · PMTiles
+    text: 'Modern, open formats for exchange and cloud storage: simple files, fast partial reads, no server needed.'
+- type: cards
+  background: light
+  anchorId: services
+  eyebrow: Services
+  heading: Map servers and tile services
+  items:
+  - tag: OGC WMS · WFS · WMTS
+    title: GeoServer
+    text: Full-featured Java map and feature server with styling, security and clustering. Our choice for standards-heavy, enterprise setups.
+  - tag: OGC WMS · WFS
+    title: MapServer
+    text: A fast, lightweight C-based map server with a very long track record.
+  - tag: Tile cache
+    title: MapProxy
+    text: Caches and reprojects tiles from upstream services, taking load off backends and making maps fast.
+  - tag: Vector tiles
+    title: Martin · pg_tileserv · Tippecanoe
+    text: Vector tiles straight from PostGIS, or pre-built for huge datasets, for smooth, styleable maps.
+  - tag: Real-time
+    title: Tile38
+    text: In-memory geospatial index with geofencing and live location tracking.
+  - tag: OGC API
+    title: pg_featureserv · pygeoapi
+    text: Modern, lightweight OGC API Features and Processes services for developers.
+- type: cards
+  background: white
+  anchorId: frontend
+  eyebrow: Web mapping
+  heading: Map front ends
+  items:
+  - tag: JavaScript
+    title: OpenLayers
+    text: 'The most complete web mapping library: any projection, any OGC service, strong editing and analysis tools.'
+  - tag: WebGL
+    title: MapLibre GL JS
+    text: Fast, vector-tile based maps with smooth rendering and custom styles. The open successor of Mapbox GL.
+  - tag: Big data
+    title: deck.gl
+    text: GPU-powered visualisation of millions of points, lines and 3D features.
+  - tag: Lightweight
+    title: Leaflet
+    text: Simple, small and widely known, ideal for straightforward public maps.
+- type: cards
+  background: light
+  anchorId: desktop
+  eyebrow: Desktop, field and analysis
+  heading: Where people work with the data
+  items:
+  - tag: Desktop GIS
+    title: QGIS
+    text: 'The leading open source desktop GIS: editing straight in PostGIS, cartography, analysis, plugins, and a Python API for automation.'
+  - tag: Field
+    title: QField
+    text: Mobile data collection on top of QGIS projects, online or offline, with forms and photos.
+  - tag: Processing
+    title: Python · GeoPandas · GRASS · PDAL
+    text: Scripted analysis, raster and terrain processing, and point cloud pipelines, run repeatably on servers.
+  - tag: Surveying
+    title: GNU Gama · RTKLIB · PROJ
+    text: Network adjustment, GNSS processing and coordinate reference systems for engineering-grade accuracy.
+- type: cards
+  background: white
+  anchorId: platforms
+  eyebrow: Catalogues and platforms
+  heading: Metadata, portals and spatial data infrastructure
+  items:
+  - tag: Catalogue
+    title: GeoNetwork · pycsw
+    text: Metadata catalogues compliant with ISO 19115 and INSPIRE, for discoverable data.
+  - tag: Portal
+    title: GeoNode · MapStore
+    text: Ready-made geospatial portals for sharing data and building map applications.
+  - tag: Identity
+    title: Keycloak
+    text: Single sign-on and role-based access across all components, with LDAP and OIDC integration.
+- type: cards
+  background: dark
+  anchorId: infrastructure
+  eyebrow: Infrastructure
+  heading: What keeps it running
+  intro: High availability is made of unglamorous, well-understood parts.
+  items:
+  - tag: PostgreSQL HA
+    title: Patroni · etcd · pgBackRest
+    text: Automatic failover, replication and point-in-time recovery for PostGIS.
+  - tag: Traffic
+    title: HAProxy · nginx · keepalived
+    text: Load balancing, health checks and virtual IPs for redundant entry points.
+  - tag: Platform
+    title: Docker · Kubernetes · Ansible · Terraform
+    text: Containers and infrastructure as code for identical, rebuildable environments.
+  - tag: Observability
+    title: Prometheus · Grafana · Loki
+    text: Metrics, dashboards, logs and alerts across every layer.
+- type: ctaBand
+  heading: Not sure which tools fit?
+  body: Technology selection is part of the free first consultation.
+  buttons:
+  - label: Talk to us
+    link: /contact
+---

@@ -1,0 +1,64 @@
+---
+title: Hochverfügbares GIS
+slug: high-availability
+pageType: structured
+seoTitle: 'Hochverfügbares GIS: geschäftskritische Open-Source-Geosysteme'
+seoDescription: Hochverfügbare PostGIS-, GeoServer- und Kartenplattformen mit automatischem Failover, getesteten Backups und Monitoring für Infrastruktur und Verwaltung.
+sections:
+- type: hero
+  eyebrow: Unsere Spezialität
+  heading: Hochverfügbares, geschäftskritisches GIS
+  subheading: Geoplattformen, die weiterlaufen, wenn ein Server, eine Festplatte oder ein ganzer Standort ausfällt.
+  buttons:
+  - label: Kontakt aufnehmen
+    link: /contact
+- type: split
+  background: white
+  eyebrow: Das Problem
+  heading: Die meisten GIS wurden nie für Dauerbetrieb entworfen
+  body: '<p>Viele GIS-Installationen begannen als Desktop-Projekt und wurden zu etwas, auf das man täglich angewiesen ist: Einsatzsteuerung, Genehmigungen, Netzplanung. Ein Datenbankserver, ein Kartenserver und ein nächtliches Backup, das nie jemand zurückgespielt hat, ist dafür keine Architektur.</p><p>Wir lassen GIS sich so verhalten, wie die kritische Infrastruktur, die es geworden ist.</p>'
+- type: split
+  background: light
+  imagePosition: left
+  eyebrow: Referenzarchitektur
+  heading: Kein Single Point of Failure
+  body: <p>Die Details hängen von Anforderungen und Budget ab, aber ein typischer Entwurf besteht aus:</p><ul><li><strong>Redundanter Eingang:</strong> Load-Balancer-Paar mit virtueller IP und Health Checks</li><li><strong>Zustandslose Kartendienste:</strong> mehrere GeoServer-, MapProxy- oder API-Instanzen, die frei hinzugefügt werden oder ausfallen können</li><li><strong>Replizierte Datenbank:</strong> PostgreSQL/PostGIS mit Patroni, Streaming-Replikation und automatischem Failover</li><li><strong>Getrennte Ausfallzonen:</strong> Knoten über Racks, Rechenzentren oder Standorte verteilt</li><li><strong>Backups, die funktionieren:</strong> Point-in-Time-Recovery mit pgBackRest, externe Kopien und regelmäßige Restore-Übungen</li></ul>
+  image: /images/ha-architecture.svg
+  imageAlt: Referenzarchitektur eines hochverfügbaren GIS
+- type: cards
+  background: white
+  eyebrow: Wie wir arbeiten
+  heading: Verfügbarkeit wird entworfen und dann bewiesen
+  items:
+  - tag: '1'
+    title: Ziel definieren
+    text: Wir vereinbaren Verfügbarkeit, Wiederherstellungszeit (RTO) und tolerierbaren Datenverlust (RPO) mit Ihnen, denn sie bestimmen die Kosten.
+  - tag: '2'
+    title: Entwerfen und automatisieren
+    text: Die gesamte Plattform ist als Code beschrieben und lässt sich in Minuten identisch neu aufbauen.
+  - tag: '3'
+    title: Gezielt testen
+    text: Failover-, Restore- und Lasttests vor dem Go-live. Wir schalten Knoten ab, während Sie zusehen.
+  - tag: '4'
+    title: Überwachen und reagieren
+    text: Metriken, Alarme und Runbooks. Optional Bereitschafts-Support über unsere <a href="/support">Support-Pakete</a>.
+- type: cards
+  background: light
+  eyebrow: Ebenfalls enthalten
+  heading: Die unscheinbaren Teile, die über Verfügbarkeit entscheiden
+  items:
+  - title: Updates ohne Ausfallzeit
+    text: Rolling Updates von PostgreSQL, PostGIS und Kartendiensten, vorher an einer Kopie geübt.
+  - title: Sicherheit und Zugriff
+    text: Single Sign-on mit Keycloak, rollenbasierter Zugriff, Verschlüsselung, Audit-Logging und Patch-Routine.
+  - title: Leistung im großen Maßstab
+    text: Tile-Caching, Vector Tiles, Query-Tuning und räumliche Indizes halten Karten unter Last schnell.
+  - title: Läuft, wo Sie es brauchen
+    text: On-Premise, Private Cloud, Public Cloud oder Air-Gap. Ihre Daten bleiben, wo Ihre Regeln es verlangen.
+- type: ctaBand
+  heading: Ist Ihr GIS auf seinen schlimmsten Tag vorbereitet?
+  body: Wir prüfen Ihr aktuelles Setup und zeigen, wo die Risiken liegen.
+  buttons:
+  - label: Architektur-Review anfragen
+    link: /contact
+---

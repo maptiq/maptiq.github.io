@@ -1,0 +1,15 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  buttons?: { label: string; link: string }[];
+}
+
+const { buttons = [] } = Astro.props;
+---
+
+{buttons.length > 0 && (
+  <div class="actions">
+    {buttons.map((b, i) => <Button label={b.label} link={b.link} variant={i === 0 ? 'primary' : 'secondary'} />)}
+  </div>
+)}

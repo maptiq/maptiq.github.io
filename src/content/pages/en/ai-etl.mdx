@@ -1,0 +1,63 @@
+---
+title: AI-assisted ETL
+slug: ai-etl
+pageType: structured
+seoTitle: AI-assisted ETL for GIS data migration and integration
+seoDescription: 'We use AI to speed up spatial ETL: profiling, schema mapping, transformation code and validation, with engineer review and reproducible pipelines on GDAL and PostGIS.'
+sections:
+- type: hero
+  eyebrow: Strength
+  heading: AI-assisted ETL for spatial data
+  subheading: Get from legacy data to a trusted spatial database in weeks, not months, and know exactly what happened to every record.
+  buttons:
+  - label: Talk to us
+    link: /contact
+- type: split
+  background: white
+  eyebrow: The reality
+  heading: Data work is where GIS projects lose time
+  body: <p>Network registries, cadastral extracts, survey files, CAD drawings, spreadsheets, scanned plans. Different coordinate systems, inconsistent attributes, duplicated and broken geometries, and documentation that is missing or wrong.</p><p>Writing the mappings and checks for that by hand takes months. Large language models are good at exactly this kind of tedious, pattern-heavy work, if you keep them on a short leash.</p>
+- type: cards
+  background: light
+  eyebrow: Where AI helps
+  heading: Five steps, accelerated
+  items:
+  - tag: '1'
+    title: Profile
+    text: 'Summarise unknown sources: attributes, value patterns, geometry types, coordinate systems, outliers and likely keys.'
+  - tag: '2'
+    title: Map
+    text: Propose how source fields map to the target data model, including code lists and free-text normalisation, with reasons.
+  - tag: '3'
+    title: Generate
+    text: 'Draft the transformation code: GDAL/OGR, SQL for PostGIS, Python, orchestrated by a standard workflow tool.'
+  - tag: '4'
+    title: Validate
+    text: 'Write and run quality rules: geometry validity, topology, domain checks, duplicates, plausibility. Flag suspicious records for review.'
+  - tag: '5'
+    title: Document
+    text: 'Generate data dictionaries, lineage and a reconciliation report: how many records came in, went out and were rejected, and why.'
+- type: split
+  background: white
+  eyebrow: Our rules
+  heading: AI accelerates, engineers decide
+  body: <ul><li><strong>Human review:</strong> every mapping and rule is reviewed by a GIS engineer before it is used</li><li><strong>Deterministic output:</strong> the pipeline that runs in production is ordinary, versioned code, not a model improvising on your data</li><li><strong>Full traceability:</strong> every source record can be followed to its target or to a documented rejection</li><li><strong>Your data stays yours:</strong> for sensitive or government data we use locally hosted open-weight models, with no data leaving your environment</li><li><strong>Repeatable:</strong> the same pipeline re-runs on the next delivery of data</li></ul>
+- type: cards
+  background: light
+  eyebrow: Typical uses
+  heading: Where it pays off most
+  items:
+  - title: Legacy system migration
+    text: Moving a proprietary or home-grown GIS into PostGIS with a clean, documented data model.
+    link: /foss4g-migration
+  - title: Registry consolidation
+    text: Merging network, asset or cadastral data from many owners, formats and quality levels.
+  - title: Continuous data feeds
+    text: Recurring deliveries from partners, authorities and sensors, checked automatically on arrival.
+- type: ctaBand
+  heading: Got a pile of data nobody trusts?
+  body: Send us a sample. We will show you what the pipeline would look like.
+  buttons:
+  - label: Send us a sample
+    link: /contact
+---

@@ -1,0 +1,22 @@
+---
+import VideoConsent from '../ui/VideoConsent.astro';
+
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<div class="container video-wrap">
+  <div class="column">
+    <VideoConsent src={url} />
+  </div>
+</div>
+
+<style>
+  .video-wrap {
+    padding-top: var(--space-sm);
+    padding-bottom: var(--space-sm);
+  }
+</style>

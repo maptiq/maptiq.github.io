@@ -1,0 +1,58 @@
+menu:
+  - label:
+      en: Services
+      hu: Szolgáltatások
+      de: Leistungen
+    link: /services
+    children:
+      - label:
+          en: GIS development
+          hu: GIS fejlesztés
+          de: GIS-Entwicklung
+        link: /gis-development
+      - label:
+          en: High availability
+          hu: Magas rendelkezésre állás
+          de: Hochverfügbarkeit
+        link: /high-availability
+      - label:
+          en: AI-assisted ETL
+          hu: MI-támogatott ETL
+          de: KI-gestütztes ETL
+        link: /ai-etl
+      - label:
+          en: Migration to open source
+          hu: Átállás nyílt forráskódra
+          de: Umstieg auf Open Source
+        link: /foss4g-migration
+      - label:
+          en: Support and operations
+          hu: Támogatás és üzemeltetés
+          de: Support und Betrieb
+        link: /support
+  - label:
+      en: Technology
+      hu: Technológia
+      de: Technologie
+    link: /technology
+  - label:
+      en: Infrastructure and government
+      hu: Infrastruktúra és államigazgatás
+      de: Infrastruktur und Verwaltung
+    link: /sectors
+  - label:
+      en: Blog
+      hu: Blog
+      de: Blog
+    link: /blog
+  - label:
+      en: About us
+      hu: Rólunk
+      de: Über uns
+    link: /about
+cta:
+  label:
+    en: Contact
+    hu: Kapcsolat
+    de: Kontakt
+  link: /contact

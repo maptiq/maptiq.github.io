@@ -1,0 +1,74 @@
+---
+import type { Crumb } from '../../lib/breadcrumbs';
+import { getLocaleFromUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+const t = useTranslations(getLocaleFromUrl(Astro.url));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    // Google requires `item` on every entry. Parent menu items such as
+    // `/#wedo` are in-page anchors, so keep the fragment instead of dropping it.
+    item: new URL(c.href ?? Astro.url.pathname, Astro.site).toString(),
+  })),
+};
+---
+
+{crumbs.length > 0 && (
+  <nav class="breadcrumbs" aria-label={t('nav.breadcrumb')}>
+    <ol>
+      {crumbs.map((c, i) => (
+        <li>
+          {c.href && i < crumbs.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+        </li>
+      ))}
+    </ol>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </nav>
+)}
+
+<style>
+  .breadcrumbs {
+    margin-bottom: var(--space-md);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li:not(:last-child)::after {
+    content: '›';
+    margin-left: 0.35rem;
+    opacity: 0.6;
+  }
+
+  a {
+    color: #c9d2e3 !important;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-white) !important;
+    text-decoration: underline;
+  }
+
+  span {
+    color: var(--color-white);
+  }
+</style>

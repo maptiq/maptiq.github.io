@@ -1,0 +1,51 @@
+---
+import { locales, type Locale } from '../../i18n/ui';
+import { pageHref, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  currentLocale: Locale;
+  currentPath: string;
+}
+
+const { currentLocale, currentPath } = Astro.props;
+const t = useTranslations(currentLocale);
+
+// currentPath is the path with the leading /{locale} segment already stripped
+const localeLabels: Record<Locale, string> = {
+  en: 'EN',
+  hu: 'HU',
+  de: 'DE',
+};
+---
+
+<nav class="language-switcher" aria-label={t('nav.language')}>
+  {locales.map((locale) => (
+    <a
+      href={pageHref(locale, currentPath)}
+      class={locale === currentLocale ? 'active' : ''}
+      aria-current={locale === currentLocale ? 'true' : undefined}
+    >
+      {localeLabels[locale]}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .language-switcher {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .language-switcher a {
+    text-decoration: none;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .language-switcher a.active {
+    color: var(--color-primary-text);
+    border-bottom: 2px solid var(--color-primary);
+  }
+</style>

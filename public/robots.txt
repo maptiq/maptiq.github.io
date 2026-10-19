@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://maptiq.eu/sitemap-index.xml

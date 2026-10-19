@@ -1,0 +1,26 @@
+---
+import Buttons from '../ui/Buttons.astro';
+
+interface Props {
+  buttons: { label: string; link: string }[];
+}
+
+const { buttons } = Astro.props;
+---
+
+<div class="container button-cta">
+  <div class="column">
+    <Buttons {buttons} />
+  </div>
+</div>
+
+<style>
+  .button-cta {
+    padding-top: var(--space-xs);
+    padding-bottom: var(--space-sm);
+  }
+
+  .button-cta :global(.actions) {
+    margin-top: 0;
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+import Buttons from '../ui/Buttons.astro';
+import { getLocaleFromUrl, renderRich } from '../../i18n/utils';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  body?: string;
+  image?: string;
+  imageAlt?: string;
+  imagePosition?: 'left' | 'right';
+  background?: 'white' | 'light' | 'dark';
+  stats?: { value: number; suffix?: string; label: string }[];
+  buttons?: { label: string; link: string }[];
+}
+
+const { eyebrow, heading, body, image, imageAlt, imagePosition = 'right', background = 'white', stats, buttons } =
+  Astro.props;
+const html = renderRich(body, getLocaleFromUrl(Astro.url));
+---
+
+<section class:list={['section', `bg-${background}`]}>
+  <div class:list={['container', 'split', { 'image-left': imagePosition === 'left', 'no-image': !image }]}>
+    <div class="split-text">
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h2>{hyphenate(heading)}</h2>
+      {html && <div class="rich" set:html={html} />}
+      {stats && stats.length > 0 && (
+        <dl class="stats">
+          {stats.map((s) => (
+            <div>
+              <dt>{hyphenate(s.label)}</dt>
+              <dd>{s.value}{s.suffix}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+      <Buttons {buttons} />
+    </div>
+    {image && (
+      <div class="split-media">
+        <img src={image} alt={imageAlt ?? ''} loading="lazy" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .split {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .split.no-image {
+      grid-template-columns: 1fr;
+    }
+
+    .image-left .split-media {
+      order: -1;
+    }
+  }
+
+  .split-text {
+    max-width: 36rem;
+    min-width: 0;
+  }
+
+  .no-image .split-text {
+    max-width: none;
+  }
+
+  .no-image .split-text > :not(.stats) {
+    max-width: var(--measure);
+  }
+
+  .no-image .stats {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+
+  .split-media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .split-media img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 560px;
+    border-radius: var(--radius);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: var(--space-sm) var(--space-md);
+    margin: var(--space-md) 0 0;
+  }
+
+  .stats div {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stats dd {
+    order: -1;
+    white-space: nowrap;
+  }
+
+  .stats dt {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    overflow-wrap: break-word;
+  }
+
+  .stats dd {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-primary-text);
+  }
+
+  :global(.bg-dark) .stats dd {
+    color: #ff8a66;
+  }
+</style>

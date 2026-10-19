@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro';
+import { locales, type Locale } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+
+const allPages = await getCollection('pages');
+// filePath (not id) reflects the real src/content/pages/{locale}/...
+// location - the glob loader derives `id` from frontmatter `slug` when
+// present, which isn't locale-prefixed and can't be used for this check.
+const inLocale = (p: (typeof allPages)[number], loc: Locale) => p.filePath?.includes(`/pages/${loc}/`) ?? false;
+const homepage =
+  allPages.find((p) => inLocale(p, locale) && p.data.slug === '') ??
+  allPages.find((p) => inLocale(p, 'en') && p.data.slug === '');
+
+if (!homepage) {
+  throw new Error('No homepage content found — expected at least an English fallback.');
+}
+---
+
+<BaseLayout
+  locale={locale}
+  title={homepage.data.seoTitle ?? homepage.data.title}
+  description={homepage.data.seoDescription}
+  ogImage={homepage.data.ogImage}
+  path=""
+>
+  {homepage.data.sections && <BlockRenderer sections={homepage.data.sections} />}
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+title: PostGIS high availability is more than replication
+slug: postgis-high-availability-is-more-than-replication
+date: '2026-10-12'
+excerpt: A replica is not a failover plan. What actually has to be in place for a spatial database that must stay up.
+seoDescription: 'What a highly available PostGIS setup needs beyond streaming replication: failover, consensus, backups, upgrades and tested recovery.'
+---
+A second database server is where most people start. It is not where high availability ends.
+
+<h2 id="replication-is-the-start">Replication is the start</h2>
+
+PostgreSQL streaming replication keeps a copy of your PostGIS database on another server. That protects you from losing a disk. It does not, on its own, switch applications to the copy when the primary dies, and it does not protect you from a bad `DELETE`, because the mistake is replicated too.
+
+<h2 id="automatic-failover">Automatic failover needs a referee</h2>
+
+Someone has to decide that the primary is really gone, promote exactly one replica and tell everyone else. Done badly you get two primaries accepting writes, a "split brain" that is far worse than an outage. Tools such as Patroni solve this with a distributed consensus store (etcd) and three voting members, so a network partition cannot produce two leaders. Applications connect through a load balancer or virtual IP that always points to the current primary.
+
+<h2 id="backups-you-have-restored">Backups you have actually restored</h2>
+
+Replication and backups solve different problems. Keep point-in-time recovery with continuous WAL archiving (pgBackRest is our usual choice), an off-site copy, and schedule restore drills. A backup that has never been restored is a hope, not a backup.
+
+<h2 id="the-map-layer-matters-too">The map layer matters too</h2>
+
+Users do not see the database, they see the map. Run several stateless GeoServer or MapProxy instances behind a load balancer, cache tiles, and make sure a slow query cannot take the whole service down.
+
+<h2 id="upgrades-and-testing">Upgrades and testing</h2>
+
+Most downtime is planned. Rolling upgrades, rehearsed on a copy, keep it near zero. Then break things on purpose before go-live: stop the primary, cut the network, fill a disk, and watch what happens.
+
+<h2 id="decide-the-numbers-first">Decide the numbers first</h2>
+
+How much data can you afford to lose (RPO), and how long can you be down (RTO)? The answers decide the architecture and its price, so agree on them before choosing tools.

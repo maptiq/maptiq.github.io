@@ -1,0 +1,130 @@
+---
+title: FOSS4G-Technologie
+slug: technology
+pageType: structured
+seoTitle: 'FOSS4G-Technologien: PostGIS, GeoServer, QGIS, OpenLayers, MapLibre'
+seoDescription: 'Überblick über die Open-Source-Geotechnologien, mit denen MaptIQ baut: Datenbanken, Kartenserver, Webmapping, Desktop-GIS, Verarbeitung, Kataloge und Infrastruktur.'
+sections:
+- type: hero
+  eyebrow: Technologie
+  heading: Der FOSS4G-Stack, mit dem wir bauen
+  subheading: 'Freie und Open-Source-Software für Geodaten: ausgereift, standardbasiert und weltweit im Produktiveinsatz. Wir wählen das passende Werkzeug und betreiben alle selbst.'
+- type: cards
+  background: white
+  anchorId: database
+  eyebrow: Daten
+  heading: Datenbanken und Datenformate
+  items:
+  - tag: PostgreSQL + PostGIS
+    title: PostGIS
+    text: Die Standard-Geodatenbank im Open-Source-Bereich. Geometrie, Geografie, Raster, Topologie und tausende räumliche Funktionen mit der Zuverlässigkeit von PostgreSQL. Das Herz unserer Systeme.
+  - tag: Routing
+    title: pgRouting
+    text: Kürzeste Wege, Netzwerkanalyse und Routing direkt in der Datenbank. Nützlich für Straßen-, Versorgungs- und Telekommunikationsnetze.
+  - tag: GDAL / OGR
+    title: GDAL / OGR
+    text: Der universelle Übersetzer für Raster- und Vektorformate und Koordinatentransformationen. Das Rückgrat unserer ETL-Pipelines.
+  - tag: Cloud-nativ
+    title: GeoPackage · GeoParquet · COG · PMTiles
+    text: 'Moderne offene Formate für Austausch und Cloud-Speicher: einfache Dateien, schnelles Teil-Lesen, kein Server nötig.'
+- type: cards
+  background: light
+  anchorId: services
+  eyebrow: Dienste
+  heading: Kartenserver und Tile-Dienste
+  items:
+  - tag: OGC WMS · WFS · WMTS
+    title: GeoServer
+    text: Voll ausgestatteter Java-Karten- und Feature-Server mit Styling, Sicherheit und Clustering. Unsere Wahl für standardlastige Enterprise-Setups.
+  - tag: OGC WMS · WFS
+    title: MapServer
+    text: Ein schneller, schlanker Kartenserver in C mit sehr langer Praxisbewährung.
+  - tag: Tile cache
+    title: MapProxy
+    text: Cacht und reprojiziert Kacheln aus vorgelagerten Diensten, entlastet Backends und macht Karten schnell.
+  - tag: Vector tiles
+    title: Martin · pg_tileserv · Tippecanoe
+    text: Vector Tiles direkt aus PostGIS oder vorgebaut für riesige Datensätze, für flüssige, stilisierbare Karten.
+  - tag: Real-time
+    title: Tile38
+    text: Räumlicher In-Memory-Index mit Geofencing und Live-Positionsverfolgung.
+  - tag: OGC API
+    title: pg_featureserv · pygeoapi
+    text: Moderne, schlanke OGC-API-Features- und -Processes-Dienste für Entwickler.
+- type: cards
+  background: white
+  anchorId: frontend
+  eyebrow: Webmapping
+  heading: Karten-Frontends
+  items:
+  - tag: JavaScript
+    title: OpenLayers
+    text: 'Die umfassendste Webmapping-Bibliothek: jede Projektion, jeder OGC-Dienst, starke Bearbeitungs- und Analysewerkzeuge.'
+  - tag: WebGL
+    title: MapLibre GL JS
+    text: Schnelle Karten auf Vector-Tile-Basis mit flüssigem Rendering und eigenen Stilen. Der offene Nachfolger von Mapbox GL.
+  - tag: Big data
+    title: deck.gl
+    text: GPU-beschleunigte Visualisierung von Millionen Punkten, Linien und 3D-Objekten.
+  - tag: Lightweight
+    title: Leaflet
+    text: Einfach, klein und weit verbreitet, ideal für unkomplizierte öffentliche Karten.
+- type: cards
+  background: light
+  anchorId: desktop
+  eyebrow: Desktop, Feld und Analyse
+  heading: Wo Menschen mit den Daten arbeiten
+  items:
+  - tag: Desktop GIS
+    title: QGIS
+    text: 'Das führende Open-Source-Desktop-GIS: Bearbeitung direkt in PostGIS, Kartografie, Analyse, Plugins und eine Python-API zur Automatisierung.'
+  - tag: Feld
+    title: QField
+    text: Mobile Datenerfassung auf Basis von QGIS-Projekten, online oder offline, mit Formularen und Fotos.
+  - tag: Verarbeitung
+    title: Python · GeoPandas · GRASS · PDAL
+    text: Skriptbasierte Analyse, Raster- und Geländeverarbeitung und Punktwolken-Pipelines, wiederholbar auf Servern ausgeführt.
+  - tag: Vermessung
+    title: GNU Gama · RTKLIB · PROJ
+    text: Netzausgleichung, GNSS-Verarbeitung und Koordinatenreferenzsysteme für Ingenieurgenauigkeit.
+- type: cards
+  background: white
+  anchorId: platforms
+  eyebrow: Kataloge und Plattformen
+  heading: Metadaten, Portale und Geodateninfrastruktur
+  items:
+  - tag: Katalog
+    title: GeoNetwork · pycsw
+    text: ISO-19115- und INSPIRE-konforme Metadatenkataloge für auffindbare Daten.
+  - tag: Portal
+    title: GeoNode · MapStore
+    text: Fertige Geoportale zum Teilen von Daten und Bauen von Kartenanwendungen.
+  - tag: Identität
+    title: Keycloak
+    text: Single Sign-on und rollenbasierter Zugriff über alle Komponenten, mit LDAP- und OIDC-Anbindung.
+- type: cards
+  background: dark
+  anchorId: infrastructure
+  eyebrow: Infrastruktur
+  heading: Was es am Laufen hält
+  intro: Hochverfügbarkeit besteht aus unscheinbaren, gut verstandenen Bausteinen.
+  items:
+  - tag: PostgreSQL HA
+    title: Patroni · etcd · pgBackRest
+    text: Automatischer Failover, Replikation und Point-in-Time-Recovery für PostGIS.
+  - tag: Verkehr
+    title: HAProxy · nginx · keepalived
+    text: Lastverteilung, Health Checks und virtuelle IPs für redundante Eingangspunkte.
+  - tag: Plattform
+    title: Docker · Kubernetes · Ansible · Terraform
+    text: Container und Infrastructure as Code für identische, wiederaufbaubare Umgebungen.
+  - tag: Observability
+    title: Prometheus · Grafana · Loki
+    text: Metriken, Dashboards, Logs und Alarme über alle Schichten.
+- type: ctaBand
+  heading: Unsicher, welche Werkzeuge passen?
+  body: Die Technologieauswahl ist Teil des kostenlosen Erstgesprächs.
+  buttons:
+  - label: Kontakt aufnehmen
+    link: /contact
+---

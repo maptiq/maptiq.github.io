@@ -1,0 +1,260 @@
+---
+import { getEntry } from 'astro:content';
+import { getLocaleFromUrl, pageHref, renderRich, useTranslations } from '../../i18n/utils';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  body?: string;
+  background?: 'white' | 'light' | 'dark';
+}
+
+const MAX_MESSAGE = 300;
+// Web3Forms' shared hCaptcha site key for free plans; verified on their side.
+const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
+
+const { eyebrow, heading, body, background = 'light' } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const html = renderRich(body, locale);
+const contact = await getEntry('contact', 'contact');
+const footer = await getEntry('footer', 'footer');
+const accessKey = contact?.data.web3formsAccessKey?.trim() ?? '';
+const fallbackEmail = footer?.data.email ?? 'info@maptiq.eu';
+const thankYouPath = pageHref(locale, '/thank-you');
+---
+
+<section class:list={['section', `bg-${background}`]}>
+  <div class="container contact-grid">
+    <div class="contact-text">
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h2>{hyphenate(heading)}</h2>
+      {html && <div class="rich" set:html={html} />}
+    </div>
+
+    <form
+      class="contact-form"
+      method="POST"
+      action="https://api.web3forms.com/submit"
+      data-has-key={accessKey ? 'true' : 'false'}
+      data-fallback-email={fallbackEmail}
+      data-thank-you={thankYouPath}
+      data-sending={t('form.sending')}
+      data-error={t('form.error')}
+      data-captcha-missing={t('form.captcha')}
+      data-lang={locale}
+    >
+      <input type="hidden" name="access_key" value={accessKey} />
+      <input type="hidden" name="subject" value={t('form.subject')} />
+      <input type="hidden" name="from_name" value="maptiq.eu" />
+      <input type="hidden" name="redirect" value={new URL(thankYouPath, Astro.site).toString()} />
+      <input type="checkbox" name="botcheck" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <label>
+        <span>{t('form.name')}</span>
+        <input type="text" name="name" required maxlength="100" autocomplete="name" />
+      </label>
+      <label>
+        <span>{t('form.email')}</span>
+        <input type="email" name="email" required maxlength="150" autocomplete="email" />
+      </label>
+      <label>
+        <span>{t('form.message')}</span>
+        <textarea name="message" required maxlength={MAX_MESSAGE} rows="5"></textarea>
+        <small class="counter"><span data-count>0</span> / {MAX_MESSAGE}</small>
+      </label>
+
+      {accessKey && <div class="h-captcha" data-sitekey={HCAPTCHA_SITEKEY} data-hl={locale}></div>}
+
+      <p class="privacy">
+        {t('form.privacy')} <a href={pageHref(locale, '/privacy')}>{t('form.privacyLink')}</a>.
+      </p>
+      <button type="submit">{t('form.submit')}</button>
+      <p class="status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  // hCaptcha is only fetched once a visitor starts using the form, so people
+  // who never touch it don't send anything to hCaptcha.
+  function loadCaptcha(lang: string) {
+    if (document.querySelector('script[src*="hcaptcha.com"]')) return;
+    const script = document.createElement('script');
+    script.src = `https://js.hcaptcha.com/1/api.js?recaptchacompat=off&hl=${lang}`;
+    script.async = true;
+    document.head.appendChild(script);
+  }
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('.contact-form')) {
+    const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]')!;
+    const count = form.querySelector('[data-count]')!;
+    const status = form.querySelector('.status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const buttonLabel = button.textContent;
+
+    if (form.querySelector('.h-captcha')) {
+      form.addEventListener('focusin', () => loadCaptcha(form.dataset.lang ?? 'en'), { once: true });
+    }
+
+    message.addEventListener('input', () => {
+      count.textContent = String(message.value.length);
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+
+      // Until a Web3Forms key is configured, hand the message to the visitor's mail app.
+      if (form.dataset.hasKey !== 'true') {
+        const bodyText = `${data.message}\n\n${data.name}\n${data.email}`;
+        window.location.href = `mailto:${form.dataset.fallbackEmail}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(bodyText)}`;
+        return;
+      }
+
+      const captcha = form.querySelector<HTMLTextAreaElement>('[name="h-captcha-response"]');
+      if (form.querySelector('.h-captcha') && !captcha?.value) {
+        status.textContent = form.dataset.captchaMissing ?? '';
+        loadCaptcha(form.dataset.lang ?? 'en');
+        return;
+      }
+
+      // Plain form data, no custom Content-Type: Web3Forms rejects the CORS
+      // preflight that a JSON body would trigger.
+      const body = new FormData(form);
+      body.delete('redirect');
+      button.disabled = true;
+      button.textContent = form.dataset.sending ?? '';
+      status.textContent = '';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body,
+        });
+        const result = await response.json();
+        if (!result.success) throw new Error(result.message);
+        window.location.href = form.dataset.thankYou!;
+      } catch {
+        (window as { hcaptcha?: { reset: () => void } }).hcaptcha?.reset();
+        status.textContent = form.dataset.error ?? '';
+        button.disabled = false;
+        button.textContent = buttonLabel;
+      }
+    });
+  }
+</script>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact-text {
+    max-width: 36rem;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 1.1rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--radius);
+    background: var(--color-white);
+    box-shadow: 0 12px 30px rgba(19, 33, 60, 0.08);
+    color: var(--color-text);
+  }
+
+  label {
+    display: grid;
+    gap: 0.35rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--color-secondary);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #c9ccd1;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 500;
+    color: var(--color-text);
+    background: var(--color-white);
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  .counter {
+    justify-self: end;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+
+  .trap {
+    display: none;
+  }
+
+  .h-captcha {
+    min-height: 78px;
+  }
+
+  .privacy {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  button {
+    justify-self: start;
+    padding: 0.85rem 1.6rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  button:hover {
+    background: var(--btn-bg-hover);
+  }
+
+  button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  .status:empty {
+    display: none;
+  }
+
+  .status {
+    margin: 0;
+    color: #b42318;
+    font-weight: 600;
+  }
+</style>

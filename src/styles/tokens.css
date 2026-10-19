@@ -1,0 +1,331 @@
+:root {
+  /* Brand colours from the MaptIQ logo: charcoal and yellow. Yellow is a fill, never text on white (use --color-primary-text) */
+  --color-primary: #f5c400;
+  --color-primary-hover: #dcae00;
+  --color-primary-text: #7d5a00;
+  --color-secondary: #25272b;
+  --color-secondary-2: #3b3e44;
+  --color-text: #1d2026;
+  --color-muted: #5a6270;
+  --color-neutral-light: #e6e7e8;
+  --color-surface: #f3f4f6;
+  --color-white: #ffffff;
+
+  /* Self-hosted (@fontsource), so no visitor data goes to Google Fonts */
+  --font-heading: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+
+  --text-h1-size: clamp(2.4rem, 4.6vw, 4rem);
+  --text-h2-size: clamp(1.9rem, 3.4vw, 3rem);
+  --text-h3-size: clamp(1.3rem, 2vw, 1.6rem);
+  --text-h4-size: 1.25rem;
+  --text-body-size: clamp(1rem, 0.96rem + 0.15vw, 1.0625rem);
+
+  --btn-bg: var(--color-primary);
+  --btn-bg-hover: var(--color-primary-hover);
+  --btn-text: #1d2026;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: clamp(4rem, 8vw, 7rem);
+
+  /* One grid for the whole site: blocks align to --wide-width, running
+     text is capped at --measure but keeps the same left edge. */
+  --wide-width: 1280px;
+  --measure: 760px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Keeps in-page targets clear of the sticky header */
+html {
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-white);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--color-secondary);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-sm);
+  /* no automatic hyphenation: it split ordinary words. Long words get soft
+     hyphens from src/lib/hyphenate.ts, overflow-wrap is the last resort. */
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+}
+h2 {
+  font-size: var(--text-h2-size);
+  font-weight: 700;
+}
+h3 {
+  font-size: var(--text-h3-size);
+  font-weight: 600;
+}
+h4,
+h5,
+h6 {
+  font-size: var(--text-h4-size);
+  font-weight: 600;
+}
+
+a {
+  color: var(--color-primary-text);
+}
+
+/* Layout primitives shared by the block components */
+.container {
+  max-width: calc(var(--wide-width) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+/* Centred reading column for text-led pages and simple blocks */
+.column {
+  max-width: var(--measure);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+.bg-light {
+  background: var(--color-surface);
+}
+
+.bg-dark {
+  background: linear-gradient(160deg, var(--color-secondary) 0%, var(--color-secondary-2) 100%);
+  color: #e8ecf3;
+}
+
+.bg-dark h1,
+.bg-dark h2,
+.bg-dark h3,
+.bg-dark h4 {
+  color: var(--color-white);
+}
+
+.bg-dark a:not(.btn) {
+  color: #ffb49f;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bg-dark .eyebrow {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.rich a,
+.post a {
+  /* long reference URLs wrap instead of widening the page */
+  overflow-wrap: anywhere;
+}
+
+.rich > :first-child {
+  margin-top: 0;
+}
+
+.rich > :last-child {
+  margin-bottom: 0;
+}
+
+.rich p,
+.rich ul,
+.rich ol {
+  margin: 0 0 1em;
+}
+
+.rich ul,
+.rich ol {
+  padding-left: 1.25em;
+}
+
+.rich li {
+  margin-bottom: 0.4em;
+}
+
+/* Tables and photos inside rich text (case studies) */
+.rich figure {
+  margin: 2rem 0;
+}
+
+.rich figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.rich figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.rich .table-scroll {
+  overflow-x: auto;
+  margin: var(--space-sm) 0 var(--space-md);
+}
+
+.rich table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.rich th,
+.rich td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-neutral-light);
+  vertical-align: top;
+  text-align: left;
+}
+
+.rich thead th {
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
+}
+
+.rich tbody th {
+  font-weight: 600;
+}
+
+.rich .note {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+/* Click-to-play video boxes (VideoConsent.astro; blog posts use the same markup) */
+.video-consent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: var(--space-sm) 0;
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--color-secondary) 0%, var(--color-secondary-2) 100%);
+  color: #c9d2e3;
+  text-align: center;
+}
+
+/* Preview image saved locally, darkened so the button and notice stay readable. */
+.video-consent[style*='--poster'] {
+  background:
+    linear-gradient(rgb(19 33 60 / 0.35), rgb(19 33 60 / 0.8)),
+    var(--poster) center / cover no-repeat,
+    var(--color-secondary);
+  color: #fff;
+}
+
+.video-consent.is-playing {
+  padding: 0;
+  background: #000;
+}
+
+.video-consent iframe,
+.video-file {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+.video-consent button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--btn-text);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.video-consent button:hover {
+  background: var(--color-primary-hover);
+}
+
+.video-consent .play {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 11px solid currentColor;
+}
+
+.video-consent p {
+  max-width: 28rem;
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.video-consent p a {
+  color: #ffb49f;
+}

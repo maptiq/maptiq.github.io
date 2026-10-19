@@ -1,0 +1,74 @@
+---
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '@fontsource-variable/inter';
+import '../styles/tokens.css';
+import type { Locale } from '../i18n/ui';
+import { locales } from '../i18n/ui';
+import { pageHref } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description?: string;
+  ogImage?: string;
+  path: string; // path with the leading /{locale} segment already stripped, e.g. "/our-company"
+  noindex?: boolean;
+}
+
+const { locale, title, description, ogImage, path, noindex } = Astro.props;
+const canonicalUrl = new URL(pageHref(locale, path), Astro.site);
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} · MaptIQ</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonicalUrl} />
+    {locales.map((loc) => (
+      <link rel="alternate" hreflang={loc} href={new URL(pageHref(loc, path), Astro.site).toString()} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(pageHref('en', path), Astro.site).toString()} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+  </head>
+  <body>
+    <Header {locale} currentPath={path} />
+    <main>
+      <slot />
+    </main>
+    <Footer {locale} />
+    <script>
+      // Click-to-play videos: the iframe (and YouTube's cookies) only load on request.
+      for (const box of document.querySelectorAll<HTMLElement>('.video-consent')) {
+        box.querySelector('button')?.addEventListener('click', () => {
+          const iframe = document.createElement('iframe');
+          iframe.src = box.dataset.src!;
+          iframe.title = box.dataset.title ?? 'Video';
+          iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+          iframe.allowFullscreen = true;
+          box.replaceChildren(iframe);
+          box.classList.add('is-playing');
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  main {
+    padding-bottom: var(--space-xl);
+  }
+
+  main:has(> section.bg-dark:last-child) {
+    padding-bottom: 0;
+  }
+</style>

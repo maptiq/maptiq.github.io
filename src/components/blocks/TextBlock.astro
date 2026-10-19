@@ -1,0 +1,30 @@
+---
+import { getLocaleFromUrl, renderRich } from '../../i18n/utils';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Props {
+  heading?: string;
+  body?: string;
+}
+
+const { heading, body } = Astro.props;
+const html = renderRich(body, getLocaleFromUrl(Astro.url));
+---
+
+<div class:list={['container', 'flow', { 'has-heading': heading }]}>
+  <div class="column">
+    {heading && <h2>{hyphenate(heading)}</h2>}
+    {html && <div class="rich" set:html={html} />}
+  </div>
+</div>
+
+<style>
+  .flow {
+    padding-top: var(--space-sm);
+    padding-bottom: var(--space-sm);
+  }
+
+  .flow.has-heading {
+    padding-top: var(--space-lg);
+  }
+</style>

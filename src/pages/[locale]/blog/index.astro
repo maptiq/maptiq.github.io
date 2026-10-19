@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import LatestPosts from '../../../components/blocks/LatestPosts.astro';
+import Hero from '../../../components/blocks/Hero.astro';
+import { getBreadcrumbs } from '../../../lib/breadcrumbs';
+import { locales, type Locale } from '../../../i18n/ui';
+import { useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+const breadcrumbs = await getBreadcrumbs(locale, '/blog', t('blog.title'));
+---
+
+<BaseLayout locale={locale} title={t('blog.title')} description={t('blog.intro')} path="/blog">
+  <Hero heading={t('blog.title')} subheading={t('blog.intro')} breadcrumbs={breadcrumbs} />
+  <LatestPosts count={1000} hideHeader />
+</BaseLayout>

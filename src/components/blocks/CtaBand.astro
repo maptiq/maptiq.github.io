@@ -1,0 +1,36 @@
+---
+import Buttons from '../ui/Buttons.astro';
+import { getLocaleFromUrl, renderRich } from '../../i18n/utils';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Props {
+  heading: string;
+  body?: string;
+  buttons?: { label: string; link: string }[];
+}
+
+const { heading, body, buttons } = Astro.props;
+const html = renderRich(body, getLocaleFromUrl(Astro.url));
+---
+
+<section class="section bg-dark cta-band">
+  <div class="container">
+    <div class="measure">
+      <h2>{hyphenate(heading)}</h2>
+      {html && <div class="rich" set:html={html} />}
+      <Buttons {buttons} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    background:
+      radial-gradient(circle at 85% 20%, rgba(207, 74, 39, 0.35), transparent 45%),
+      linear-gradient(160deg, var(--color-secondary) 0%, var(--color-secondary-2) 100%);
+  }
+
+  .rich {
+    font-size: 1.1rem;
+  }
+</style>

@@ -1,0 +1,27 @@
+companyName:
+  en: MaptIQ Consulting Ltd.
+  hu: MaptIQ Consulting Kft.
+  de: MaptIQ Consulting Kft.
+tagline:
+  en: Open source GIS, engineered for systems that must not go down.
+  hu: Nyílt forráskódú GIS olyan rendszerekhez, amelyek nem állhatnak le.
+  de: Open-Source-GIS für Systeme, die nicht ausfallen dürfen.
+email: info@maptiq.eu
+phone: +36 30 960 5853
+address: 1171 Budapest, Réti Csík utca 3., Hungary
+links:
+  - label:
+      en: Privacy policy
+      hu: Adatvédelem
+      de: Datenschutz
+    link: /privacy
+  - label:
+      en: Legal notice
+      hu: Jogi közlemény
+      de: Impressum
+    link: /legal
+  - label:
+      en: LinkedIn
+      hu: LinkedIn
+      de: LinkedIn
+    link: https://linkedin.com/company/maptiq

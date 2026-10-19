@@ -1,0 +1,147 @@
+---
+import { getLocaleFromUrl, pageHref, useTranslations } from '../../i18n/utils';
+import { getPostsForLocale, postImage } from '../../lib/posts';
+import { gridColumns } from '../../lib/grid';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Props {
+  heading?: string;
+  intro?: string;
+  count?: number;
+  background?: 'white' | 'light' | 'dark';
+  hideHeader?: boolean;
+}
+
+const { heading, intro, count = 3, background = 'white', hideHeader = false } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const posts = (await getPostsForLocale(locale)).slice(0, count);
+---
+
+<section class:list={['section', `bg-${background}`]}>
+  <div class="container">
+    {!hideHeader && (
+      <header class="posts-header">
+        <div class="measure">
+          <h2>{hyphenate(heading ?? t('blog.title'))}</h2>
+          {intro && <p>{intro}</p>}
+        </div>
+        <a class="all-link" href={pageHref(locale, '/blog')}>{t('blog.all')} →</a>
+      </header>
+    )}
+    <ul class="posts" style={gridColumns(posts.length)}>
+      {posts.map((post) => {
+        const image = postImage(post);
+        return (
+          <li>
+            <a class="post-card" href={pageHref(locale, `/blog/${post.data.slug}`)}>
+              {image && <img src={image} alt="" loading="lazy" />}
+              <div class="post-body">
+                <time datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}
+                </time>
+                <h3>{hyphenate(post.data.title)}</h3>
+                <p>{post.data.excerpt}</p>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .posts-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .posts-header p {
+    margin: 0;
+  }
+
+  .all-link {
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 600px) {
+    .posts {
+      grid-template-columns: repeat(var(--cols-md), 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .posts {
+      grid-template-columns: repeat(var(--cols-lg), 1fr);
+    }
+  }
+
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  :global(.bg-light) .post-card {
+    background: var(--color-white);
+  }
+
+  .post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(19, 33, 60, 0.12);
+  }
+
+  .post-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .post-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  time {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-primary-text);
+  }
+
+  h3 {
+    margin: 0.4rem 0 0.5rem;
+    font-size: 1.15rem;
+  }
+
+  .post-body p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--color-muted);
+  }
+</style>

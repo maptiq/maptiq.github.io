@@ -1,0 +1,234 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../../i18n/ui';
+import { getPostsForLocale, type Post } from '../../../lib/posts';
+import Hero from '../../../components/blocks/Hero.astro';
+import CtaBand from '../../../components/blocks/CtaBand.astro';
+import { getBreadcrumbs } from '../../../lib/breadcrumbs';
+import { useTranslations } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const locale of locales) {
+    for (const entry of await getPostsForLocale(locale)) {
+      paths.push({ params: { locale, slug: entry.data.slug }, props: { entry } });
+    }
+  }
+  return paths;
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const { entry } = Astro.props as { entry: Post };
+const { Content } = await render(entry);
+const path = `/blog/${entry.data.slug}`;
+const breadcrumbs = await getBreadcrumbs(locale, path, entry.data.title);
+const t = useTranslations(locale);
+const date = entry.data.date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+
+const stripTags = (html: string) => html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const body = entry.body ?? '';
+const words = stripTags(body).split(' ').filter(Boolean).length;
+const minutes = Math.max(1, Math.round(words / 200));
+const eyebrow = `${date} · ${t('blog.readingTime').replace('{n}', String(minutes))}`;
+
+// Contents list from the section headings the posts carry as <h2 id="...">.
+const toc = [...body.matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)].map((m) => ({ id: m[1], text: stripTags(m[2]) }));
+---
+
+<BaseLayout
+  locale={locale}
+  title={entry.data.seoTitle ?? entry.data.title}
+  description={entry.data.seoDescription ?? entry.data.excerpt}
+  ogImage={entry.data.image}
+  path={path}
+>
+  <Hero eyebrow={eyebrow} heading={entry.data.title} subheading={entry.data.excerpt} breadcrumbs={breadcrumbs} />
+  <div class="container">
+    {entry.data.image && (
+      <figure class="lead">
+        <img src={entry.data.image} alt={entry.data.imageAlt ?? ''} loading="eager" />
+      </figure>
+    )}
+    <article class="post column">
+      {toc.length >= 3 && (
+        <details class="toc">
+          <summary>{t('blog.contents')}</summary>
+          <ol>
+            {toc.map((h) => (
+              <li><a href={`#${h.id}`}>{h.text}</a></li>
+            ))}
+          </ol>
+        </details>
+      )}
+      <Content />
+    </article>
+  </div>
+  <CtaBand
+    heading={t('blog.ctaHeading')}
+    body={t('blog.ctaBody')}
+    buttons={[{ label: t('blog.ctaButton'), link: '/contact' }]}
+  />
+</BaseLayout>
+
+<style>
+  .lead {
+    margin: var(--space-md) 0 0;
+  }
+
+  .lead img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .post {
+    padding-top: var(--space-sm);
+    padding-bottom: var(--space-xl);
+    font-size: 1.08rem;
+    line-height: 1.75;
+  }
+
+  .post :global(p) {
+    margin: 0 0 1.1em;
+  }
+
+  .post :global(h2) {
+    font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+    margin: 2.4em 0 0.6em;
+    padding-top: 0.6em;
+    border-top: 1px solid var(--color-neutral-light);
+    scroll-margin-top: 5rem;
+  }
+
+  .post :global(h3) {
+    font-size: 1.2rem;
+    margin: 1.8em 0 0.4em;
+    scroll-margin-top: 5rem;
+  }
+
+  .post :global(h2 + h2),
+  .post :global(h2 + h3) {
+    margin-top: 1.2em;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .post :global(blockquote) {
+    margin: 1.8em 0;
+    padding: 0.2em 0 0.2em 1.2em;
+    border-left: 4px solid var(--color-primary);
+    color: var(--color-secondary);
+    font-size: 1.15em;
+  }
+
+  .post :global(figure) {
+    margin: 2rem 0;
+  }
+
+  .post :global(figure img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .post :global(figure.pair div) {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .post :global(figure.pair img) {
+    flex: 1 1 0;
+    min-width: 0;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+
+  .post :global(figcaption) {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  .toc {
+    margin: 0 0 var(--space-md);
+    padding: 0.9rem 1.2rem;
+    background: var(--color-surface);
+    border-radius: 6px;
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .toc summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  .toc ol {
+    margin: 0.8rem 0 0;
+    padding-left: 1.3rem;
+  }
+
+  .toc li {
+    margin-bottom: 0.35rem;
+  }
+
+  .post :global(iframe) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border: 0;
+    border-radius: 6px;
+    margin: var(--space-sm) 0;
+  }
+
+  .post :global(table) {
+    display: block;
+    overflow-x: auto;
+    width: min(1100px, calc(100vw - 2 * var(--gutter))) !important;
+    margin-left: 50% !important;
+    transform: translateX(-50%);
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: var(--space-sm) 0 var(--space-md);
+  }
+
+  .post :global(tbody) {
+    display: table;
+    width: 100%;
+    min-width: 640px;
+  }
+
+  .post :global(td),
+  .post :global(th) {
+    width: auto !important;
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid var(--color-neutral-light);
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .post :global(tr:first-child td) {
+    font-weight: 700;
+    color: var(--color-secondary);
+    border-bottom: 2px solid var(--color-secondary);
+  }
+
+  .post :global(td p) {
+    margin: 0;
+  }
+
+  .post :global(img) {
+    max-height: 520px;
+    width: auto;
+    border-radius: 6px;
+  }
+
+</style>

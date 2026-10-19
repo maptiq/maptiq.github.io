@@ -1,0 +1,63 @@
+---
+title: KI-gestütztes ETL
+slug: ai-etl
+pageType: structured
+seoTitle: KI-gestütztes ETL für GIS-Datenmigration und -Integration
+seoDescription: 'Wir nutzen KI, um räumliches ETL zu beschleunigen: Profiling, Schema-Mapping, Transformationscode und Validierung, mit Ingenieurprüfung und reproduzierbaren GDAL/PostGIS-Pipelines.'
+sections:
+- type: hero
+  eyebrow: Stärke
+  heading: KI-gestütztes ETL für Geodaten
+  subheading: Von Altdaten zur vertrauenswürdigen Geodatenbank in Wochen statt Monaten, und mit Nachweis, was mit jedem Datensatz geschah.
+  buttons:
+  - label: Kontakt aufnehmen
+    link: /contact
+- type: split
+  background: white
+  eyebrow: Die Realität
+  heading: Datenarbeit ist, wo GIS-Projekte Zeit verlieren
+  body: <p>Netzregister, Katasterauszüge, Vermessungsdateien, CAD-Zeichnungen, Tabellen, gescannte Pläne. Unterschiedliche Koordinatensysteme, inkonsistente Attribute, doppelte und defekte Geometrien, fehlende oder falsche Dokumentation.</p><p>Mappings und Prüfungen dafür von Hand zu schreiben dauert Monate. Große Sprachmodelle sind genau bei dieser mühsamen, musterreichen Arbeit gut, wenn man sie an der kurzen Leine führt.</p>
+- type: cards
+  background: light
+  eyebrow: Wo KI hilft
+  heading: Fünf Schritte, beschleunigt
+  items:
+  - tag: '1'
+    title: Profiling
+    text: 'Unbekannte Quellen zusammenfassen: Attribute, Wertemuster, Geometrietypen, Koordinatensysteme, Ausreißer und wahrscheinliche Schlüssel.'
+  - tag: '2'
+    title: Mapping
+    text: Vorschläge, wie Quellfelder auf das Zielmodell abgebildet werden, inklusive Codelisten und Freitext-Normalisierung, mit Begründung.
+  - tag: '3'
+    title: Generieren
+    text: 'Transformationscode entwerfen: GDAL/OGR, SQL für PostGIS, Python, gesteuert über ein Standard-Workflow-Tool.'
+  - tag: '4'
+    title: Validieren
+    text: 'Qualitätsregeln schreiben und ausführen: Geometriegültigkeit, Topologie, Wertebereiche, Duplikate, Plausibilität. Verdächtige Datensätze zur Prüfung markieren.'
+  - tag: '5'
+    title: Dokumentieren
+    text: 'Datenwörterbuch, Lineage und Abgleichsbericht erzeugen: wie viele Datensätze kamen an, gingen raus und wurden abgelehnt, und warum.'
+- type: split
+  background: white
+  eyebrow: Unsere Regeln
+  heading: KI beschleunigt, Ingenieure entscheiden
+  body: <ul><li><strong>Menschliche Prüfung:</strong> jedes Mapping und jede Regel wird von einem GIS-Ingenieur geprüft, bevor sie genutzt wird</li><li><strong>Deterministisches Ergebnis:</strong> die produktive Pipeline ist gewöhnlicher, versionierter Code, kein Modell, das auf Ihren Daten improvisiert</li><li><strong>Volle Nachvollziehbarkeit:</strong> jeder Quelldatensatz lässt sich bis zum Ziel oder zu einer dokumentierten Ablehnung verfolgen</li><li><strong>Ihre Daten bleiben Ihre:</strong> bei sensiblen oder behördlichen Daten nutzen wir lokal gehostete Open-Weight-Modelle, ohne dass Daten Ihre Umgebung verlassen</li><li><strong>Wiederholbar:</strong> dieselbe Pipeline läuft bei der nächsten Datenlieferung erneut</li></ul>
+- type: cards
+  background: light
+  eyebrow: Typische Einsatzfälle
+  heading: Wo es sich am meisten lohnt
+  items:
+  - title: Migration von Altsystemen
+    text: Überführung eines proprietären oder selbstgebauten GIS nach PostGIS mit sauberem, dokumentiertem Datenmodell.
+    link: /foss4g-migration
+  - title: Registerkonsolidierung
+    text: Zusammenführung von Netz-, Anlagen- oder Katasterdaten aus vielen Quellen, Formaten und Qualitätsstufen.
+  - title: Laufende Datenfeeds
+    text: Wiederkehrende Lieferungen von Partnern, Behörden und Sensoren, bei Eingang automatisch geprüft.
+- type: ctaBand
+  heading: Haben Sie einen Berg Daten, dem niemand traut?
+  body: Schicken Sie uns eine Stichprobe. Wir zeigen, wie die Pipeline aussehen würde.
+  buttons:
+  - label: Stichprobe senden
+    link: /contact
+---

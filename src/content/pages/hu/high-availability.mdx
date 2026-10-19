@@ -1,0 +1,64 @@
+---
+title: Magas rendelkezésre állású GIS
+slug: high-availability
+pageType: structured
+seoTitle: 'Magas rendelkezésre állású GIS: kritikus nyílt forráskódú térinformatikai rendszerek'
+seoDescription: Magasan elérhető PostGIS, GeoServer és térképes platformok automatikus átkapcsolással, tesztelt mentésekkel és monitorozással, infrastruktúra és államigazgatás számára.
+sections:
+- type: hero
+  eyebrow: Szakterületünk
+  heading: Magas rendelkezésre állású, kritikus GIS
+  subheading: Térinformatikai platformok, amelyek akkor is működnek, ha egy szerver, egy lemez vagy egy teljes telephely kiesik.
+  buttons:
+  - label: Beszéljünk
+    link: /contact
+- type: split
+  background: white
+  eyebrow: A probléma
+  heading: A legtöbb GIS-t nem arra tervezték, hogy mindig működjön
+  body: '<p>Sok GIS telepítés asztali projektként indult, és olyasvalamivé nőtt, amire naponta támaszkodnak: brigádok irányítása, engedélyezés, hálózattervezés. Egyetlen adatbázis-szerver, egyetlen térképszerver és egy éjszakai mentés, amit senki sem állított vissza, erre nem megfelelő architektúra.</p><p>Úgy építjük át a GIS-t, hogy olyan kritikus infrastruktúraként viselkedjen, amivé vált.</p>'
+- type: split
+  background: light
+  imagePosition: left
+  eyebrow: Referenciaarchitektúra
+  heading: Nincs egyedi hibapont
+  body: <p>A részletek az igényektől és a költségkerettől függnek, de egy tipikus kialakítás elemei:</p><ul><li><strong>Redundáns belépési pont:</strong> terheléselosztó pár virtuális IP-címmel és állapotellenőrzéssel</li><li><strong>Állapotmentes térképszolgáltatások:</strong> több GeoServer, MapProxy vagy API példány, amelyek szabadon hozzáadhatók vagy kieshetnek</li><li><strong>Replikált adatbázis:</strong> PostgreSQL/PostGIS Patronival, streaming replikációval és automatikus átkapcsolással</li><li><strong>Külön hibazónák:</strong> csomópontok több szekrényben, adatközpontban vagy telephelyen</li><li><strong>Mentések, amelyek működnek:</strong> időpontra pontos helyreállítás pgBackRest-tel, telephelyen kívüli másolatok és rendszeres visszaállítási próbák</li></ul>
+  image: /images/ha-architecture.svg
+  imageAlt: Magas rendelkezésre állású GIS referenciaarchitektúrája
+- type: cards
+  background: white
+  eyebrow: Hogyan csináljuk
+  heading: A rendelkezésre állást megtervezzük, majd bizonyítjuk
+  items:
+  - tag: '1'
+    title: A cél meghatározása
+    text: Veled egyeztetjük a rendelkezésre állást, a helyreállítási időt (RTO) és az elfogadható adatvesztést (RPO), mert ezek döntik el a költséget.
+  - tag: '2'
+    title: Tervezés és automatizálás
+    text: A teljes platform kódként van leírva, így percek alatt azonosan újraépíthető.
+  - tag: '3'
+    title: Szándékos tesztelés
+    text: Átkapcsolás, visszaállítás és terheléses tesztek az élesítés előtt. Csomópontokat állítunk le, miközben Ön figyeli.
+  - tag: '4'
+    title: Figyelés és reagálás
+    text: Metrikák, riasztások és üzemeltetési kézikönyvek. Opcionális készenléti támogatás a <a href="/support">támogatási csomagjainkkal</a>.
+- type: cards
+  background: light
+  eyebrow: Szintén ide tartozik
+  heading: A kevésbé látványos részek, amelyek az üzemidőt eldöntik
+  items:
+  - title: Leállás nélküli frissítés
+    text: A PostgreSQL, a PostGIS és a térképszolgáltatások gördülő frissítése, előtte másolaton begyakorolva.
+  - title: Biztonság és hozzáférés
+    text: Egyszeri bejelentkezés Keycloakkal, szerepkör alapú hozzáférés, titkosítás, auditnaplózás és javítási rutin.
+  - title: Teljesítmény nagy léptékben
+    text: Csempe-gyorsítótár, vektoros csempék, lekérdezés-hangolás és térbeli indexelés tartja gyorsan a térképet terhelés alatt.
+  - title: Ott fut, ahol szüksége van rá
+    text: Helyben, privát felhőben, nyilvános felhőben vagy légréssel elválasztva. Az adat ott marad, ahol a szabályai előírják.
+- type: ctaBand
+  heading: Felkészült a GIS-e a legrosszabb napra?
+  body: Átvizsgáljuk a jelenlegi kialakítást, és megmondjuk, hol vannak a kockázatok.
+  buttons:
+  - label: Architektúra-felülvizsgálatot kérek
+    link: /contact
+---

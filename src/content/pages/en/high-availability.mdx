@@ -1,0 +1,64 @@
+---
+title: High availability GIS
+slug: high-availability
+pageType: structured
+seoTitle: 'High availability GIS: mission-critical open source geospatial systems'
+seoDescription: Highly available PostGIS, GeoServer and map platforms with automatic failover, tested backups and monitoring, for infrastructure and government.
+sections:
+- type: hero
+  eyebrow: Our specialty
+  heading: High availability, mission-critical GIS
+  subheading: Geospatial platforms that keep working when a server, a disk or a whole site fails.
+  buttons:
+  - label: Talk to us
+    link: /contact
+- type: split
+  background: white
+  eyebrow: The problem
+  heading: Most GIS was never designed to be always on
+  body: '<p>Many GIS installations began as a desktop project and grew into something people depend on every day: dispatching crews, approving permits, planning networks. One database server, one map server and a nightly backup nobody has restored is not an architecture for that.</p><p>We make GIS behave like the critical infrastructure it has become.</p>'
+- type: split
+  background: light
+  imagePosition: left
+  eyebrow: Reference architecture
+  heading: No single point of failure
+  body: <p>The details depend on your requirements and budget, but a typical design has these parts:</p><ul><li><strong>Redundant entry:</strong> a load balancer pair with a virtual IP and health checks</li><li><strong>Stateless map services:</strong> several GeoServer, MapProxy or API instances that can be added or lost freely</li><li><strong>Replicated database:</strong> PostgreSQL/PostGIS with Patroni, streaming replication and automatic failover</li><li><strong>Separate failure zones:</strong> nodes spread over racks, data centres or sites</li><li><strong>Backups that work:</strong> point-in-time recovery with pgBackRest, off-site copies and regular restore drills</li></ul>
+  image: /images/ha-architecture.svg
+  imageAlt: Reference architecture of a highly available GIS
+- type: cards
+  background: white
+  eyebrow: How we do it
+  heading: Availability is engineered, then proven
+  items:
+  - tag: '1'
+    title: Define the target
+    text: We agree on availability, recovery time (RTO) and acceptable data loss (RPO) with you, because they decide the cost.
+  - tag: '2'
+    title: Design and automate
+    text: The whole platform is described as code, so it can be rebuilt identically in minutes.
+  - tag: '3'
+    title: Break it on purpose
+    text: Failover, restore and load tests before go-live. We kill nodes while you watch.
+  - tag: '4'
+    title: Watch and respond
+    text: Metrics, alerts and runbooks. Optional on-call support through our <a href="/support">support plans</a>.
+- type: cards
+  background: light
+  eyebrow: Also in scope
+  heading: The unglamorous parts that decide uptime
+  items:
+  - title: Zero-downtime upgrades
+    text: Rolling updates of PostgreSQL, PostGIS and map services, rehearsed on a copy first.
+  - title: Security and access
+    text: Single sign-on with Keycloak, role-based access, encryption, audit logging and a patch routine.
+  - title: Performance at scale
+    text: Tile caching, vector tiles, query tuning and spatial indexing keep maps fast under load.
+  - title: Runs where you need it
+    text: On-premise, private cloud, public cloud or air-gapped. Your data stays where your rules say.
+- type: ctaBand
+  heading: Is your GIS ready for its worst day?
+  body: We can review your current setup and tell you where the risks are.
+  buttons:
+  - label: Request an architecture review
+    link: /contact
+---

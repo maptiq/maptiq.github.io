@@ -1,0 +1,3 @@
+# Web3Forms access key for the contact form (see AGENTS.md). Empty = the form opens the visitor's mail app.
+# Register info@maptiq.eu at https://web3forms.com and paste the key here.
+web3formsAccessKey: ''

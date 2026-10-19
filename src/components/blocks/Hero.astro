@@ -1,0 +1,100 @@
+---
+import Buttons from '../ui/Buttons.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import type { Crumb } from '../../lib/breadcrumbs';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  image?: string;
+  buttons?: { label: string; link: string }[];
+  breadcrumbs?: Crumb[];
+}
+
+const { eyebrow, heading, subheading, image, buttons, breadcrumbs = [] } = Astro.props;
+const isSubpage = breadcrumbs.length > 0;
+---
+
+<section class:list={['hero', 'bg-dark', { 'is-subpage': isSubpage, 'no-image': !image }]}>
+  <div class="container">
+    <Breadcrumbs crumbs={breadcrumbs} />
+    <div class="hero-grid">
+      <div class="hero-text">
+        {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+        <h1>{hyphenate(heading)}</h1>
+        {subheading && <p class="subheading">{subheading}</p>}
+        <Buttons {buttons} />
+      </div>
+      {image && (
+        <div class="hero-media">
+          <img src={image} alt="" loading="eager" />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: clamp(3rem, 7vw, 6rem) 0;
+  }
+
+  .hero.is-subpage {
+    padding-top: var(--space-md);
+  }
+
+  .hero.no-image {
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: center;
+  }
+
+  .hero-grid > * {
+    min-width: 0;
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .no-image .hero-grid {
+      grid-template-columns: minmax(0, 52rem);
+    }
+  }
+
+  h1 {
+    margin-bottom: var(--space-md);
+  }
+
+  .is-subpage h1 {
+    font-size: clamp(2rem, 3.6vw, 3.1rem);
+  }
+
+  .subheading {
+    max-width: 36rem;
+    margin: 0;
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+    color: #d6d7da;
+  }
+
+  .hero-media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-media img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 460px;
+    border-radius: var(--radius);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+</style>

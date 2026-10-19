@@ -1,0 +1,170 @@
+---
+import { getLocaleFromUrl, localizeHref } from '../../i18n/utils';
+import { gridColumns } from '../../lib/grid';
+import { hyphenate } from '../../lib/hyphenate';
+
+interface Card {
+  image?: string;
+  tag?: string;
+  title: string;
+  text?: string;
+  link?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  background?: 'white' | 'light' | 'dark';
+  imageStyle?: 'photo' | 'avatar';
+  items: Card[];
+}
+
+const { eyebrow, heading, intro, background = 'white', imageStyle = 'photo', items } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+---
+
+<section class:list={['section', `bg-${background}`]}>
+  <div class="container">
+    {(eyebrow || heading || intro) && (
+      <header class="cards-header measure">
+        {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+        {heading && <h2>{hyphenate(heading)}</h2>}
+        {intro && <p>{intro}</p>}
+      </header>
+    )}
+    <ul class:list={['cards', `images-${imageStyle}`]} style={gridColumns(items.length)}>
+      {items.map((card) => {
+        const Tag = card.link ? 'a' : 'div';
+        return (
+          <li>
+            <Tag
+              class="card"
+              href={card.link ? localizeHref(card.link, locale) : undefined}
+              {...(card.link && /^http|\.pdf$/i.test(card.link) ? { target: '_blank', rel: 'noopener' } : {})}
+            >
+              {card.image && <img src={card.image} alt="" loading="lazy" />}
+              <div class="card-body">
+                {card.tag && <span class="card-tag">{card.tag}</span>}
+                <h3>{hyphenate(card.title)}</h3>
+                {card.text && <p>{card.text}</p>}
+                {card.link && <span class="card-arrow" aria-hidden="true">→</span>}
+              </div>
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cards-header {
+    margin-bottom: var(--space-md);
+  }
+
+  .cards-header p {
+    margin: 0;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 600px) {
+    .cards {
+      grid-template-columns: repeat(var(--cols-md), 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .cards {
+      grid-template-columns: repeat(var(--cols-lg), 1fr);
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--color-white);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  :global(.bg-white) .card {
+    background: var(--color-surface);
+  }
+
+  :global(.bg-dark) .card {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  a.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(19, 33, 60, 0.12);
+  }
+
+  .card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .images-avatar .card img {
+    width: 96px;
+    height: 96px;
+    aspect-ratio: 1;
+    margin: 1.25rem 1.25rem 0;
+    border-radius: 50%;
+    object-position: center 25%;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .card-tag {
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary-text);
+  }
+
+  h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .card-body p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-muted);
+  }
+
+  :global(.bg-dark) .card-body p {
+    color: #c9d2e3;
+  }
+
+  .card-arrow {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-size: 1.25rem;
+    color: var(--color-primary-text);
+  }
+</style>

@@ -1,0 +1,274 @@
+---
+import { getEntry } from 'astro:content';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { localizeHref, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const navigation = await getEntry('navigation', 'navigation');
+const items = navigation?.data.menu ?? [];
+const cta = navigation?.data.cta;
+const href = (link: string) => localizeHref(link, locale);
+const t = useTranslations(locale);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={`/${locale}/`} class="logo">
+      <img src="/images/maptiq-mark.png" alt="" width="40" height="40" />
+      <span class="wordmark">MAPT<b>IQ</b></span>
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <label for="nav-toggle" class="nav-toggle-label" aria-label={t('nav.menu')}><span></span></label>
+    <nav class="main-nav" aria-label={t('nav.main')}>
+      <ul>
+        {items.map((item) => (
+          <li class={item.children?.length ? 'has-children' : ''}>
+            <a href={href(item.link)}>
+              {item.label[locale] || item.label.en}
+              {item.children?.length ? <span class="caret" aria-hidden="true" /> : null}
+            </a>
+            {item.children?.length ? (
+              <ul class="submenu">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={href(child.link)}>{child.label[locale] || child.label.en}</a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+      <LanguageSwitcher currentLocale={locale} currentPath={currentPath} />
+      {cta && <a class="header-cta" href={href(cta.link)}>{cta.label[locale] || cta.label.en}</a>}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-neutral-light);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    min-height: 68px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .logo img {
+    display: block;
+    height: 38px;
+    width: auto;
+  }
+
+  .wordmark {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--color-secondary);
+  }
+
+  .wordmark b {
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .main-nav > ul {
+    display: flex;
+    gap: 1.6rem;
+  }
+
+  .main-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    text-decoration: none;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    white-space: nowrap;
+  }
+
+  .main-nav > ul > li > a:hover {
+    color: var(--color-primary-text);
+  }
+
+  .caret {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+    opacity: 0.6;
+  }
+
+  .has-children {
+    position: relative;
+  }
+
+  .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -0.75rem;
+    flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid var(--color-neutral-light);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(19, 33, 60, 0.12);
+    padding: var(--space-xs);
+    min-width: 240px;
+  }
+
+  .submenu a {
+    display: block;
+    padding: 0.45rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 400;
+  }
+
+  .submenu a:hover {
+    background: var(--color-surface);
+    color: var(--color-primary-text);
+  }
+
+  .has-children:hover .submenu,
+  .has-children:focus-within .submenu {
+    display: flex;
+  }
+
+  .main-nav .header-cta {
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    background: var(--color-primary);
+    color: var(--btn-text);
+    font-weight: 600;
+  }
+
+  .main-nav .header-cta:hover {
+    background: var(--color-primary-hover);
+  }
+
+  .nav-toggle,
+  .nav-toggle-label {
+    display: none;
+  }
+
+  @media (max-width: 1100px) {
+    .nav-toggle-label {
+      display: block;
+      width: 30px;
+      height: 22px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .nav-toggle-label span,
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--color-secondary);
+      border-radius: 2px;
+      content: '';
+    }
+
+    .nav-toggle-label span {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .nav-toggle-label span::before {
+      top: -9px;
+    }
+
+    .nav-toggle-label span::after {
+      top: 9px;
+    }
+
+    .header-inner {
+      flex-wrap: wrap;
+    }
+
+    .main-nav {
+      display: none;
+      flex-basis: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      max-height: calc(100vh - 68px);
+      overflow-y: auto;
+      padding-bottom: var(--space-md);
+    }
+
+    .nav-toggle:checked ~ .main-nav {
+      display: flex;
+    }
+
+    .main-nav > ul {
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+
+    .main-nav > ul > li > a {
+      font-weight: 600;
+    }
+
+    .caret {
+      display: none;
+    }
+
+    .submenu,
+    .has-children:hover .submenu {
+      display: flex;
+      position: static;
+      border: 0;
+      box-shadow: none;
+      padding: 0 0 0.5rem 1rem;
+      min-width: 0;
+    }
+
+    .submenu a {
+      padding: 0.3rem 0;
+    }
+  }
+</style>

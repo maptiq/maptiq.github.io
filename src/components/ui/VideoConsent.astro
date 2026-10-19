@@ -1,0 +1,35 @@
+---
+import { getLocaleFromUrl, pageHref, useTranslations } from '../../i18n/utils';
+import { toEmbedUrl } from '../../lib/video';
+
+interface Props {
+  src: string;
+  title?: string;
+}
+
+// Nothing is requested from YouTube until the visitor clicks play, so pages
+// with videos set no third-party cookies by default.
+const { src, title = 'Video' } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const embedUrl = toEmbedUrl(src);
+// Thumbnails are saved in public/images/video/<id>.jpg, so the preview needs no
+// request to YouTube. Without a saved file the box keeps its plain navy look.
+const videoId = embedUrl?.match(/embed\/([\w-]{11})/)?.[1];
+const poster = videoId ? `--poster: url(/images/video/${videoId}.jpg)` : undefined;
+---
+
+{embedUrl ? (
+  <div class="video-consent" style={poster} data-src={embedUrl} data-title={title}>
+    <button type="button">
+      <span class="play" aria-hidden="true"></span>
+      {t('video.play')}
+    </button>
+    <p>
+      {t('video.notice')} <a href={pageHref(locale, '/cookie-policy')}>{t('video.policy')}</a>
+    </p>
+  </div>
+) : (
+  <video class="video-file" src={src} controls preload="metadata"></video>
+)}

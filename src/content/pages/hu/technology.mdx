@@ -1,0 +1,130 @@
+---
+title: FOSS4G technológia
+slug: technology
+pageType: structured
+seoTitle: 'FOSS4G technológiák: PostGIS, GeoServer, QGIS, OpenLayers, MapLibre'
+seoDescription: 'Áttekintés a MaptIQ által használt nyílt forráskódú térinformatikai technológiákról: adatbázisok, térképszerverek, webes térkép, asztali GIS, feldolgozás, katalógusok és infrastruktúra.'
+sections:
+- type: hero
+  eyebrow: Technológia
+  heading: A FOSS4G eszköztár, amellyel építkezünk
+  subheading: 'Szabad és nyílt forráskódú térinformatikai szoftverek: érettek, szabványokra épülnek és világszerte élesben használják őket. A feladathoz illő eszközt választjuk, és mindegyiket magunk is üzemeltetjük.'
+- type: cards
+  background: white
+  anchorId: database
+  eyebrow: Adat
+  heading: Adatbázisok és adatformátumok
+  items:
+  - tag: PostgreSQL + PostGIS
+    title: PostGIS
+    text: A nyílt forráskódú térbeli adatbázis szabványa. Geometria, földrajz, raszter, topológia és több ezer térbeli függvény a PostgreSQL megbízhatóságával. Rendszereink szíve.
+  - tag: Routing
+    title: pgRouting
+    text: Legrövidebb út, hálózatelemzés és útvonaltervezés közvetlenül az adatbázisban. Út-, közmű- és távközlési hálózatokhoz hasznos.
+  - tag: GDAL / OGR
+    title: GDAL / OGR
+    text: A raszter- és vektorformátumok, valamint koordináta-transzformációk univerzális fordítója. ETL folyamataink gerince.
+  - tag: Felhő-natív
+    title: GeoPackage · GeoParquet · COG · PMTiles
+    text: 'Modern, nyílt formátumok cseréhez és felhős tároláshoz: egyszerű fájlok, gyors részleges olvasás, szerver nélkül.'
+- type: cards
+  background: light
+  anchorId: services
+  eyebrow: Szolgáltatások
+  heading: Térképszerverek és csempe-szolgáltatások
+  items:
+  - tag: OGC WMS · WFS · WMTS
+    title: GeoServer
+    text: Teljes funkcionalitású Java alapú térkép- és objektumszerver stílusokkal, biztonsággal és klaszterezéssel. Választásunk szabványokra épülő, nagyvállalati környezetekhez.
+  - tag: OGC WMS · WFS
+    title: MapServer
+    text: Gyors, könnyű, C alapú térképszerver nagyon hosszú múlttal.
+  - tag: Tile cache
+    title: MapProxy
+    text: Gyorsítótárazza és átvetíti a csempéket a háttérszolgáltatásokból, tehermentesíti a backendet és gyorssá teszi a térképet.
+  - tag: Vector tiles
+    title: Martin · pg_tileserv · Tippecanoe
+    text: Vektoros csempék közvetlenül a PostGIS-ből vagy hatalmas adathalmazokhoz előre építve, sima, stílusozható térképekhez.
+  - tag: Real-time
+    title: Tile38
+    text: Memóriabeli térbeli index geofence és élő helykövetés támogatással.
+  - tag: OGC API
+    title: pg_featureserv · pygeoapi
+    text: Modern, könnyű OGC API Features és Processes szolgáltatások fejlesztőknek.
+- type: cards
+  background: white
+  anchorId: frontend
+  eyebrow: Webes térkép
+  heading: Térképes felületek
+  items:
+  - tag: JavaScript
+    title: OpenLayers
+    text: 'A legteljesebb webes térképkönyvtár: bármilyen vetület, bármilyen OGC szolgáltatás, erős szerkesztő és elemző eszközök.'
+  - tag: WebGL
+    title: MapLibre GL JS
+    text: Gyors, vektoros csempéken alapuló térképek sima megjelenítéssel és egyedi stílusokkal. A Mapbox GL nyílt utódja.
+  - tag: Big data
+    title: deck.gl
+    text: Millió pont, vonal és 3D objektum GPU-gyorsított megjelenítése.
+  - tag: Lightweight
+    title: Leaflet
+    text: Egyszerű, kicsi és széles körben ismert, egyszerű nyilvános térképekhez ideális.
+- type: cards
+  background: light
+  anchorId: desktop
+  eyebrow: Asztali, terepi és elemzés
+  heading: Ahol az emberek az adattal dolgoznak
+  items:
+  - tag: Desktop GIS
+    title: QGIS
+    text: 'A vezető nyílt forráskódú asztali GIS: szerkesztés közvetlenül PostGIS-ben, kartográfia, elemzés, bővítmények és Python API az automatizáláshoz.'
+  - tag: Terep
+    title: QField
+    text: Mobil adatgyűjtés QGIS projektek alapján, online vagy offline, űrlapokkal és fényképekkel.
+  - tag: Feldolgozás
+    title: Python · GeoPandas · GRASS · PDAL
+    text: Szkriptelt elemzés, raszter- és terepfeldolgozás, pontfelhő-folyamatok, szervereken megismételhetően futtatva.
+  - tag: Geodézia
+    title: GNU Gama · RTKLIB · PROJ
+    text: Hálózatkiegyenlítés, GNSS feldolgozás és koordináta-vonatkoztatási rendszerek mérnöki pontossághoz.
+- type: cards
+  background: white
+  anchorId: platforms
+  eyebrow: Katalógusok és platformok
+  heading: Metaadat, portálok és térbeli adatinfrastruktúra
+  items:
+  - tag: Katalógus
+    title: GeoNetwork · pycsw
+    text: ISO 19115 és INSPIRE megfelelő metaadat-katalógusok, megtalálható adatokhoz.
+  - tag: Portál
+    title: GeoNode · MapStore
+    text: Kész térinformatikai portálok adatmegosztáshoz és térképes alkalmazások építéséhez.
+  - tag: Azonosítás
+    title: Keycloak
+    text: Egyszeri bejelentkezés és szerepkör alapú hozzáférés minden komponensen, LDAP és OIDC integrációval.
+- type: cards
+  background: dark
+  anchorId: infrastructure
+  eyebrow: Infrastruktúra
+  heading: Ami működésben tartja
+  intro: A magas rendelkezésre állás kevésbé látványos, jól ismert elemekből áll.
+  items:
+  - tag: PostgreSQL HA
+    title: Patroni · etcd · pgBackRest
+    text: Automatikus átkapcsolás, replikáció és időpontra pontos helyreállítás a PostGIS-hez.
+  - tag: Forgalom
+    title: HAProxy · nginx · keepalived
+    text: Terheléselosztás, állapotellenőrzés és virtuális IP-címek a redundáns belépési pontokhoz.
+  - tag: Platform
+    title: Docker · Kubernetes · Ansible · Terraform
+    text: Konténerek és infrastruktúra kódként azonos, újraépíthető környezetekhez.
+  - tag: Megfigyelhetőség
+    title: Prometheus · Grafana · Loki
+    text: Metrikák, műszerfalak, naplók és riasztások minden rétegen.
+- type: ctaBand
+  heading: Nem biztos benne, melyik eszköz illik?
+  body: A technológiaválasztás az ingyenes első konzultáció része.
+  buttons:
+  - label: Beszéljünk
+    link: /contact
+---

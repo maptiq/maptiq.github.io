@@ -1,0 +1,27 @@
+---
+// Language picker for "/": sends visitors to their browser language, English by default.
+// A static page (no server on GitHub Pages) with plain links as the no-JavaScript fallback.
+const site = Astro.site!.toString();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaptIQ</title>
+    <link rel="canonical" href={new URL('/en/', site)} />
+    <meta name="robots" content="noindex" />
+    <noscript><meta http-equiv="refresh" content="3; url=/en/" /></noscript>
+    <script is:inline>
+      var l = (navigator.language || 'en').slice(0, 2);
+      location.replace('/' + (l === 'hu' || l === 'de' ? l : 'en') + '/');
+    </script>
+    <style>
+      body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; background: #25272b; color: #fff; }
+      a { color: #f5c400; font-size: 1.25rem; margin: 0 0.75rem; }
+    </style>
+  </head>
+  <body>
+    <p><a href="/en/">English</a> <a href="/hu/">Magyar</a> <a href="/de/">Deutsch</a></p>
+  </body>
+</html>

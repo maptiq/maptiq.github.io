@@ -1,0 +1,110 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro';
+import Hero from '../../components/blocks/Hero.astro';
+import { locales, type Locale } from '../../i18n/ui';
+import { getBreadcrumbs } from '../../lib/breadcrumbs';
+import { NOINDEX_SLUGS } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const allPages = await getCollection('pages');
+  const paths: Array<{ params: { locale: Locale; slug: string }; props: { entry: (typeof allPages)[number] } }> = [];
+
+  // Astro's glob loader derives each entry's `id` from its frontmatter
+  // `slug` field when present (not from the file path), so entries can't
+  // be told apart by locale via `id.startsWith(locale + '/')` the way
+  // the homepage route does — filePath is used instead, which always
+  // reflects the real src/content/pages/{locale}/... location on disk.
+  const isInLocale = (p: (typeof allPages)[number], locale: Locale) =>
+    p.filePath?.includes(`/pages/${locale}/`) ?? false;
+
+  for (const locale of locales) {
+    // Same fallback-to-English behavior as the homepage route, until a
+    // page has real translated content for this locale.
+    const localePages = allPages.filter((p) => isInLocale(p, locale) && p.data.slug !== '');
+    const seenSlugs = new Set(localePages.map((p) => p.data.slug));
+    const fallbackPages = allPages.filter(
+      (p) => isInLocale(p, 'en') && p.data.slug !== '' && !seenSlugs.has(p.data.slug)
+    );
+
+    for (const entry of [...localePages, ...fallbackPages]) {
+      paths.push({ params: { locale, slug: entry.data.slug }, props: { entry } });
+    }
+  }
+
+  return paths;
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const path = `/${entry.data.slug}`;
+const breadcrumbs = await getBreadcrumbs(locale, path, entry.data.title);
+const sections = entry.data.pageType === 'structured' ? (entry.data.sections ?? []) : [];
+const startsWithHero = sections[0]?.type === 'hero';
+---
+
+<BaseLayout
+  locale={locale}
+  title={entry.data.seoTitle ?? entry.data.title}
+  description={entry.data.seoDescription}
+  ogImage={entry.data.ogImage}
+  path={path}
+  noindex={NOINDEX_SLUGS.includes(entry.data.slug)}
+>
+  {!startsWithHero && <Hero heading={entry.data.title} subheading={entry.data.seoDescription} breadcrumbs={breadcrumbs} />}
+  {sections.length > 0 && <BlockRenderer sections={sections} breadcrumbs={breadcrumbs} />}
+  {entry.data.pageType === 'flat' && (
+    <div class="container">
+      <article class="flat-page column">
+        <Content />
+      </article>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .flat-page {
+    padding-top: var(--space-lg);
+  }
+
+  /* Text pages (legal, notices) use a calmer heading scale than sections */
+  .flat-page :global(h2) {
+    margin-top: var(--space-lg);
+    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  }
+
+  .flat-page :global(h3) {
+    margin-top: var(--space-md);
+    font-size: 1.15rem;
+  }
+
+  .flat-page :global(h2:first-child),
+  .flat-page :global(p:first-child + h2) {
+    margin-top: var(--space-sm);
+  }
+
+  .flat-page :global(img) {
+    display: block;
+    max-height: 520px;
+    width: auto;
+    border-radius: 6px;
+    margin: var(--space-sm) 0;
+  }
+
+  .flat-page :global(.cta-button) {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border-radius: 999px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .flat-page :global(.cta-button:hover) {
+    background: var(--btn-bg-hover);
+  }
+</style>

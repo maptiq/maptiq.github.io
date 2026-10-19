@@ -1,0 +1,58 @@
+---
+import Hero from './Hero.astro';
+import Split from './Split.astro';
+import Cards from './Cards.astro';
+import LatestPosts from './LatestPosts.astro';
+import CtaBand from './CtaBand.astro';
+import LogoRow from './LogoRow.astro';
+import ContactForm from './ContactForm.astro';
+import TextBlock from './TextBlock.astro';
+import ImageBlock from './ImageBlock.astro';
+import ButtonCta from './ButtonCta.astro';
+import ToggleFaq from './ToggleFaq.astro';
+import VideoEmbed from './VideoEmbed.astro';
+import type { CollectionEntry } from 'astro:content';
+import type { Crumb } from '../../lib/breadcrumbs';
+
+type Section = NonNullable<CollectionEntry<'pages'>['data']['sections']>[number];
+type ButtonSection = Extract<Section, { type: 'buttonCta' }>;
+
+interface Props {
+  sections: Section[];
+  breadcrumbs?: Crumb[];
+}
+
+const { sections, breadcrumbs } = Astro.props;
+
+// Consecutive buttons render as one row rather than a stack of rows.
+const groups: (Section | ButtonSection[])[] = [];
+for (const section of sections) {
+  const last = groups[groups.length - 1];
+  if (section.type === 'buttonCta' && Array.isArray(last)) last.push(section);
+  else groups.push(section.type === 'buttonCta' ? [section] : section);
+}
+---
+
+{groups.map((group, index) =>
+  Array.isArray(group) ? (
+    <Fragment>
+      {group.map((b) => b.anchorId && <span id={b.anchorId} />)}
+      <ButtonCta buttons={group} />
+    </Fragment>
+  ) : (
+    <Fragment>
+      {group.anchorId && <span id={group.anchorId} />}
+      {group.type === 'hero' && <Hero {...group} breadcrumbs={index === 0 ? breadcrumbs : undefined} />}
+      {group.type === 'split' && <Split {...group} />}
+      {group.type === 'cards' && <Cards {...group} />}
+      {group.type === 'latestPosts' && <LatestPosts {...group} />}
+      {group.type === 'ctaBand' && <CtaBand {...group} />}
+      {group.type === 'logoRow' && <LogoRow {...group} />}
+      {group.type === 'contactForm' && <ContactForm {...group} />}
+      {group.type === 'textBlock' && <TextBlock {...group} />}
+      {group.type === 'imageBlock' && <ImageBlock {...group} />}
+      {group.type === 'toggleFaq' && <ToggleFaq {...group} />}
+      {group.type === 'videoEmbed' && <VideoEmbed {...group} />}
+    </Fragment>
+  )
+)}
